@@ -7,7 +7,8 @@ namespace DataAccess
     public class AppDbContext : DbContext
     {
         public DbSet<Trend> Trends { get; set; }
-
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
@@ -16,6 +17,14 @@ namespace DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new TrendEntityTypeConfiguration());
+            modelBuilder.Entity<Trend>()
+                .HasMany(p => p.Posts);
+
+            modelBuilder.ApplyConfiguration(new PostEntityTypeConfiguration());
+            modelBuilder.Entity<Post>()
+                .HasMany(c => c.Comments);
+
+            modelBuilder.ApplyConfiguration(new CommentEntityTypeConfiguration());
         }
     }
 }

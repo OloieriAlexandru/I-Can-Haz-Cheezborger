@@ -12,6 +12,11 @@ namespace BusinessLogic.ExtensionMethods
             services.AddDataAccessServices(connectionString);
 
             services.AddScoped<ITrendBusinessLogic, TrendBusinessLogic>();
+
+            services.AddScoped<IPostBusinessLogic, PostBusinessLogic>();
+
+            services.AddScoped<ICommentBusinessLogic, CommentBusinessLogic>();
         }
+
     }
 }

@@ -26,7 +26,7 @@ namespace BusinessLogic.Implementations
                 trendDtos.Add(new TrendDto()
                 {
                     Id = t.Id,
-                    Name = t.Name
+                    Name = t.Name,
                 });
             }
             return trendDtos;
