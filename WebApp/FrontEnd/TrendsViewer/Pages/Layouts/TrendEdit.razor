@@ -1,0 +1,31 @@
+﻿@page "/trendedit/{id}" 
+@page "/trendedit"
+@inherits TrendEditBase
+
+<EditForm Model="@EditTrendModel" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <h3>@PageHeaderText</h3>
+    <div class="form-group row">
+        <label for="Name" class="col-sm-2 col-form-label">
+            Name
+        </label>
+        <div class="col-sm-10">
+            <InputText id="name" class="form-control" placeholder="Name"
+                       @bind-Value="EditTrendModel.Name" />
+            <ValidationMessage For="@(()=> EditTrendModel.Name)" />
+        </div>
+        <label for="ConfirmName" class="col-sm-2 col-form-label">
+            Confirm name
+        </label>
+        <div class="col-sm-10">
+            <InputText id="confirm-name" class="form-control" placeholder="ConfirmName"
+                       @bind-Value="EditTrendModel.ConfirmName" />
+            <ValidationMessage For="@(()=> EditTrendModel.ConfirmName)" />
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button> 
+    @if (PageHeaderText == "Edit Trend")
+    {
+        <button class="btn btn-danger" type="button" @onclick="DeleteClick">Delete</button>
+    }
+</EditForm>
