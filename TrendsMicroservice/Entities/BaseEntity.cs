@@ -6,7 +6,7 @@ namespace Entities
     {
         public Guid Id { get; set; }
 
-        public BaseEntity()
+        protected BaseEntity()
         {
             Id = Guid.NewGuid();
         }

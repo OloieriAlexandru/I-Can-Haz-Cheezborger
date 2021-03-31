@@ -37,6 +37,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 - Common", "00 - Common"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Constraints", "Common.Constraints\Common.Constraints.csproj", "{8EF009F3-153C-4E98-A78C-EF776802BDD1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "98 - IntegrationTests", "98 - IntegrationTests", "{F23F260B-45F4-4E2A-BCFA-B33A0824299B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrendsMicroservice.IntegrationTests", "TrendsMicroservice.IntegrationTests\TrendsMicroservice.IntegrationTests.csproj", "{6185644F-ACF5-46DA-82EF-253291374319}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,10 @@ Global
 		{8EF009F3-153C-4E98-A78C-EF776802BDD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EF009F3-153C-4E98-A78C-EF776802BDD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EF009F3-153C-4E98-A78C-EF776802BDD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6185644F-ACF5-46DA-82EF-253291374319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6185644F-ACF5-46DA-82EF-253291374319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6185644F-ACF5-46DA-82EF-253291374319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6185644F-ACF5-46DA-82EF-253291374319}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +98,7 @@ Global
 		{514F38FB-F2B8-4335-B407-6683812712F5} = {90127A63-0968-4DD8-829A-669F0C955525}
 		{44AC0B86-C556-4F3F-AA0B-39634EC40FDB} = {B728F207-65FF-494F-84E3-FDC6370468AD}
 		{8EF009F3-153C-4E98-A78C-EF776802BDD1} = {6E5E6475-1EB0-4AA6-A914-3C6E44661CD3}
+		{6185644F-ACF5-46DA-82EF-253291374319} = {F23F260B-45F4-4E2A-BCFA-B33A0824299B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EA25AEEA-3C9A-4D5E-AE4F-9ED902A4546E}

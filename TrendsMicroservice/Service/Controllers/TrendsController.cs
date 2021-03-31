@@ -10,11 +10,11 @@ namespace Service.Controllers
 {
     [Route("api/v1/trends")]
     [ApiController]
-    public class TrendController : ControllerBase
+    public class TrendsController : ControllerBase
     {
         private readonly ITrendBusinessLogic trendBusinessLogic;
 
-        public TrendController(ITrendBusinessLogic _trendBusinessLogic)
+        public TrendsController(ITrendBusinessLogic _trendBusinessLogic)
         {
             trendBusinessLogic = _trendBusinessLogic;
         }
