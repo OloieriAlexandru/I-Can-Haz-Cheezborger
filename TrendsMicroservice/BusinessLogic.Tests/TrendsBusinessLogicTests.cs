@@ -9,19 +9,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace BusinessLogic.Tests
 {
     [TestClass]
     public class TrendsBusinessLogicTests
     {
-        private ITrendBusinessLogic _TrendBusinessLogic;
-        private Mock<IRepository<Trend>> _trendRepositoryMock;
+        private Mock<IRepository<Trend>> trendRepositoryMock;
+
+        private ITrendBusinessLogic systemUnderTest;
 
         public TrendsBusinessLogicTests()
         {
-            _trendRepositoryMock = new Mock<IRepository<Trend>>();
-            _TrendBusinessLogic = new TrendBusinessLogic(_trendRepositoryMock.Object);
+            trendRepositoryMock = new Mock<IRepository<Trend>>();
+            systemUnderTest = new TrendBusinessLogic(trendRepositoryMock.Object);
         }
 
         [TestMethod]
@@ -34,10 +34,10 @@ namespace BusinessLogic.Tests
             allTrends.Add(newTrend);
             ICollection<TrendDto> allTrendDto = new List<TrendDto>();
 
-            _trendRepositoryMock.Setup(x => x.GetAll()).Returns(allTrends);
+            trendRepositoryMock.Setup(x => x.GetAll()).Returns(allTrends);
 
             //act
-            allTrendDto = _TrendBusinessLogic.GetAll();
+            allTrendDto = systemUnderTest.GetAll();
 
             //assert
             Assert.AreEqual(newTrendDto.Id, allTrendDto.ElementAt(0).Id);
@@ -56,13 +56,13 @@ namespace BusinessLogic.Tests
             allTrends.Add(newTrend);
             ICollection<TrendDto> allTrendDto = new List<TrendDto>();
 
-            _trendRepositoryMock.Setup(x => x.GetAll()).Returns(allTrends);
+            trendRepositoryMock.Setup(x => x.GetAll()).Returns(allTrends);
 
             //act
-            allTrendDto = _TrendBusinessLogic.GetAll();
-            allTrendDto = _TrendBusinessLogic.GetAll();
-            allTrendDto = _TrendBusinessLogic.GetAll();
-            allTrendDto = _TrendBusinessLogic.GetAll();
+            allTrendDto = systemUnderTest.GetAll();
+            allTrendDto = systemUnderTest.GetAll();
+            allTrendDto = systemUnderTest.GetAll();
+            allTrendDto = systemUnderTest.GetAll();
 
             //assert
             Assert.AreEqual(newTrendDto.Id, allTrendDto.ElementAt(0).Id);
@@ -78,10 +78,10 @@ namespace BusinessLogic.Tests
             TrendDto newTrendDto = new TrendDto { Id = Guid.NewGuid(), Name="sport"};
             Trend newTrend = new Trend { Id = (Guid)newTrendDto.Id, Name = "sport" };
 
-            _trendRepositoryMock.Setup(x => x.GetById((Guid)newTrendDto.Id)).Returns(newTrend);
+            trendRepositoryMock.Setup(x => x.GetById((Guid)newTrendDto.Id)).Returns(newTrend);
 
             //act
-            TrendDto trendReturned = _TrendBusinessLogic.GetById((Guid)newTrendDto.Id);
+            TrendDto trendReturned = systemUnderTest.GetById((Guid)newTrendDto.Id);
 
             //assert
             Assert.AreEqual(newTrendDto.Id, trendReturned.Id);

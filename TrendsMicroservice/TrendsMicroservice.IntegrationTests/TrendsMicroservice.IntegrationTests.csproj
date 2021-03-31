@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+    <ProjectGuid>51d54f50-ef3d-4fdf-84a0-60506dd71434</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>

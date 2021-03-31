@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Components;
 using Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
 using TrendsViewer.Services;
@@ -28,7 +26,10 @@ namespace TrendsViewer.Pages
 
         protected async override Task OnInitializedAsync()
         {
-            Guid.TryParse(Id, out Guid trendId);
+            if (!Guid.TryParse(Id, out Guid trendId))
+            {
+                throw new InvalidProgramException("Invalid Id!");
+            }
 
             if (trendId != Guid.Empty)
             {
@@ -48,7 +49,7 @@ namespace TrendsViewer.Pages
             Mapper.Map(Trend, EditTrendModel);
         }
 
-        protected async void HandleValidSubmit()
+        protected async Task HandleValidSubmit()
         {
             Mapper.Map(EditTrendModel, Trend);
 
