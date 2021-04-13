@@ -18,7 +18,7 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="trendedit" @onclick="HandleClick" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="trendscreate" @onclick="HandleClick" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Create Trend
             </NavLink>
         </li>
@@ -34,7 +34,7 @@
 
     private void HandleClick()
     {
-        NavigationManager.NavigateTo("trendedit", true);
+        NavigationManager.NavigateTo("trendscreate", true);
     }
 
     private void ToggleNavMenu()

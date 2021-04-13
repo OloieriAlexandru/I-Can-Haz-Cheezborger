@@ -8,7 +8,7 @@ using TrendsViewer.Services;
 
 namespace TrendsViewer.Pages
 {
-    public class TrendEditBase : ComponentBase
+    public class TrendCreateBase : ComponentBase
     {
         private TrendDto Trend { get; set; } = new TrendDto();
         public EditTrendModel EditTrendModel { get; set; } = new EditTrendModel();
@@ -26,22 +26,24 @@ namespace TrendsViewer.Pages
 
         protected async override Task OnInitializedAsync()
         {
-            if (!Guid.TryParse(Id, out Guid trendId))
-            {
-                throw new InvalidProgramException("Invalid Id!");
-            }
-            PageHeaderText = "Edit Trend";
-            Trend = await TrendService.GetTrend(Guid.Parse(Id));
-
-
-            Mapper.Map(Trend, EditTrendModel);
+            this.PageHeaderText = "Create a new trend";   
         }
 
         protected async Task HandleValidSubmit()
         {
             Mapper.Map(EditTrendModel, Trend);
+
             TrendDto result = null;
-            result = await TrendService.UpdateTrend((Guid) Trend.Id, Trend);
+
+            if (Trend.Id != Guid.Empty)
+            {
+                result = await TrendService.UpdateTrend((Guid)Trend.Id, Trend);
+            }
+            else
+            {
+                result = await TrendService.CreateTrend(Trend);
+            }
+
             if (result != null)
             {
                 NavigationManager.NavigateTo("/trends");
@@ -51,6 +53,13 @@ namespace TrendsViewer.Pages
         protected async Task DeleteClick()
         {
             await TrendService.DeleteTrend((Guid)Trend.Id);
+            NavigationManager.NavigateTo("/trends");
+        }
+
+        protected async Task CreateTrend()
+        {
+            this.Trend.Name = EditTrendModel.Name;
+            await TrendService.CreateTrend(Trend);
             NavigationManager.NavigateTo("/trends");
         }
     }

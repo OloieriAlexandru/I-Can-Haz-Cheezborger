@@ -27,7 +27,7 @@ namespace TrendsViewer.Services
 
         public Task<TrendDto> UpdateTrend(Guid id, TrendDto updatedTrend)
         {
-            return httpClient.PutJsonAsync<TrendDto>($"api/v1/trends/{id}", updatedTrend);
+            return (Task<TrendDto>)httpClient.PutJsonAsync($"api/v1/trends/{id}", updatedTrend);
         }
 
 
