@@ -1,0 +1,28 @@
+﻿@page "/trend/{trendId}/posts/{postId}"
+@inherits PostDetailsBase
+
+<div>
+    <h3>@Post.Title</h3>
+    <img alt="myImage" src="" />
+    <EditForm Model="@commentModel" OnValidSubmit="HandleValidSubmit">
+        <div class="form-group row">
+            <label for="Name" class="col-sm-2 col-form-label">
+                Write a comment
+            </label>
+            <div class="col-sm-10">
+                <InputText @bind-Value="commentModel.CommentText"></InputText>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </EditForm>
+
+        @foreach (var comment in Comments)
+        {
+            <div style="border:dashed; margin-top:10px;">
+                <p>@comment.Text</p>
+                <p>Upvotes:@comment.Upvotes  Downvotes:@comment.Downvotes</p>
+                <button class="btn btn-primary" @onclick="@(() => HandleDeleteComment(comment.Id))">Delete</button>
+            </div>
+        }
+</div>
