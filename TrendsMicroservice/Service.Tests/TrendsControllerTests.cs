@@ -16,12 +16,12 @@ namespace Service.Tests
     {
         private Mock<ITrendBusinessLogic> trendBusinessLogicMock;
 
-        private TrendsController systemUnderTest;
+        private TrendController systemUnderTest;
 
         public TrendsControllerTests()
         {
             trendBusinessLogicMock = new Mock<ITrendBusinessLogic>();
-            systemUnderTest = new TrendsController(trendBusinessLogicMock.Object);
+            systemUnderTest = new TrendController(trendBusinessLogicMock.Object);
         }
 
         [TestMethod]

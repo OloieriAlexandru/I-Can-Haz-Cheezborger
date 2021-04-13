@@ -1,10 +1,14 @@
 using BusinessLogic.ExtensionMethods;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Service.Filters;
+using System;
+using System.Linq;
 
 namespace Service
 {
@@ -20,6 +24,20 @@ namespace Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            // https://berilkavakli.medium.com/fluent-validation-on-net-core-api-3-1-f01ff4a4c6f5
+            // https://code-maze.com/fluentvalidation-in-aspnet/
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new ValidationFilter());
+            })
+            .AddFluentValidation(options =>
+            {
+                // https://stackoverflow.com/a/24259731
+                options.RegisterValidatorsFromAssembly(AppDomain.CurrentDomain.GetAssemblies()
+                    .SingleOrDefault(assembly => assembly.GetName().Name == "BusinessLogic"));
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Service", Version = "v1" });
