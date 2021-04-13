@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Entities
+namespace Models
 {
-    public class Trend : BaseEntity
+    public class TrendGetByIdDto
     {
         public string Name { get; set; }
 
@@ -10,6 +10,6 @@ namespace Entities
 
         public string ImageUrl { get; set; }
 
-        public ICollection<Post> Posts { get; set; }
+        public ICollection<PostGetAllDto> Posts { get; set; }
     }
 }

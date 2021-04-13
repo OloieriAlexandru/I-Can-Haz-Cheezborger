@@ -1,15 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace Entities
+﻿namespace Models
 {
-    public class Trend : BaseEntity
+    public class TrendCreateDto
     {
         public string Name { get; set; }
 
         public string Description { get; set; }
 
         public string ImageUrl { get; set; }
-
-        public ICollection<Post> Posts { get; set; }
     }
 }

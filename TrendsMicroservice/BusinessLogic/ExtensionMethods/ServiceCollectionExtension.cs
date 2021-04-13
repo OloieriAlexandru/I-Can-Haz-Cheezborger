@@ -1,5 +1,7 @@
-﻿using BusinessLogic.Abstractions;
+﻿using AutoMapper;
+using BusinessLogic.Abstractions;
 using BusinessLogic.Implementations;
+using BusinessLogic.Profiles;
 using DataAccess.ExtensionMethods;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +18,8 @@ namespace BusinessLogic.ExtensionMethods
             services.AddScoped<IPostBusinessLogic, PostBusinessLogic>();
 
             services.AddScoped<ICommentBusinessLogic, CommentBusinessLogic>();
-        }
 
+            services.AddAutoMapper(typeof(TrendProfile), typeof(PostProfile), typeof(CommentProfile));
+        }
     }
 }
