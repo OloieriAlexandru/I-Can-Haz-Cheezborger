@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Components;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,10 @@ namespace TrendsViewer.Pages
         public string Id { get; set; }
 
         public TrendGetByIdDto Trend { get; set; }
+        [Inject]
+        public IMapper Mapper { get; set; }
         public IEnumerable<PostGetAllDto> Posts { get; set; }
-        public EditTrendModel editTrendModel = new EditTrendModel();
+        public CreatePostModel createPostModel = new CreatePostModel();
 
         protected async override Task OnInitializedAsync()
         {
@@ -30,11 +33,13 @@ namespace TrendsViewer.Pages
             Posts = await PostService.GetPosts(Guid.Parse(Id));
         }
 
-        protected async void HandleValidSubmit(string postName)
+        protected async void HandleValidSubmit()
         {
-            PostCreateDto newPost = new PostCreateDto { Title = postName, TrendId= Guid.Parse(Id), MediaPath="/"};
+            PostCreateDto newPost = new PostCreateDto { Title = createPostModel.Title, TrendId= Guid.Parse(Id), MediaPath=createPostModel.MediaPath};
+            Mapper.Map(createPostModel, newPost);
+
             await PostService.CreatePost(Guid.Parse(Id), newPost);
-            NavigationManager.NavigateTo($"/trends");
+            NavigationManager.NavigateTo($"/trends/{Id}", forceLoad:true);
         }
     }
 }

@@ -20,28 +20,20 @@ namespace TrendsViewer.Pages
         [Parameter]
         public string Id { get; set; }
 
-        public EditTrendModel EditTrendModel { get; set; }
+        public CreateTrendModel CreateTrendModel { get; set; }
 
         private TrendCreateDto Trend { get; set; }
 
         public TrendCreateBase()
         {
-            EditTrendModel = new EditTrendModel();
-
+            CreateTrendModel = new CreateTrendModel();
             Trend = new TrendCreateDto();
         }
 
         protected async Task HandleValidSubmit()
         {
-            Mapper.Map(EditTrendModel, Trend);
+            Mapper.Map(CreateTrendModel, Trend);
 
-            await TrendService.CreateTrend(Trend);
-            NavigationManager.NavigateTo("/trends");
-        }
-
-        protected async Task CreateTrend()
-        {
-            Trend.Name = EditTrendModel.Name;
             await TrendService.CreateTrend(Trend);
             NavigationManager.NavigateTo("/trends");
         }

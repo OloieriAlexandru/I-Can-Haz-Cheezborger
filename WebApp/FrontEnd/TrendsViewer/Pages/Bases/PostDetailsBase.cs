@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
 using TrendsViewer.Services;
@@ -45,9 +46,9 @@ namespace TrendsViewer.Pages
 
         protected async Task HandleValidSubmit()
         {
-            createdComment.Text = commentModel.CommentText;
-            await CommentService.CreateComment(Guid.Parse(TrendId), Guid.Parse(PostId), createdComment);
-            NavigationManager.NavigateTo("/trends");
+            CommentCreateDto newComment = new CommentCreateDto { Text = commentModel.CommentText, PostId = Guid.Parse(PostId)};
+            await CommentService.CreateComment(Guid.Parse(TrendId), Guid.Parse(PostId), newComment);
+            NavigationManager.NavigateTo($"/trends/{TrendId}/posts/{PostId}", forceLoad: true);
         }
 
         protected async Task HandleDeleteComment(Guid commentId)

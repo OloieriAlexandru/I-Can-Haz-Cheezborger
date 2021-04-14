@@ -38,7 +38,6 @@ namespace TrendsViewer.Pages
             }
             TrendGetByIdDto updatedTrend = await TrendService.GetTrend(Guid.Parse(Id));
             Trend = Mapper.Map<TrendUpdateDto>(updatedTrend);
-
             Mapper.Map(Trend, EditTrendModel);
         }
 

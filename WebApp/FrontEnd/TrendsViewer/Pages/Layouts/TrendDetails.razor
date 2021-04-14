@@ -13,6 +13,11 @@ else
                 <div class="card-header">
                     <h1> @Trend.Name </h1>
                 </div>
+                <div class="card-body">
+                    <p> Description: </p>
+                    <p> @Trend.Description </p>
+                </div>
+
                 <div class="card-footer text-center">
                     <a href="/trends" class="btn btn-primary">Back</a>
 
@@ -25,16 +30,23 @@ else
 
     </div>
 
-    <EditForm Model="@editTrendModel">
+    <EditForm Model="@createPostModel">
         <div class="form-group row">
-            <label for="Name" class="col-sm-2 col-form-label">
-                Create a new post
+            <label for="Title" class="col-sm-2 col-form-label">
+               Title
             </label>
             <div class="col-sm-10">
-                <InputText @bind-Value="editTrendModel.Name"></InputText>
+                <InputText @bind-Value="createPostModel.Title"></InputText>
             </div>
 
-            <button class="btn btn-primary" type="submit" @onclick="@(() => HandleValidSubmit(editTrendModel.Name))">Create</button>
+            <label for="Name" class="col-sm-2 col-form-label">
+                MediaPath
+            </label>
+            <div class="col-sm-10">
+                <InputText @bind-Value="createPostModel.MediaPath"></InputText>
+            </div>
+
+            <button class="btn btn-primary" type="submit" @onclick="HandleValidSubmit">Create</button>
         </div>
     </EditForm>
 
@@ -54,7 +66,7 @@ else
                     <div class="card-footer text-center">
                         <a href="@($"trends/{Trend.Id}/posts/{post.Id}")" class="btn btn-primary m-1">View</a>
 
-                        <a href="@($"trends/edit/{post.Id}")" class="btn btn-primary m-1">Edit</a>
+                        <a href="@($"trends/edit/{Trend.Id}/posts/{post.Id}")" class="btn btn-primary m-1">Edit</a>
 
                         <a href="#" class="btn btn-danger m-1">Delete</a>
                     </div>

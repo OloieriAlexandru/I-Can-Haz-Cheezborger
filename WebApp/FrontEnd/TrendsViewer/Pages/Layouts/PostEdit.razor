@@ -1,0 +1,30 @@
+﻿@page "/trends/edit/{TrendId}/posts/{PostId}"
+@inherits PostEditBase
+
+<EditForm Model="@EditPostModel" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <h3>Edit Trend</h3>
+    <div class="form-group row">
+        <label for="Name" class="col-sm-2 col-form-label">
+            Title
+        </label>
+        <div class="col-sm-10">
+            <InputText id="name" class="form-control" placeholder="Name"
+                       @bind-Value="EditPostModel.Title" />
+            <ValidationMessage For="@(()=> EditPostModel.Title)" />
+        </div>
+
+        <label for="MediaPath" class="col-sm-2 col-form-label">
+            MediaPath
+        </label>
+        <div class="col-sm-10">
+            <InputText id="confirm-name" class="form-control" placeholder="MediaPath"
+                       @bind-Value="EditPostModel.MediaPath" />
+            <ValidationMessage For="@(()=> EditPostModel.MediaPath)" />
+        </div>
+
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+
+    <button class="btn btn-danger" type="button" @onclick="DeleteClick">Delete</button>
+</EditForm>

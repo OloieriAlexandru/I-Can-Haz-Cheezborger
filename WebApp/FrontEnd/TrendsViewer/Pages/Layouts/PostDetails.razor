@@ -1,28 +1,48 @@
 ﻿@page "/trends/{TrendId}/posts/{PostId}"
 @inherits PostDetailsBase
 
+
+@if (Post == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
 <div>
     <h3>@Post.Title</h3>
-    <img alt="myImage" src="" />
+    <img alt="myImage" src="@Post.MediaPath" />
     <EditForm Model="@commentModel" OnValidSubmit="HandleValidSubmit">
         <div class="form-group row">
-            <label for="Name" class="col-sm-2 col-form-label">
-                Write a comment
+            <label for="Text" class="col-sm-2 col-form-label">
+                Text comment
             </label>
             <div class="col-sm-10">
                 <InputText @bind-Value="commentModel.CommentText"></InputText>
             </div>
-
             <button class="btn btn-primary" type="submit">Submit</button>
         </div>
-    </EditForm>
 
-   @foreach (var comment in Comments)
+    </EditForm>
+    @if (Comments == null)
     {
-        <div style="border:dashed; margin-top:10px;">
-            <p>@comment.Text</p>
-            <p>Upvotes:@comment.Upvotes  Downvotes:@comment.Downvotes</p>
-            <button class="btn btn-primary" @onclick="@(() => HandleDeleteComment(comment.Id))">Delete</button>
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <div class="card">
+            <ul class="list-group list-group-flush">
+                @foreach (var comment in Comments)
+                {
+                    <li class="list-group-item">
+                        <p>@comment.Text</p>
+                        <p>Upvotes:@comment.Upvotes  Downvotes:@comment.Downvotes</p>
+                        <button class="btn btn-primary" @onclick="@(() => HandleDeleteComment(comment.Id))">Delete</button>
+                    </li>
+                }
+            </ul>
+
         </div>
-    }@
+      
+    }
 </div>
+}

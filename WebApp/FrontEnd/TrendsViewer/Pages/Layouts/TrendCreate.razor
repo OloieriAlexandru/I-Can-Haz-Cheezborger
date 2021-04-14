@@ -1,25 +1,35 @@
 ﻿@page "/trends/create"
 @inherits TrendCreateBase
 
-<EditForm Model="@EditTrendModel" OnValidSubmit="CreateTrend">
+<EditForm Model="@CreateTrendModel" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
-    <h3>"Create a new trend"</h3>
+    <h3>Create a new trend</h3>
     <div class="form-group row">
         <label for="Name" class="col-sm-2 col-form-label">
             Name
         </label>
         <div class="col-sm-10">
             <InputText id="name" class="form-control" placeholder="Name"
-                       @bind-Value="EditTrendModel.Name" />
-            <ValidationMessage For="@(()=> EditTrendModel.Name)" />
+                       @bind-Value="CreateTrendModel.Name" />
+            <ValidationMessage For="@(()=> CreateTrendModel.Name)" />
         </div>
-        <label for="ConfirmName" class="col-sm-2 col-form-label">
-            Confirm name
+
+        <label for="Description" class="col-sm-2 col-form-label">
+            Description
         </label>
         <div class="col-sm-10">
-            <InputText id="confirm-name" class="form-control" placeholder="ConfirmName"
-                       @bind-Value="EditTrendModel.ConfirmName" />
-            <ValidationMessage For="@(()=> EditTrendModel.ConfirmName)" />
+            <InputText id="confirm-name" class="form-control" placeholder="Description"
+                       @bind-Value="CreateTrendModel.Description" />
+            <ValidationMessage For="@(()=> CreateTrendModel.Description)" />
+        </div>
+
+        <label for="ImageUrl" class="col-sm-2 col-form-label">
+            ImageURL
+        </label>
+        <div class="col-sm-10">
+            <InputText id="confirm-name" class="form-control" placeholder="ImageUrl"
+                       @bind-Value="CreateTrendModel.ImageUrl" />
+            <ValidationMessage For="@(()=> CreateTrendModel.ImageUrl)" />
         </div>
     </div>
     <button class="btn btn-primary" type="submit">Create</button>
