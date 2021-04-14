@@ -57,5 +57,12 @@ namespace Service.Controllers
             postBusinessLogic.Update(postDto);
             return NoContent();
         }
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete([FromRoute] Guid id)
+        {
+            postBusinessLogic.Delete(id);
+            return NoContent();
+        }
     }
 }

@@ -58,5 +58,11 @@ namespace BusinessLogic.Implementations
             commentRepository.Update(updatedComment);
             commentRepository.SaveChanges();
         }
+
+        void ICommentBusinessLogic.Delete(Guid id)
+        {
+            commentRepository.Delete(id);
+            commentRepository.SaveChanges();
+        }
     }
 }

@@ -58,5 +58,11 @@ namespace BusinessLogic.Implementations
             trendRepository.Update(updatedTrend);
             trendRepository.SaveChanges();
         }
+
+        void ITrendBusinessLogic.Delete(Guid id)
+        {
+            trendRepository.Delete(id);
+            trendRepository.SaveChanges();
+        }
     }
 }

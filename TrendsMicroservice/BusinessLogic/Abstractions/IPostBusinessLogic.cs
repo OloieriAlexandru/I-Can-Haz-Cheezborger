@@ -13,5 +13,7 @@ namespace BusinessLogic.Abstractions
         PostGetAllDto Create(PostCreateDto post);
         
         void Update(PostUpdateDto post);
+
+        void Delete(Guid id);
     }
 }

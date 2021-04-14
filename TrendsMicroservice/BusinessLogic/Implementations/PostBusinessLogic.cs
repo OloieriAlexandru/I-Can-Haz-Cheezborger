@@ -58,5 +58,11 @@ namespace BusinessLogic.Implementations
             postRepository.Update(updatedPost);
             postRepository.SaveChanges();
         }
+
+        public void Delete(Guid id)
+        {
+            postRepository.Delete(id);
+            postRepository.SaveChanges();
+        }
     }
 }

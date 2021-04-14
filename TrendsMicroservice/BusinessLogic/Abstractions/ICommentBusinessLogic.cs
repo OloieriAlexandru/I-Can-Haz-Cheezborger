@@ -13,5 +13,7 @@ namespace BusinessLogic.Abstractions
         CommentGetDto Create(CommentCreateDto comment);
         
         void Update(CommentUpdateDto comment);
+
+        void Delete(Guid id);
     }
 }

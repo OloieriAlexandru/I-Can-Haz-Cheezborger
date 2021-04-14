@@ -2,7 +2,6 @@
 using Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -32,7 +31,7 @@ namespace TrendsViewer.Services
             return await httpClient.GetJsonAsync<PostGetByIdDto>($"api/v1/trends/{trendId}/posts/{postId}");
         }
 
-        async Task<IEnumerable<PostGetAllDto>> IPostService.GetPosts(Guid trendId)
+        async Task<ICollection<PostGetAllDto>> IPostService.GetPosts(Guid trendId)
         {
             return await httpClient.GetJsonAsync<PostGetAllDto[]>($"api/v1/trends/{trendId}/posts");
         }

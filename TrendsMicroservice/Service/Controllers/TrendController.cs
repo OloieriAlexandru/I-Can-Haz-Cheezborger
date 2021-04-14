@@ -53,5 +53,12 @@ namespace Service.Controllers
             trendBusinessLogic.Update(trendDto);
             return NoContent();
         }
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete([FromRoute] Guid id)
+        {
+            trendBusinessLogic.Delete(id);
+            return NoContent();
+        }
     }
 }

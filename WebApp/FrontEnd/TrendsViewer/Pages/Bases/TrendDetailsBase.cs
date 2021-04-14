@@ -24,13 +24,13 @@ namespace TrendsViewer.Pages
         public TrendGetByIdDto Trend { get; set; }
         [Inject]
         public IMapper Mapper { get; set; }
-        public IEnumerable<PostGetAllDto> Posts { get; set; }
+        public ICollection<PostGetAllDto> Posts { get; set; }
         public CreatePostModel createPostModel = new CreatePostModel();
 
         protected async override Task OnInitializedAsync()
         {
             Trend = await TrendService.GetTrend(Guid.Parse(Id));
-            Posts = await PostService.GetPosts(Guid.Parse(Id));
+            Posts = new List<PostGetAllDto>(await PostService.GetPosts(Guid.Parse(Id)));
         }
 
         protected async void HandleValidSubmit()
@@ -40,6 +40,20 @@ namespace TrendsViewer.Pages
 
             await PostService.CreatePost(Guid.Parse(Id), newPost);
             NavigationManager.NavigateTo($"/trends/{Id}", forceLoad:true);
+        }
+
+        protected async Task DeleteClick(Guid postId)
+        {
+            await PostService.DeletePost(Trend.Id, postId);
+            
+            foreach (PostGetAllDto post in Posts)
+            {
+                if (post.Id == postId)
+                {
+                    Posts.Remove(post);
+                    break;
+                }
+            }
         }
     }
 }

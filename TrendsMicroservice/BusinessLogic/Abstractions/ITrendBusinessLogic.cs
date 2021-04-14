@@ -13,5 +13,7 @@ namespace BusinessLogic.Abstractions
         TrendGetAllDto Create(TrendCreateDto trend);
 
         void Update(TrendUpdateDto trend);
+
+        void Delete(Guid id);
     }
 }

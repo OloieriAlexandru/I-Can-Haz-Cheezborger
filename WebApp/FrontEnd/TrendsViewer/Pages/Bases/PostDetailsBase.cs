@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components;
 using Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
 using TrendsViewer.Services;
@@ -28,7 +27,7 @@ namespace TrendsViewer.Pages
         public string PostId { get; set; }
 
         public PostGetByIdDto Post { get; set; }
-        public IEnumerable<CommentGetDto> Comments { get; set; }
+        public ICollection<CommentGetDto> Comments { get; set; }
 
         public CommentModel commentModel = new CommentModel();
         public CommentCreateDto createdComment;
@@ -41,7 +40,7 @@ namespace TrendsViewer.Pages
         protected async override Task OnInitializedAsync()
         {
             Post = await PostService.GetPost(Guid.Parse(TrendId), Guid.Parse(PostId));
-            Comments = await CommentService.GetComments(Guid.Parse(TrendId), Guid.Parse(PostId));
+            Comments = new List<CommentGetDto>(await CommentService.GetComments(Guid.Parse(TrendId), Guid.Parse(PostId)));
         }
 
         protected async Task HandleValidSubmit()
@@ -54,7 +53,15 @@ namespace TrendsViewer.Pages
         protected async Task HandleDeleteComment(Guid commentId)
         {
             await CommentService.DeleteComment(Guid.Parse(TrendId), Guid.Parse(PostId), commentId);
-            NavigationManager.NavigateTo($"/trends/{TrendId}/posts/{PostId}");
+
+            foreach (CommentGetDto comment in Comments)
+            {
+                if (comment.Id == commentId)
+                {
+                    Comments.Remove(comment);
+                    break;
+                }
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ namespace TrendsViewer.Services
 {
     public interface IPostService
     {
-        Task<IEnumerable<PostGetAllDto>> GetPosts(Guid trendId);
+        Task<ICollection<PostGetAllDto>> GetPosts(Guid trendId);
 
         Task<PostGetByIdDto> GetPost(Guid trendId, Guid postId);
         
