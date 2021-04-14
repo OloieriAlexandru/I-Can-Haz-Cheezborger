@@ -1,4 +1,4 @@
-﻿@page "/trends/{id}"
+﻿@page "/trends/{Id}"
 @inherits TrendDetailsBase
 
 @if (Trend == null)
@@ -24,6 +24,19 @@ else
         </div>
 
     </div>
+
+    <EditForm Model="@editTrendModel">
+        <div class="form-group row">
+            <label for="Name" class="col-sm-2 col-form-label">
+                Create a new post
+            </label>
+            <div class="col-sm-10">
+                <InputText @bind-Value="editTrendModel.Name"></InputText>
+            </div>
+
+            <button class="btn btn-primary" type="submit" @onclick="@(() => HandleValidSubmit(editTrendModel.Name))">Create</button>
+        </div>
+    </EditForm>
 
     <div class="card-deck">
         @if (Posts == null)

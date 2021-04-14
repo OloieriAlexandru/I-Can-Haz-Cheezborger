@@ -40,7 +40,7 @@ namespace TrendsViewer.Pages
         protected async override Task OnInitializedAsync()
         {
             Post = await PostService.GetPost(Guid.Parse(TrendId), Guid.Parse(PostId));
-            Comments = Post.Comments;
+            Comments = await CommentService.GetComments(Guid.Parse(TrendId), Guid.Parse(PostId));
         }
 
         protected async Task HandleValidSubmit()

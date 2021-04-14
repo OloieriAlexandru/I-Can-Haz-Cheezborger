@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using System;
 using TrendsViewer.Models;
 using TrendsViewer.Services;
+using TrendsViewer.Services.Abstractions;
+using TrendsViewer.Services.Implementations;
 
 namespace TrendsViewer
 {
@@ -25,6 +27,16 @@ namespace TrendsViewer
 
             services.AddAutoMapper(typeof(TrendProfile));
             services.AddHttpClient<ITrendService, TrendService>(client =>
+            {
+                client.BaseAddress = new Uri(Configuration.GetValue<string>("TrendsMicroserviceApiUrl"));
+            });
+
+            services.AddHttpClient<IPostService, PostService>(client =>
+            {
+                client.BaseAddress = new Uri(Configuration.GetValue<string>("TrendsMicroserviceApiUrl"));
+            });
+
+            services.AddHttpClient<ICommentService, CommentService>(client =>
             {
                 client.BaseAddress = new Uri(Configuration.GetValue<string>("TrendsMicroserviceApiUrl"));
             });

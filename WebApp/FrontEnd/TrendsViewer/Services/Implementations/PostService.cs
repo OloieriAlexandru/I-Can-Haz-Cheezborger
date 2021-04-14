@@ -33,7 +33,7 @@ namespace TrendsViewer.Services
 
         async Task<IEnumerable<PostGetAllDto>> IPostService.GetPosts(Guid trendId)
         {
-            return await httpClient.GetJsonAsync<PostGetAllDto[]>($"api/v1/trends/{trendId}");
+            return await httpClient.GetJsonAsync<PostGetAllDto[]>($"api/v1/trends/{trendId}/posts");
         }
 
         async Task IPostService.UpdatePost(Guid trendId, Guid postId, PostUpdateDto updatedPost)

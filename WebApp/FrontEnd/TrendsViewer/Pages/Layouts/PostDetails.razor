@@ -1,4 +1,4 @@
-﻿@page "/trends/{trendId}/posts/{postId}"
+﻿@page "/trends/{TrendId}/posts/{PostId}"
 @inherits PostDetailsBase
 
 <div>
@@ -17,12 +17,12 @@
         </div>
     </EditForm>
 
-    @foreach (var comment in Comments)
+   @foreach (var comment in Comments)
     {
         <div style="border:dashed; margin-top:10px;">
             <p>@comment.Text</p>
             <p>Upvotes:@comment.Upvotes  Downvotes:@comment.Downvotes</p>
             <button class="btn btn-primary" @onclick="@(() => HandleDeleteComment(comment.Id))">Delete</button>
         </div>
-    }
+    }@
 </div>
