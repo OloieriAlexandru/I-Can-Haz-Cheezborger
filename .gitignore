@@ -1,3 +1,4 @@
 
 **/.sonarqube
 **/tempkey.jwk
+**/*.zip

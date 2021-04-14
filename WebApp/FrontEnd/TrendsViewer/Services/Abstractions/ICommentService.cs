@@ -7,14 +7,14 @@ namespace TrendsViewer.Services.Abstractions
 {
     public interface ICommentService
     {
-        Task<IEnumerable<CommentGetDto>> GetComments(Guid idTrend, Guid idPost);
+        Task<IEnumerable<CommentGetDto>> GetComments(Guid trendId, Guid postId);
 
         Task<CommentGetDto> GetComment(Guid trendId, Guid postId, Guid commentId);
 
-        Task<CommentGetDto> CreateComment(Guid idTrend, Guid idPost, CommentCreateDto newComment);
+        Task<CommentGetDto> CreateComment(Guid trendId, Guid postId, CommentCreateDto newComment);
 
-        Task UpdateComment(Guid idTrend, Guid idPost, Guid idComment, CommentUpdateDto updatedComment);
+        Task UpdateComment(Guid trendId, Guid postId, Guid commentId, CommentUpdateDto updatedComment);
         
-        Task DeleteComment(Guid idTrend, Guid idPost, Guid idComment);
+        Task DeleteComment(Guid trendId, Guid postId, Guid commentId);
     }
 }
