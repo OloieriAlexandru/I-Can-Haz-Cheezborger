@@ -7,91 +7,72 @@ using Models;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace BusinessLogic.Tests
 {
     [TestClass]
-    public class TrendsBusinessLogicTests
+    public class TrendsBusinessLogicTests : BaseBusinessLogicTests
     {
-        private Mock<IRepository<Trend>> trendRepositoryMock;
+        private readonly Mock<IRepository<Trend>> trendRepositoryMock;
 
-        private ITrendBusinessLogic systemUnderTest;
+        private readonly ITrendBusinessLogic systemUnderTest;
 
-        public TrendsBusinessLogicTests()
+        private readonly Trend testTrend = new Trend()
+        {
+            Id = Guid.Parse("fdc94950-cf1a-4eee-ad9a-53748046087f"),
+            Name = "TestTrend",
+            Description = "TestTrendDescription",
+            ImageUrl = "TestTrendImageUrl"
+        };
+
+        private readonly TrendGetAllDto testTrendGetAllDto = new TrendGetAllDto()
+        {
+            Id = Guid.Parse("fdc94950-cf1a-4eee-ad9a-53748046087f"),
+            Name = "TestTrend",
+            Description = "TestTrendDescription",
+            ImageUrl = "TestTrendImageUrl"
+        };
+
+        private readonly TrendGetByIdDto testTrendGetByIdDto = new TrendGetByIdDto()
+        {
+            Id = Guid.Parse("fdc94950-cf1a-4eee-ad9a-53748046087f"),
+            Name = "TestTrend",
+            Description = "TestTrendDescription",
+            ImageUrl = "TestTrendImageUrl"
+        };
+
+        public TrendsBusinessLogicTests(): base()
         {
             trendRepositoryMock = new Mock<IRepository<Trend>>();
-            systemUnderTest = new TrendBusinessLogic(trendRepositoryMock.Object);
+            systemUnderTest = new TrendBusinessLogic(trendRepositoryMock.Object, mapper);
         }
 
         [TestMethod]
         public void GetAll_ReturnsTheOnlyInstanceCreated()
         {
-            //arrange
-            TrendDto newTrendDto = new TrendDto { Id = Guid.NewGuid(), Name = "sport" };
-            Trend newTrend = new Trend { Id = (Guid)newTrendDto.Id, Name = "sport" };
-            ICollection<Trend> allTrends = new List<Trend>();
-            allTrends.Add(newTrend);
-            ICollection<TrendDto> allTrendDto = new List<TrendDto>();
+            // Arrange
+            ICollection<Trend> trends = new List<Trend> { testTrend };
+            trendRepositoryMock.Setup(x => x.GetAll()).Returns(trends);
+            ICollection<TrendGetAllDto> expectedTrends = new List<TrendGetAllDto> { testTrendGetAllDto };
 
-            trendRepositoryMock.Setup(x => x.GetAll()).Returns(allTrends);
+            // Act
+            ICollection<TrendGetAllDto> returnedTrends = systemUnderTest.GetAll();
 
-            //act
-            allTrendDto = systemUnderTest.GetAll();
-
-            //assert
-            Assert.AreEqual(newTrendDto.Id, allTrendDto.ElementAt(0).Id);
-            Assert.AreEqual(newTrendDto.Name, allTrendDto.ElementAt(0).Name);
-            Assert.IsTrue(allTrendDto.Count() > 0, "No trends returned");
-            Assert.IsTrue(allTrendDto.Count() < 2, "More trends returned than existing");
-        }
-
-        [TestMethod]
-        public void GetAll_ShouldBeIdempotent()
-        {
-            //arrange
-            TrendDto newTrendDto = new TrendDto { Id = Guid.NewGuid(), Name = "sport" };
-            Trend newTrend = new Trend { Id = (Guid)newTrendDto.Id, Name = "sport" };
-            ICollection<Trend> allTrends = new List<Trend>();
-            allTrends.Add(newTrend);
-            ICollection<TrendDto> allTrendDto = new List<TrendDto>();
-
-            trendRepositoryMock.Setup(x => x.GetAll()).Returns(allTrends);
-
-            //act
-            allTrendDto = systemUnderTest.GetAll();
-            allTrendDto = systemUnderTest.GetAll();
-            allTrendDto = systemUnderTest.GetAll();
-            allTrendDto = systemUnderTest.GetAll();
-
-            //assert
-            Assert.AreEqual(newTrendDto.Id, allTrendDto.ElementAt(0).Id);
-            Assert.AreEqual(newTrendDto.Name, allTrendDto.ElementAt(0).Name);
-            Assert.IsTrue(allTrendDto.Count() > 0, "No trends returned");
-            Assert.IsTrue(allTrendDto.Count() < 2, "More trends returned than existing");
+            // Assert
+            CollectionAssert.AreEquivalent((System.Collections.ICollection)expectedTrends, (System.Collections.ICollection)returnedTrends);
         }
 
         [TestMethod]
         public void GetById_ReturnsCreatedInstance()
         {
-            //arrange
-            TrendDto newTrendDto = new TrendDto { Id = Guid.NewGuid(), Name="sport"};
-            Trend newTrend = new Trend { Id = (Guid)newTrendDto.Id, Name = "sport" };
+            // Arrange
+            trendRepositoryMock.Setup(x => x.GetById(testTrend.Id)).Returns(testTrend);
 
-            trendRepositoryMock.Setup(x => x.GetById((Guid)newTrendDto.Id)).Returns(newTrend);
+            // Act
+            TrendGetByIdDto returnedTrend = systemUnderTest.GetById(testTrend.Id);
 
-            //act
-            TrendDto trendReturned = systemUnderTest.GetById((Guid)newTrendDto.Id);
-
-            //assert
-            Assert.AreEqual(newTrendDto.Id, trendReturned.Id);
-            Assert.AreEqual(newTrendDto.Name, trendReturned.Name);
-        }
-
-        [TestMethod]
-        public void Update_ChangesTrendData()
-        {
-            
+            // Assert
+            Assert.AreEqual(testTrendGetByIdDto, returnedTrend);
         }
     }
 }

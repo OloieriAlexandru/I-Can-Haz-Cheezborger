@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Abstractions;
+﻿using AutoMapper;
+using BusinessLogic.Abstractions;
 using DataAccess.Abstractions;
 using Entities;
 using Models;
@@ -11,60 +12,49 @@ namespace BusinessLogic.Implementations
     {
         private readonly IRepository<Trend> trendRepository;
 
-        public TrendBusinessLogic(IRepository<Trend> _trendRepository)
+        private readonly IMapper mapper;
+
+        public TrendBusinessLogic(IRepository<Trend> _trendRepository, IMapper _mapper)
         {
             trendRepository = _trendRepository;
+            mapper = _mapper;
         }
 
-        ICollection<TrendDto> ITrendBusinessLogic.GetAll()
+        ICollection<TrendGetAllDto> ITrendBusinessLogic.GetAll()
         {
             ICollection<Trend> trends = trendRepository.GetAll();
-            ICollection<TrendDto> trendDtos = new List<TrendDto>();
-
-            foreach (Trend t in trends)
-            {
-                trendDtos.Add(new TrendDto()
-                {
-                    Id = t.Id,
-                    Name = t.Name,
-                });
-            }
-            return trendDtos;
+            return mapper.Map<ICollection<TrendGetAllDto>>(trends);
         }
 
-        TrendDto ITrendBusinessLogic.GetById(Guid id)
+        TrendGetByIdDto ITrendBusinessLogic.GetById(Guid id)
         {
             Trend trend = trendRepository.GetById(id);
-            TrendDto trendDto = null;
-
-            if (trend != null)
+            if (trend == null)
             {
-                trendDto = new TrendDto() {
-                    Id = trend.Id,
-                    Name = trend.Name
-                };
+                return null;
             }
-            return trendDto;
+            return mapper.Map<TrendGetByIdDto>(trend);
         }
 
-        void ITrendBusinessLogic.Create(TrendDto trend)
+        TrendGetAllDto ITrendBusinessLogic.Create(TrendCreateDto trend)
         {
-            Trend newTrend = new Trend()
-            {
-                Name = trend.Name
-            };
-            trendRepository.Insert(newTrend);
+            Trend createdTrend = mapper.Map<Trend>(trend);
+
+            trendRepository.Insert(createdTrend);
             trendRepository.SaveChanges();
-            trend.Id = newTrend.Id;
+
+            return mapper.Map<TrendGetAllDto>(createdTrend);
         }
 
-        void ITrendBusinessLogic.Update(TrendDto trend)
+        void ITrendBusinessLogic.Update(TrendUpdateDto trend)
         {
-            Trend updatedTrend = new Trend()
+            Trend updatedTrend = trendRepository.GetById(trend.Id);
+            if (updatedTrend == null)
             {
-                Id = trend.Id.Value,
-                Name = trend.Name
-            };
+                return;
+            }
+            mapper.Map<TrendUpdateDto, Trend>(trend, updatedTrend);
+
             trendRepository.Update(updatedTrend);
             trendRepository.SaveChanges();
         }

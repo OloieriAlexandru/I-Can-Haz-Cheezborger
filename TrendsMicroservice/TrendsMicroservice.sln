@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{99FA45BC-FF19-40AC-AD10-086053B89774}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99 - Tests", "99 - Tests", "{75561DA2-2105-4678-8EE3-3D514FF34454}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99 - UnitTests", "99 - UnitTests", "{75561DA2-2105-4678-8EE3-3D514FF34454}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Entities", "01 - Entities", "{3A8C58B5-087C-4D69-BA89-E26A2BBB9252}"
 EndProject
@@ -39,6 +39,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 - Common", "00 - Common", "{6E5E6475-1EB0-4AA6-A914-3C6E44661CD3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Constraints", "Common.Constraints\Common.Constraints.csproj", "{8EF009F3-153C-4E98-A78C-EF776802BDD1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrendsMicroservice.IntegrationTests", "TrendsMicroservice.IntegrationTests\TrendsMicroservice.IntegrationTests.csproj", "{51D54F50-EF3D-4FDF-84A0-60506DD71434}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "98 - IntegrationTests", "98 - IntegrationTests", "{7BEC9FC3-1D8B-4AAC-88C3-93E9B1C00B20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,6 +82,10 @@ Global
 		{8EF009F3-153C-4E98-A78C-EF776802BDD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EF009F3-153C-4E98-A78C-EF776802BDD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EF009F3-153C-4E98-A78C-EF776802BDD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51D54F50-EF3D-4FDF-84A0-60506DD71434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51D54F50-EF3D-4FDF-84A0-60506DD71434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51D54F50-EF3D-4FDF-84A0-60506DD71434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51D54F50-EF3D-4FDF-84A0-60506DD71434}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,6 +101,7 @@ Global
 		{514F38FB-F2B8-4335-B407-6683812712F5} = {90127A63-0968-4DD8-829A-669F0C955525}
 		{44AC0B86-C556-4F3F-AA0B-39634EC40FDB} = {B728F207-65FF-494F-84E3-FDC6370468AD}
 		{8EF009F3-153C-4E98-A78C-EF776802BDD1} = {6E5E6475-1EB0-4AA6-A914-3C6E44661CD3}
+		{51D54F50-EF3D-4FDF-84A0-60506DD71434} = {7BEC9FC3-1D8B-4AAC-88C3-93E9B1C00B20}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EA25AEEA-3C9A-4D5E-AE4F-9ED902A4546E}

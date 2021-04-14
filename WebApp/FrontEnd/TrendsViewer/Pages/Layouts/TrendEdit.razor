@@ -1,10 +1,9 @@
-﻿@page "/trendedit/{id}" 
-@page "/trendedit"
+﻿@page "/trends/edit/{id}" 
 @inherits TrendEditBase
 
 <EditForm Model="@EditTrendModel" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
-    <h3>@PageHeaderText</h3>
+    <h3>"Edit Trend"</h3>
     <div class="form-group row">
         <label for="Name" class="col-sm-2 col-form-label">
             Name
@@ -23,9 +22,7 @@
             <ValidationMessage For="@(()=> EditTrendModel.ConfirmName)" />
         </div>
     </div>
-    <button class="btn btn-primary" type="submit">Submit</button> 
-    @if (PageHeaderText == "Edit Trend")
-    {
-        <button class="btn btn-danger" type="button" @onclick="DeleteClick">Delete</button>
-    }
+    <button class="btn btn-primary" type="submit">Submit</button>
+
+    <button class="btn btn-danger" type="button" @onclick="DeleteClick">Delete</button>
 </EditForm>

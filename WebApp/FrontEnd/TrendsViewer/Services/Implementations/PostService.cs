@@ -2,7 +2,6 @@
 using Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -11,40 +10,35 @@ namespace TrendsViewer.Services
     public class PostService : IPostService
     {
         private readonly HttpClient httpClient;
+
         public PostService(HttpClient httpClient)
         {
             this.httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<PostDto>> GetPosts(Guid trendId)
+        async Task<PostGetAllDto> IPostService.CreatePost(Guid trendId, PostCreateDto newPost)
         {
-            string api = $"api/v1/trends/{trendId}";
-            return await httpClient.GetJsonAsync<PostDto[]>(api);
+            return await httpClient.PostJsonAsync<PostGetAllDto>($"api/v1/trends/{trendId}/posts", newPost);
         }
 
-        public async Task<PostDto> GetPost(Guid trendId, Guid postId)
+        async Task IPostService.DeletePost(Guid trendId, Guid postId)
         {
-            string api = $"api/v1/trends/{trendId}/posts/{postId}";
-            return await httpClient.GetJsonAsync<PostDto>(api);
+            await httpClient.DeleteAsync($"api/v1/trends/{trendId}/posts/{postId}");
         }
 
-        public Task<PostDto> UpdatePost(Guid trendId, Guid postId, PostDto updatedPost)
+        async Task<PostGetByIdDto> IPostService.GetPost(Guid trendId, Guid postId)
         {
-            string api = $"api/v1/trends/{trendId}/posts/{postId}";
-            return httpClient.PutJsonAsync<PostDto>(api, updatedPost);
+            return await httpClient.GetJsonAsync<PostGetByIdDto>($"api/v1/trends/{trendId}/posts/{postId}");
         }
 
-
-        public async Task<PostDto> CreatePost(Guid trendId, PostDto newPost)
+        async Task<IEnumerable<PostGetAllDto>> IPostService.GetPosts(Guid trendId)
         {
-            string api = $"api/v1/trends/{trendId}/posts";
-            return await httpClient.PostJsonAsync<PostDto>(api, newPost);
+            return await httpClient.GetJsonAsync<PostGetAllDto[]>($"api/v1/trends/{trendId}");
         }
 
-        public async Task DeletePost(Guid trendId, Guid postId)
+        async Task IPostService.UpdatePost(Guid trendId, Guid postId, PostUpdateDto updatedPost)
         {
-            string api = $"api/v1/trends/{trendId}/posts/{postId}";
-            await httpClient.DeleteAsync(api);
+            await httpClient.PutJsonAsync($"api/v1/trends/{trendId}/posts/{postId}", updatedPost);
         }
     }
 }

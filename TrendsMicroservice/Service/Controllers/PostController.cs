@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Service.Controllers
 {
-    [Route("api/v1/posts")]
+    [Route("api/v1/trends/{trendId:guid}/posts")]
     [ApiController]
     public class PostController : ControllerBase
     {
@@ -18,17 +18,17 @@ namespace Service.Controllers
         }
 
         [HttpGet]
-        public ICollection<PostDto> GetAll()
+        public ICollection<PostGetAllDto> GetAll([FromRoute] Guid trendId)
         {
-            return postBusinessLogic.GetAll();
+            return postBusinessLogic.GetAll(trendId);
         }
 
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(200, Type = typeof(PostDto))]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public ActionResult<PostDto> GetById([FromRoute] Guid id)
+        public ActionResult<PostGetByIdDto> GetById([FromRoute] Guid id)
         {
-            PostDto postDto = postBusinessLogic.GetById(id);
+            PostGetByIdDto postDto = postBusinessLogic.GetById(id);
             if (postDto == null)
             {
                 return NotFound();
@@ -37,17 +37,20 @@ namespace Service.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] PostDto postDto)
+        public IActionResult Create([FromRoute] Guid trendId, [FromBody] PostCreateDto postDto)
         {
-            postBusinessLogic.Create(postDto);
-            return CreatedAtAction(nameof(GetById), new { id = postDto.Id }, postDto);
-
+            if (trendId != postDto.TrendId)
+            {
+                return BadRequest();
+            }
+            PostGetAllDto createdPost = postBusinessLogic.Create(postDto);
+            return CreatedAtAction(nameof(GetById), new { trendId = trendId, id = createdPost.Id }, createdPost);
         }
         
         [HttpPut("{id:guid}")]
-        public IActionResult Update([FromRoute] Guid id, [FromBody] PostDto postDto)
+        public IActionResult Update([FromRoute] Guid trendId, [FromRoute] Guid id, [FromBody] PostUpdateDto postDto)
         {
-            if (!postDto.Id.HasValue || id != postDto.Id.Value)
+            if (id != postDto.Id || trendId != postDto.TrendId)
             {
                 return BadRequest();
             }

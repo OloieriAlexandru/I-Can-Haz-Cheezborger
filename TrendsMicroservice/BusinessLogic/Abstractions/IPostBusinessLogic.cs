@@ -6,9 +6,12 @@ namespace BusinessLogic.Abstractions
 {
     public interface IPostBusinessLogic
     {
-        ICollection<PostDto> GetAll();
-        PostDto GetById(Guid id);
-        void Create(PostDto post);
-        void Update(PostDto post);
+        ICollection<PostGetAllDto> GetAll(Guid trendId);
+
+        PostGetByIdDto GetById(Guid id);
+
+        PostGetAllDto Create(PostCreateDto post);
+        
+        void Update(PostUpdateDto post);
     }
 }

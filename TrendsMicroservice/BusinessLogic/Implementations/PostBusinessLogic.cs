@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Abstractions;
+﻿using AutoMapper;
+using BusinessLogic.Abstractions;
 using DataAccess.Abstractions;
 using Entities;
 using Models;
@@ -11,99 +12,49 @@ namespace BusinessLogic.Implementations
     {
         private readonly IRepository<Post> postRepository;
 
-        public PostBusinessLogic(IRepository<Post> _postRepository)
+        private readonly IMapper mapper;
+
+        public PostBusinessLogic(IRepository<Post> _postRepository, IMapper _mapper)
         {
             postRepository = _postRepository;
+            mapper = _mapper;
         }
 
-        ICollection<PostDto> IPostBusinessLogic.GetAll()
+        ICollection<PostGetAllDto> IPostBusinessLogic.GetAll(Guid trendId)
         {
-            ICollection<Post> posts = postRepository.GetAll();
-            ICollection<PostDto> postDtos = new List<PostDto>();
-
-            foreach (Post p in posts)
-            {
-                TrendDto _trendDto = new TrendDto()
-                {
-                    Id = p.Trend.Id,
-                    Name = p.Trend.Name
-                };
-                postDtos.Add(new PostDto()
-                {
-                    Id = p.Id,
-                    Title = p.Title,
-                    MediaPath = p.MediaPath,
-                    Upvotes = p.Upvotes,
-                    Downvotes = p.Downvotes,
-                    TrendId = p.TrendId,
-                    TrendDto = _trendDto
-                });
-            }
-            return postDtos;
+            ICollection<Post> posts = postRepository.GetAllByFilter(p => p.TrendId == trendId);
+            return mapper.Map<ICollection<PostGetAllDto>>(posts);
         }
 
-        PostDto IPostBusinessLogic.GetById(Guid id)
+        PostGetByIdDto IPostBusinessLogic.GetById(Guid id)
         {
             Post post = postRepository.GetById(id);
-            PostDto postDto = null;
-
-            if (post != null)
+            if (post == null)
             {
-                TrendDto _trendDto = new TrendDto()
-                {
-                    Id = post.Trend.Id,
-                    Name = post.Trend.Name
-                };
-                postDto = new PostDto()
-                {
-                    Id = post.Id,
-                    Title = post.Title,
-                    MediaPath = post.MediaPath,
-                    Upvotes = post.Upvotes,
-                    Downvotes = post.Downvotes,
-                    TrendId = post.TrendId,
-                    TrendDto = _trendDto
-                };
+                return null;
             }
-            return postDto;
+            return mapper.Map<PostGetByIdDto>(post);
         }
 
-        void IPostBusinessLogic.Create(PostDto post)
+        PostGetAllDto IPostBusinessLogic.Create(PostCreateDto post)
         {
-            Trend _trend = new Trend()
-            {
-                Name = post.TrendDto.Name
-            };
-            Post newPost = new Post()
-            {
-                Title = post.Title,
-                MediaPath = post.MediaPath,
-                Upvotes = post.Upvotes,
-                Downvotes = post.Downvotes,
-                TrendId = post.TrendId,
-                Trend = _trend
-            };
-            postRepository.Insert(newPost);
+            Post createdPost = mapper.Map<Post>(post);
+            
+            postRepository.Insert(createdPost);
             postRepository.SaveChanges();
-            post.Id = newPost.Id;
+
+            return mapper.Map<PostGetAllDto>(createdPost);
         }
 
-        void IPostBusinessLogic.Update(PostDto post)
+        void IPostBusinessLogic.Update(PostUpdateDto post)
         {
-            Trend _trend = new Trend()
+            Post updatedPost = postRepository.GetById(post.Id);
+            if (updatedPost == null)
             {
-                Name = post.TrendDto.Name
-            };
-            Post updatedPost = new Post()
-            {
-                Id = post.Id.Value,
-                Title = post.Title,
-                MediaPath = post.MediaPath,
-                Upvotes = post.Upvotes,
-                Downvotes = post.Downvotes,
-                TrendId = post.TrendId,
-                Trend = _trend
-            };
+                return;
+            }
+            mapper.Map<PostUpdateDto, Post>(post, updatedPost);
+
             postRepository.Update(updatedPost);
             postRepository.SaveChanges();
         }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http.Json;
@@ -13,22 +12,24 @@ namespace TrendsMicroservice.IntegrationTests
     [TestClass]
     public class TrendsControllerTests : BaseIntegrationTests
     {
-        private List<TrendDto> trendsList;
+        private List<TrendCreateDto> trendsToBeCreatedList;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            trendsList = new List<TrendDto>()
+            trendsToBeCreatedList = new List<TrendCreateDto>()
             {
-                new TrendDto()
+                new TrendCreateDto()
                 {
-                    Id = Guid.Parse("0659919a-5f6f-4dad-90b0-e5b0339278c4"),
-                    Name = "FirstTestTrend"
+                    Name = "FirstTestTrendName",
+                    Description = "FirstTestTrendDescription",
+                    ImageUrl = "FirstTestTrendImageUrl"
                 },
-                new TrendDto()
+                new TrendCreateDto()
                 {
-                    Id = Guid.Parse("1692207b-adce-4605-9b5e-52868030e710"),
-                    Name = "SecondTestTrend"
+                    Name = "SecondTestTrendName",
+                    Description = "SecondTestTrendDescription",
+                    ImageUrl = "SecondTestTrendImageUrl"
                 }
             };
         }
@@ -37,38 +38,35 @@ namespace TrendsMicroservice.IntegrationTests
         public async Task GetAll_WithMultipleTrends_ReturnsAllTheTrends()
         {
             // Arrange
-            await CreateTrends(trendsList);
+            await CreateTrends(trendsToBeCreatedList);
 
             // Act
             var response = await TestHttpClient.GetAsync(ApiRoutes.Trends.GetAll);
 
             // Assert
-            List<TrendDto> trends = JsonConvert.DeserializeObject<List<TrendDto>>(await response.Content.ReadAsStringAsync());
+            List<TrendGetAllDto> trends = JsonConvert.DeserializeObject<List<TrendGetAllDto>>(await response.Content.ReadAsStringAsync());
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-            Assert.IsTrue(trends.Count > trendsList.Count);
+            Assert.IsTrue(trends.Count >= trendsToBeCreatedList.Count);
         }
 
         [TestMethod]
         public async Task Create_WithValidTrend_SuccessfullyCreatesTrend()
         {
             // Arrange
-            TrendDto trend = new TrendDto()
-            {
-                Name = "TestTrend"
-            };
+            TrendCreateDto trend = trendsToBeCreatedList[0];
 
             // Act
             var response = await TestHttpClient.PostAsJsonAsync(ApiRoutes.Trends.Create, trend);
 
             // Assert
-            TrendDto returnedTrend = JsonConvert.DeserializeObject<TrendDto>(await response.Content.ReadAsStringAsync());
+            TrendGetAllDto returnedTrend = JsonConvert.DeserializeObject<TrendGetAllDto>(await response.Content.ReadAsStringAsync());
             Assert.AreEqual(response.StatusCode, HttpStatusCode.Created);
             Assert.IsNotNull(returnedTrend.Id);
         }
 
-        private async Task CreateTrends(List<TrendDto> trends)
+        private async Task CreateTrends(List<TrendCreateDto> trendsToBeCreatedList)
         {
-            foreach(TrendDto trend in trends)
+            foreach(TrendCreateDto trend in trendsToBeCreatedList)
             {
                 var response = await TestHttpClient.PostAsJsonAsync(ApiRoutes.Trends.Create, trend);
                 Assert.AreEqual(response.StatusCode, HttpStatusCode.Created);

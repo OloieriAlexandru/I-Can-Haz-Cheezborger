@@ -9,6 +9,9 @@ namespace BusinessLogic.Profiles
         public CommentProfile()
         {
             CreateMap<Comment, CommentGetDto>();
+
+            CreateMap<CommentCreateDto, Comment>();
+            CreateMap<CommentUpdateDto, Comment>();
         }
     }
 }

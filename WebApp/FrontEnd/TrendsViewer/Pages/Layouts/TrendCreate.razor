@@ -1,9 +1,9 @@
-﻿@page "/trendscreate"
+﻿@page "/trends/create"
 @inherits TrendCreateBase
 
 <EditForm Model="@EditTrendModel" OnValidSubmit="CreateTrend">
     <DataAnnotationsValidator />
-    <h3>@PageHeaderText</h3>
+    <h3>"Create a new trend"</h3>
     <div class="form-group row">
         <label for="Name" class="col-sm-2 col-form-label">
             Name

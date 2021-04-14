@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace DataAccess.Implementations
 {
@@ -22,6 +23,11 @@ namespace DataAccess.Implementations
         ICollection<T> IRepository<T>.GetAll()
         {
             return entities.ToList();
+        }
+
+        ICollection<T> IRepository<T>.GetAllByFilter(Expression<Func<T, bool>> filter)
+        {
+            return entities.Where(filter).ToList();
         }
 
         T IRepository<T>.GetById(Guid guid)

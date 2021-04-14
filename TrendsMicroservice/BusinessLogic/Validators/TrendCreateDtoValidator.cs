@@ -4,9 +4,9 @@ using Models;
 
 namespace BusinessLogic.Validators
 {
-    public class TrendDtoValidator : AbstractValidator<TrendDto>
+    public class TrendCreateDtoValidator : AbstractValidator<TrendCreateDto>
     {
-        public TrendDtoValidator()
+        public TrendCreateDtoValidator()
         {
             RuleFor(trendDto => trendDto.Name)
                 .NotEmpty()

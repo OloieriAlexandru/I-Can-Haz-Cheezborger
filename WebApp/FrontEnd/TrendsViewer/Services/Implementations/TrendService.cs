@@ -10,35 +10,35 @@ namespace TrendsViewer.Services
     public class TrendService : ITrendService
     {
         private readonly HttpClient httpClient;
+
         public TrendService(HttpClient httpClient)
         {
             this.httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<TrendDto>> GetTrends()
+        async Task<TrendGetAllDto> ITrendService.CreateTrend(TrendCreateDto newTrend)
         {
-            return await httpClient.GetJsonAsync<TrendDto[]>("api/v1/trends");
+            return await httpClient.PostJsonAsync<TrendGetAllDto>("api/v1/trends", newTrend);
         }
 
-        public async Task<TrendDto> GetTrend(Guid id)
-        {
-            return await httpClient.GetJsonAsync<TrendDto>($"api/v1/trends/{id}");
-        }
-
-        public Task<TrendDto> UpdateTrend(Guid id, TrendDto updatedTrend)
-        {
-            return (Task<TrendDto>)httpClient.PutJsonAsync($"api/v1/trends/{id}", updatedTrend);
-        }
-
-
-        public async Task<TrendDto> CreateTrend(TrendDto newTrend)
-        {
-            return await httpClient.PostJsonAsync<TrendDto>("api/v1/trends", newTrend);
-        }
-
-        public async Task DeleteTrend(Guid id)
+        async Task ITrendService.DeleteTrend(Guid id)
         {
             await httpClient.DeleteAsync($"api/v1/trends/{id}");
+        }
+
+        async Task<TrendGetByIdDto> ITrendService.GetTrend(Guid id)
+        {
+            return await httpClient.GetJsonAsync<TrendGetByIdDto>($"api/v1/trends/{id}");
+        }
+
+        async Task<IEnumerable<TrendGetAllDto>> ITrendService.GetTrends()
+        {
+            return await httpClient.GetJsonAsync<TrendGetAllDto[]>("api/v1/trends");
+        }
+
+        async Task ITrendService.UpdateTrend(Guid id, TrendUpdateDto updatedTrend)
+        {
+            await httpClient.PutJsonAsync($"api/v1/trends/{id}", updatedTrend);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq.Expressions;
 using Entities;
 
 namespace DataAccess.Abstractions
@@ -9,6 +9,8 @@ namespace DataAccess.Abstractions
     public interface IRepository<T> where T : BaseEntity
     {
         ICollection<T> GetAll();
+
+        ICollection<T> GetAllByFilter(Expression<Func<T, bool>> filter);
 
         T GetById(Guid guid);
         

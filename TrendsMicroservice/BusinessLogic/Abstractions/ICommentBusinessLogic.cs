@@ -6,9 +6,12 @@ namespace BusinessLogic.Abstractions
 {
     public interface ICommentBusinessLogic
     {
-        ICollection<CommentDto> GetAll();
-        CommentDto GetById(Guid id);
-        void Create(CommentDto Comment);
-        void Update(CommentDto Comment);
+        ICollection<CommentGetDto> GetAll(Guid postId);
+
+        CommentGetDto GetById(Guid id);
+        
+        CommentGetDto Create(CommentCreateDto comment);
+        
+        void Update(CommentUpdateDto comment);
     }
 }

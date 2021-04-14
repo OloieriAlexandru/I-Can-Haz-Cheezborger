@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -12,34 +11,35 @@ namespace TrendsViewer.Services.Implementations
     public class CommentService : ICommentService
     {
         private readonly HttpClient httpClient;
+
         public CommentService(HttpClient httpClient)
         {
             this.httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<CommentDto>> GetComments(Guid idTrend, Guid idPost)
+        async Task<CommentGetDto> ICommentService.CreateComment(Guid trendId, Guid postId, CommentCreateDto newComment)
         {
-            return await httpClient.GetJsonAsync<CommentDto[]>($"api/v1/trends/{idTrend}/posts/{idPost}/comments");
+            return await httpClient.PostJsonAsync<CommentGetDto>($"api/v1/trends/{trendId}/posts/{postId}/comments", newComment);
         }
 
-        public async Task<CommentDto> GetComment(Guid idTrend, Guid idPost, Guid idComment)
+        async Task ICommentService.DeleteComment(Guid trendId, Guid postId, Guid commentId)
         {
-            return await httpClient.GetJsonAsync<CommentDto>($"api/v1/trends/{idTrend}/posts/{idPost}/comments/{idComment}");
+            await httpClient.DeleteAsync($"api/v1/trends/{trendId}/posts/{postId}/comments/{commentId}");
         }
 
-        public Task<CommentDto> UpdateComment(Guid idTrend, Guid idPost, Guid idComment, CommentDto updatedComment)
+        async Task<CommentGetDto> ICommentService.GetComment(Guid trendId, Guid postId, Guid commentId)
         {
-            return (Task<CommentDto>)httpClient.PutJsonAsync($"api/v1/trends/{idTrend}/posts/{idPost}/comments/{idComment}", updatedComment);
+            return await httpClient.GetJsonAsync<CommentGetDto>($"api/v1/trends/{trendId}/posts/{postId}/comments/{commentId}");
         }
 
-        public async Task<CommentDto> CreateComment(Guid idTrend, Guid idPost, CommentDto newComment)
+        async Task<IEnumerable<CommentGetDto>> ICommentService.GetComments(Guid trendId, Guid postId)
         {
-            return await httpClient.PostJsonAsync<CommentDto>($"api/v1/trends/{idTrend}/posts/{idPost}/comments", newComment);
+            return await httpClient.GetJsonAsync<CommentGetDto[]>($"api/v1/trends/{trendId}/posts/{postId}/comments");
         }
 
-        public async Task DeleteComment(Guid idTrend, Guid idPost, Guid idComment)
+        async Task ICommentService.UpdateComment(Guid trendId, Guid postId, Guid commentId, CommentUpdateDto updatedComment)
         {
-            await httpClient.DeleteAsync($"api/v1/trends/{idTrend}/posts/{idPost}/comments/{idComment}");
+            await httpClient.PutJsonAsync($"api/v1/trends/{trendId}/posts/{postId}/{updatedComment.Id}", updatedComment);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Service.Controllers
 {
-    [Route("api/v1/comments")]
+    [Route("api/v1/trends/{trendId:guid}/posts/{postId:guid}/comments")]
     [ApiController]
     public class CommentController : ControllerBase
     {
@@ -18,17 +18,17 @@ namespace Service.Controllers
         }
 
         [HttpGet]
-        public ICollection<CommentDto> GetAll()
+        public ICollection<CommentGetDto> GetAll([FromRoute] Guid postId)
         {
-            return commentBusinessLogic.GetAll();
+            return commentBusinessLogic.GetAll(postId);
         }
 
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(200, Type = typeof(CommentDto))]
+        [ProducesResponseType(200, Type = typeof(CommentGetDto))]
         [ProducesResponseType(404)]
-        public ActionResult<CommentDto> GetById([FromRoute] Guid id)
+        public ActionResult<CommentGetDto> GetById([FromRoute] Guid id)
         {
-            CommentDto commentDto = commentBusinessLogic.GetById(id);
+            CommentGetDto commentDto = commentBusinessLogic.GetById(id);
             if (commentDto == null)
             {
                 return NotFound();
@@ -37,16 +37,20 @@ namespace Service.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CommentDto commentDto)
+        public IActionResult Create([FromRoute] Guid trendId, [FromRoute] Guid postId, [FromBody] CommentCreateDto commentDto)
         {
-            commentBusinessLogic.Create(commentDto);
-            return CreatedAtAction(nameof(GetById), new { id = commentDto.Id }, commentDto);
+            if (postId != commentDto.PostId)
+            {
+                return BadRequest();
+            }
+            CommentGetDto createdComment = commentBusinessLogic.Create(commentDto);
+            return CreatedAtAction(nameof(GetById), new { trendId = trendId, postId = postId, id = createdComment.Id }, createdComment);
         }
 
         [HttpPut("{id:guid}")]
-        public IActionResult Update([FromRoute] Guid id, [FromBody] CommentDto commentDto)
+        public IActionResult Update([FromRoute] Guid postId, [FromRoute] Guid id, [FromBody] CommentUpdateDto commentDto)
         {
-            if (!commentDto.Id.HasValue || id != commentDto.Id.Value)
+            if (id != commentDto.Id || postId != commentDto.PostId)
             {
                 return BadRequest();
             }

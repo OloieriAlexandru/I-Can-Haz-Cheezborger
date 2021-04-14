@@ -10,6 +10,9 @@ namespace BusinessLogic.Profiles
         {
             CreateMap<Post, PostGetByIdDto>();
             CreateMap<Post, PostGetAllDto>();
+
+            CreateMap<PostCreateDto, Post>();
+            CreateMap<PostUpdateDto, Post>();
         }
     }
 }

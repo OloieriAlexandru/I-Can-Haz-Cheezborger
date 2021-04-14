@@ -6,12 +6,12 @@ namespace BusinessLogic.Abstractions
 {
     public interface ITrendBusinessLogic
     {
-        ICollection<TrendDto> GetAll();
+        ICollection<TrendGetAllDto> GetAll();
 
-        TrendDto GetById(Guid id);
+        TrendGetByIdDto GetById(Guid id);
 
-        void Create(TrendDto trend);
+        TrendGetAllDto Create(TrendCreateDto trend);
 
-        void Update(TrendDto trend);
+        void Update(TrendUpdateDto trend);
     }
 }

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BusinessLogic.Abstractions;
+﻿using BusinessLogic.Abstractions;
 using BusinessLogic.Implementations;
 using BusinessLogic.Profiles;
 using DataAccess.ExtensionMethods;

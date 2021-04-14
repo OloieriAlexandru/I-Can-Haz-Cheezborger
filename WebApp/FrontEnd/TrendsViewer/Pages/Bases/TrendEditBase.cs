@@ -10,19 +10,25 @@ namespace TrendsViewer.Pages
 {
     public class TrendEditBase : ComponentBase
     {
-        private TrendDto Trend { get; set; } = new TrendDto();
-        public EditTrendModel EditTrendModel { get; set; } = new EditTrendModel();
         [Inject]
-        public ITrendService TrendService { get; set; }
-
-        public string PageHeaderText { get; set; }
-
-        [Parameter]
-        public string Id { get; set; }
+        public NavigationManager NavigationManager { get; set; }
         [Inject]
         public IMapper Mapper { get; set; }
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public ITrendService TrendService { get; set; }
+
+        [Parameter]
+        public string Id { get; set; }
+
+        public EditTrendModel EditTrendModel { get; set; }
+
+        private TrendUpdateDto Trend { get; set; }
+
+        public TrendEditBase()
+        {
+            EditTrendModel = new EditTrendModel();
+            Trend = new TrendUpdateDto();
+        }
 
         protected async override Task OnInitializedAsync()
         {
@@ -30,9 +36,8 @@ namespace TrendsViewer.Pages
             {
                 throw new InvalidProgramException("Invalid Id!");
             }
-            PageHeaderText = "Edit Trend";
-            Trend = await TrendService.GetTrend(Guid.Parse(Id));
-
+            TrendGetByIdDto updatedTrend = await TrendService.GetTrend(Guid.Parse(Id));
+            Trend = Mapper.Map<TrendUpdateDto>(updatedTrend);
 
             Mapper.Map(Trend, EditTrendModel);
         }
@@ -40,17 +45,13 @@ namespace TrendsViewer.Pages
         protected async Task HandleValidSubmit()
         {
             Mapper.Map(EditTrendModel, Trend);
-            TrendDto result = null;
-            result = await TrendService.UpdateTrend((Guid) Trend.Id, Trend);
-            if (result != null)
-            {
-                NavigationManager.NavigateTo("/trends");
-            }
+            await TrendService.UpdateTrend(Trend.Id, Trend);
+            NavigationManager.NavigateTo("/trends");
         }
 
         protected async Task DeleteClick()
         {
-            await TrendService.DeleteTrend((Guid)Trend.Id);
+            await TrendService.DeleteTrend(Trend.Id);
             NavigationManager.NavigateTo("/trends");
         }
     }

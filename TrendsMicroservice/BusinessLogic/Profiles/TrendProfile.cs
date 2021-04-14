@@ -10,6 +10,9 @@ namespace BusinessLogic.Profiles
         {
             CreateMap<Trend, TrendGetAllDto>();
             CreateMap<Trend, TrendGetByIdDto>();
+
+            CreateMap<TrendCreateDto, Trend>();
+            CreateMap<TrendUpdateDto, Trend>();
         }
     }
 }

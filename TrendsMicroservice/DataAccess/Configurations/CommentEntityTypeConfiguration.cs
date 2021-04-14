@@ -19,6 +19,9 @@ namespace DataAccess.Configurations
 
             builder.Property(c => c.PostId)
                 .IsRequired();
+
+            builder.HasOne(c => c.Post)
+                .WithMany(p => p.Comments);
         }
     }
 }

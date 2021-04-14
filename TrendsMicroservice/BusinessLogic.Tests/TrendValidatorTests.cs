@@ -8,7 +8,7 @@ namespace BusinessLogic.Tests
     [TestClass]
     public class TrendValidatorTests
     {
-        private readonly TrendDtoValidator _validator = new TrendDtoValidator();
+        private readonly TrendCreateDtoValidator _validator = new TrendCreateDtoValidator();
 
         [TestMethod]
         public void GivenATrendName_ShouldHaveNonEmptyValidation()
