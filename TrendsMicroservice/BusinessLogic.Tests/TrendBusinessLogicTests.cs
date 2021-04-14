@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace BusinessLogic.Tests
 {
     [TestClass]
-    public class TrendsBusinessLogicTests : BaseBusinessLogicTests
+    public class TrendBusinessLogicTests : BaseBusinessLogicTests
     {
         private readonly Mock<IRepository<Trend>> trendRepositoryMock;
 
@@ -41,17 +41,17 @@ namespace BusinessLogic.Tests
             ImageUrl = "TestTrendImageUrl"
         };
 
-        public TrendsBusinessLogicTests(): base()
+        public TrendBusinessLogicTests(): base()
         {
             trendRepositoryMock = new Mock<IRepository<Trend>>();
             systemUnderTest = new TrendBusinessLogic(trendRepositoryMock.Object, mapper);
         }
 
         [TestMethod]
-        public void GetAll_ReturnsTheOnlyInstanceCreated()
+        public void GetAll_ReturnsAllTheInstances()
         {
             // Arrange
-            ICollection<Trend> trends = new List<Trend> { testTrend };
+            ICollection<Trend> trends = new List<Trend> { testTrend, testTrend };
             trendRepositoryMock.Setup(x => x.GetAll()).Returns(trends);
             ICollection<TrendGetAllDto> expectedTrends = new List<TrendGetAllDto> { testTrendGetAllDto };
 
