@@ -12,6 +12,12 @@ namespace Models
 
         public string ImageUrl { get; set; }
 
+        public int Followers { get; set; } = 0;
+
+        public int NumberPosts { get; set; } = 0;
+
+        public Boolean FollowClicked { get; set; } = false;
+
         public override bool Equals(object obj)
         {
             return obj is TrendGetAllDto dto &&

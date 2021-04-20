@@ -18,5 +18,9 @@ namespace Models
         public Guid TrendId { get; set; }
 
         public ICollection<CommentGetDto> Comments { get; set; }
+
+        public Boolean LikeClicked { get; set; } = false;
+
+        public Boolean DislikeClicked { get; set; } = false;
     }
 }

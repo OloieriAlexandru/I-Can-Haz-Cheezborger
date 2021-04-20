@@ -1,94 +1,228 @@
 ﻿@page "/trends/{Id}"
 @inherits TrendDetailsBase
 
-@if (Trend == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <div class="trends-page-wrapper">
 
-        <div class="trend-information">
-            <div class="trend-information-header">
-                @Trend.Name
-            </div>
-            <div class="trend-information-main">
-                @Trend.Description
-            </div>
-            <div class="trend-information-footer">
-                <a href="/trends" class="btn btn-primary">Back</a>
 
-                <a href="@($"trends/edit/{Trend.Id}")" class="btn btn-primary">Edit</a>
+<div class="row">
+    <div class="layout-col col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+        <div class="row">
+            <div class="layout-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 posts-layout">
 
-                <a href="#" class="btn btn-danger">Delete</a>
+                <a style="text-decoration:none;color:black;" href="@($"trends/{Id}/create/")">
+                    <div class="post-plus">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                </a>
+
+                
+                @if (Posts != null)
+                {
+                    foreach (var post in Posts)
+                    {
+                        <div class="post">
+                            <div class="post-title">
+                                <a style="text-decoration:none;color:black;" href="@($"trends/{Id}/posts/{post.Id}")">
+                                    <h4>@post.Title</h4>
+                                </a>
+                            </div>
+
+                            <div class="post-subtitle">
+                                <h6 class="post-time">12m ago</h6>
+                            </div>
+
+                            <div class="post-body">
+                                <div class="post-resource">
+                                    <img class="post-image" src="https://img-9gag-fun.9cache.com/photo/ajmP17g_700bwp.webp" />
+                                </div>
+
+                            </div>
+                            <div class="post-description">
+                                <div class="post-op">
+                                    <span><img class="user-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
+                                    <span class="user-name"> Rebeca </span>
+                                </div>
+                                <div class="post-text">
+                                    <p>Look at this cute puppy...</p>
+                                </div>
+                            </div>
+                            <div class="post-footer">
+                                <div class="post-information">
+                                    <span>@post.Upvotes upvotes</span>
+                                    <span>@post.Downvotes downvotes</span>
+                                    <span>54 comments</span>
+                                </div>
+                                <div class="post-buttons">
+
+                                    <div class="upvote-button" @onclick="(() => LikePostId(post))">
+                                        <button class="icon-button">
+                                            @if (post.LikeClicked == true)
+                                            {
+                                                <i class="fas fa-thumbs-up"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="far fa-thumbs-up"></i>
+                                            }
+
+                                        </button>
+                                    </div>
+                                    <div class="downvote-button" @onclick="(() => DislikePostId(post))">
+                                        <button class="icon-button">
+                                            @if (post.DislikeClicked == true)
+                                            {
+                                                <i class="fas fa-thumbs-down"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="far fa-thumbs-down"></i>
+                                            }
+                                        </button>
+                                    </div>
+                                    <div class="comments-button" @onclick="(() => NavigateToPostId(Id, post.Id.ToString()))">
+                                        <button class="icon-button">
+                                            <i class="far fa-comments"></i>
+                                        </button>
+
+                                    </div>
+                                    <div class="others-button">
+                                        <button class="icon-button">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                }
             </div>
         </div>
-
-        <EditForm Model="@createPostModel" class="post-form">
-            <div class="form-group row custom-form-group">
-                <label for="Title" class="col-sm-2 col-form-label">
-                    Title
-                </label>
-                <div class="col-sm-10">
-                    <InputText @bind-Value="createPostModel.Title"></InputText>
+    </div>
+    <div class="layout-col col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+        <div class="sticky-list">
+            @if (Trends != null)
+            {
+                <h5 class="trends-list-title"> Trends </h5>
+                <div class="trend-plus" @onclick="(() => NavigateNewTrend())">
+                    <i class="fas fa-plus-circle"></i>
                 </div>
 
-                <label for="Name" class="col-sm-2 col-form-label">
-                    MediaPath
-                </label>
-                <div class="col-sm-10">
-                    <InputText @bind-Value="createPostModel.MediaPath"></InputText>
+                @foreach (var trend in Trends)
+                {
+                    <div class="trend">
+                        <span><img class="trend-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
+                        @if (@trend.Name == Trend.Name)
+                        {
+                            <span class="trend-title" style="font-weight:600;color:#1b6ec2"> @trend.Name </span>
+                        }
+                        else
+                        {
+                            <span class="trend-title" @onclick="(() => NavigateTrendId(trend.Id))"> @trend.Name </span>
+                        }
+
+                    </div>
+                }
+            }
+        </div>
+       
+    </div>
+</div>
+
+
+
+
+
+@*
+
+    @if (Trend == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <div class="trends-page-wrapper">
+
+            <div class="trend-information">
+                <div class="trend-information-header">
+                    @Trend.Name
+                </div>
+                <div class="trend-information-main">
+                    @Trend.Description
+                </div>
+                <div class="trend-information-footer">
+                    <a href="/trends" class="btn btn-primary">Back</a>
+
+                    <a href="@($"trends/edit/{Trend.Id}")" class="btn btn-primary">Edit</a>
+
+                    <a href="#" class="btn btn-danger">Delete</a>
                 </div>
             </div>
-            <button class="btn btn-primary" type="submit" @onclick="HandleValidSubmit">Create</button>
 
-        </EditForm>
-
-        @if (Posts != null)
-        {
-            foreach (var post in Posts)
-            {
-                <div class="post-card">
-                    <div class="post-card-header">
-                        @post.Title
+            <EditForm Model="@createPostModel" class="post-form">
+                <div class="form-group row custom-form-group">
+                    <label for="Title" class="col-sm-2 col-form-label">
+                        Title
+                    </label>
+                    <div class="col-sm-10">
+                        <InputText @bind-Value="createPostModel.Title"></InputText>
                     </div>
-                    <div class="post-card-main">
-                        <img src="@post.MediaPath" />
-                    </div>
-                    <div class="post-card-footer">
-                        <div class="post-card-footer-left">
 
-                            <div class="vote-container">
-                                <div class="vote-container-icon">
-                                    <span class="oi oi-arrow-top"></span>
-                                </div>
-                                <div class="vote-container-count">
-                                    @post.Upvotes
-                                </div>
-                            </div>
-
-                            <div class="vote-container">
-                                <div class="vote-container-icon">
-                                    <span class="oi oi-arrow-bottom"></span>
-                                </div>
-                                <div class="vote-container-count">
-                                    @post.Downvotes
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="post-card-footer-right">
-                            <a href="@($"trends/{Trend.Id}/posts/{post.Id}")" class="btn btn-primary m-1">View</a>
-
-                            <a href="@($"trends/edit/{Trend.Id}/posts/{post.Id}")" class="btn btn-primary m-1">Edit</a>
-
-                            <a class="btn btn-danger m-1" @onclick="async () => await DeleteClick(post.Id)">Delete</a>
-                        </div>
+                    <label for="Name" class="col-sm-2 col-form-label">
+                        MediaPath
+                    </label>
+                    <div class="col-sm-10">
+                        <InputText @bind-Value="createPostModel.MediaPath"></InputText>
                     </div>
                 </div>
-            }
-        }
+                <button class="btn btn-primary" type="submit" @onclick="HandleValidSubmit">Create</button>
 
-    </div>
-}
+            </EditForm>
+
+            @if (Posts != null)
+            {
+                foreach (var post in Posts)
+                {
+                    <div class="post-card">
+                        <div class="post-card-header">
+                            @post.Title
+                        </div>
+                        <div class="post-card-main">
+                            <img src="@post.MediaPath" />
+                        </div>
+                        <div class="post-card-footer">
+                            <div class="post-card-footer-left">
+
+                                <div class="vote-container">
+                                    <div class="vote-container-icon">
+                                        <span class="oi oi-arrow-top"></span>
+                                    </div>
+                                    <div class="vote-container-count">
+                                        @post.Upvotes
+                                    </div>
+                                </div>
+
+                                <div class="vote-container">
+                                    <div class="vote-container-icon">
+                                        <span class="oi oi-arrow-bottom"></span>
+                                    </div>
+                                    <div class="vote-container-count">
+                                        @post.Downvotes
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="post-card-footer-right">
+                                <a href="@($"trends/{Trend.Id}/posts/{post.Id}")" class="btn btn-primary m-1">View</a>
+
+                                <a href="@($"trends/edit/{Trend.Id}/posts/{post.Id}")" class="btn btn-primary m-1">Edit</a>
+
+                                <a class="btn btn-danger m-1" @onclick="async () => await DeleteClick(post.Id)">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    }
+*@

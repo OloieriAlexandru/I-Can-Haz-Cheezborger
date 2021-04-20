@@ -1,7 +1,8 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: Verdana,'Helvetica Neue', Helvetica, Arial, sans-serif;
+
 }
 
 a, .btn-link {
@@ -12,6 +13,7 @@ a, .btn-link {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
+    padding: 9px 30px;
 }
 
 .content {
@@ -28,7 +30,10 @@ a, .btn-link {
 
 .validation-message {
     color: red;
+    margin-left:12px;
+    font-size:14px;
 }
+
 
 #blazor-error-ui {
     background: lightyellow;
@@ -47,5 +52,28 @@ a, .btn-link {
     position: absolute;
     right: 0.75rem;
     top: 0.5rem;
+}
+
+/*RAMONA*/
+
+label{
+    display:block;
+    font-size:12px;
+    padding-left:12px;
+    margin-bottom:4px;
+    margin-top:6px;
+}
+
+h3{
+    margin-bottom:25px;
+}
+
+.layout-col:not(:last-of-type){
+    margin-bottom:15px;
+}
+
+.create-trend-button-container {
+    display: block;
+    text-align: right;
 }
 

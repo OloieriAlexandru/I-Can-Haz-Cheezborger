@@ -2,37 +2,126 @@
 @inherits PostDetailsBase
 
 
-@if (Post == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-<div class="post-page-wrapper">
-    <h1>@Post.Title</h1>
 
-    <div class="post-page-wrapper-img-wrapper">
-        <img alt="myImage" src="@Post.MediaPath" />
-    </div>
 
-    <EditForm Model="@commentModel" OnValidSubmit="HandleValidSubmit" class="comment-form">
-        <div class="form-group row">
-            <label for="Text" class="col-sm-4 col-form-label">
-                Comment:
-            </label>
-            <div class="col-sm-10">
-                <InputText @bind-Value="commentModel.CommentText"></InputText>
-            </div>
-        </div>
-        <button class="btn btn-primary" type="submit">Submit</button>
-    </EditForm>
 
-    <div class="post-comments">
-        @if (Comments != null)
-        {
-            @foreach (var comment in Comments)
-            {
-                <div class="comment-card">
+<div class="row">
+    <div class="layout-col col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+        <div class="row">
+            <div class="layout-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 posts-layout">
+
+
+                <div class="post-plus">
+                    <a style="text-decoration:none;" href="@($"trends/{TrendId}")">
+                        <i class="fas fa-arrow-circle-left"></i>
+                    </a>
+                </div>
+                @if (Post != null)
+                {
+                        <div class="post">
+                            <div class="post-title">
+                                <h4>@Post.Title</h4>
+                            </div>
+                            <div class="post-subtitle">
+                                <h6 class="post-time">12m ago</h6>
+                            </div>
+
+                            <div class="post-body">
+                                <div class="post-resource">
+                                    <img class="post-image" src="https://img-9gag-fun.9cache.com/photo/ajmP17g_700bwp.webp" />
+                                </div>
+
+                            </div>
+                            <div class="post-description">
+                                <div class="post-op">
+                                    <span><img class="user-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
+                                    <span class="user-name"> Rebeca </span>
+                                </div>
+                                <div class="post-text">
+                                    <p>Look at this cute puppy...</p>
+                                </div>
+                            </div>
+                            <div class="post-footer">
+                                <div class="post-information">
+                                    <span>@Post.Upvotes upvotes</span>
+                                    <span>@Post.Downvotes downvotes</span>
+                                    <span>54 comments</span>
+                                </div>
+                                <div class="post-buttons">
+
+                                    <div class="upvote-button" @onclick="(() => LikePostId(Post))">
+                                        <button class="icon-button">
+                                            @if (Post.LikeClicked == true)
+                                            {
+                                                <i class="fas fa-thumbs-up"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="far fa-thumbs-up"></i>
+                                            }
+
+                                        </button>
+                                    </div>
+                                    <div class="downvote-button" @onclick="(() => DislikePostId(Post))">
+                                        <button class="icon-button">
+                                            @if (Post.DislikeClicked == true)
+                                            {
+                                                <i class="fas fa-thumbs-down"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="far fa-thumbs-down"></i>
+                                            }
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="others-button">
+                                        <button class="icon-button">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="post-comments">
+                                    <h6 style="margin-top:4px;margin-bottom:4px;font-weight:600">
+                                        Comments
+                                    </h6>
+                                    <EditForm Model="@commentModel" OnValidSubmit="HandleValidSubmit" class="comment-form" style="margin-bottom:10px">
+                                        <div class="create-post-comment">
+                                            <div class="post-op">
+                                                <span><img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
+                                                <span class="user-name"> Ramona </span>
+                                            </div>
+                                            <div class="post-text">
+                                                <InputTextArea rows="2" @bind-Value="commentModel.CommentText" style="width:calc(100% - 70px);margin-top:2px;margin-left:30px"></InputTextArea>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="create-trend-button-container" style="margin-top:-50px;">
+                                            <button class="btn btn-primary create-trend-button" type="submit">
+                                                <i class="fas fa-arrow-circle-right"></i>
+                                            </button>
+                                        </div>
+                                    </EditForm>
+                                    @if (Comments != null)
+                                    {
+                                        @foreach (var comment in Comments)
+                                        {
+                                            <div class="create-post-comment">
+                                                <div class="post-op">
+                                                    <span><img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
+                                                    <span class="user-name"> Ramona </span>
+                                                    <span class="post-subtitle" >
+                                                        <h6 class="post-time" style="display:inline"> 12m ago</h6>
+                                                    </span>
+                                                </div>
+                                                <div class="post-text">
+                                                    <p style="width:calc(100% - 30px);margin-top:-2px;margin-left:30px"> @comment.Text</p>
+                                                </div>
+                                            </div>
+
+
+                                            @*<div class="comment-card">
                     <div class="comment-card-main">
                         @comment.Text
                     </div>
@@ -62,9 +151,97 @@ else
                             <button class="btn btn-primary" @onclick="@(() => HandleDeleteComment(comment.Id))">Delete</button>
                         </div>
                     </div>
-                </div>
-            }
-        }
+                </div>*@
+                                        }
+                                    }
+                                </div>
+                        </div>
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="layout-col col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+        <div class="sticky-list">
+            <h5 class="trends-list-title"> Features </h5>
+        </div>
+
     </div>
 </div>
-}
+
+
+
+
+
+
+
+
+
+@*
+    @if (Post == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+    <div class="post-page-wrapper">
+        <h1>@Post.Title</h1>
+
+        <div class="post-page-wrapper-img-wrapper">
+            <img alt="myImage" src="@Post.MediaPath" />
+        </div>
+
+        <EditForm Model="@commentModel" OnValidSubmit="HandleValidSubmit" class="comment-form">
+            <div class="form-group row">
+                <label for="Text" class="col-sm-4 col-form-label">
+                    Comment:
+                </label>
+                <div class="col-sm-10">
+                    <InputText @bind-Value="commentModel.CommentText"></InputText>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </EditForm>
+
+        <div class="post-comments">
+            @if (Comments != null)
+            {
+                @foreach (var comment in Comments)
+                {
+                    <div class="comment-card">
+                        <div class="comment-card-main">
+                            @comment.Text
+                        </div>
+
+                        <div class="comment-card-footer">
+                            <div class="comment-card-footer-left">
+                                <div class="vote-container">
+                                    <div class="vote-container-icon">
+                                        <span class="oi oi-arrow-top"></span>
+                                    </div>
+                                    <div class="vote-container-count">
+                                        @comment.Upvotes
+                                    </div>
+                                </div>
+
+                                <div class="vote-container">
+                                    <div class="vote-container-icon">
+                                        <span class="oi oi-arrow-bottom"></span>
+                                    </div>
+                                    <div class="vote-container-count">
+                                        @comment.Downvotes
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="comment-card-footer-right">
+                                <button class="btn btn-primary" @onclick="@(() => HandleDeleteComment(comment.Id))">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    }*@

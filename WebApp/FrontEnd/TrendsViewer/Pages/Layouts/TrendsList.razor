@@ -1,30 +1,124 @@
 ﻿@page "/trends"
 @inherits TrendsListBase
 
-<h3>Trends List</h3>
 
-<div class="card-deck">
-    @if (Trends == null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else
-    { 
-        foreach (var trend in Trends)
-        {
-            <div class="card m-3" style="min-width: 18rem; max-width:30.5%">
-                <div class="card-header">
-                    <h3>@trend.Name</h3>
-                </div>
-                <div class="card-footer text-center">
-                    <a href="@($"trends/{trend.Id}")" class="btn btn-primary m-1">View</a>
 
-                    <a href="@($"trends/edit/{trend.Id}")" class="btn btn-primary m-1">Edit</a>
 
-                    <a href="#" class="btn btn-danger m-1">Delete</a>
-                </div>
-                        
+<div class="row">
+    <div class="layout-col col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+        <div class="row">
+            <div class="layout-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 posts-layout">
+                <a style="text-decoration:none;color:black;" href="@($"trends/create/")">
+                    <div class="post-plus">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                </a>
+                @if (Trends != null)
+                {
+                    foreach (var trend in Trends)
+                    {
+                        <div class="post">
+                            <div class="post-title">
+                                <a style="text-decoration:none;color:black;" href="@($"trends/{trend.Id}")">
+                                    <h4>@trend.Name</h4>
+                                </a>
+                            
+                            </div>
+                            <div class="post-subtitle">
+                                <h6 class="post-time">12m ago</h6>
+                            </div>
+
+                            <div class="post-body">
+                                <div class="post-resource">
+                                    <img class="post-image" src="https://img-9gag-fun.9cache.com/photo/ajmP17g_700bwp.webp" />
+                                </div>
+
+                            </div>
+                            <div class="post-description">
+                                <div class="post-op">
+                                    <span><img class="user-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
+                                    <span class="user-name"> Rebeca </span>
+                                </div>
+                                <div class="post-text">
+                                    <p>@trend.Description</p>
+                                </div>
+                            </div>
+                            <div class="post-footer">
+                                <div class="post-information">
+                                    <span>@trend.Followers followers</span>
+                                    <span>@trend.NumberPosts posts</span>
+                                </div>
+                                <div class="post-buttons">
+
+                                    <div class="upvote-button" @onclick="(() => FollowTrendId(trend))">
+                                        <button class="icon-button">
+                                            @if (trend.FollowClicked == true)
+                                            {
+                                                <i class="fas fa-heart"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="far fa-heart"></i>
+                                            }
+
+                                        </button>
+                                    </div>
+                                    <div class="downvote-button"  @onclick="(() => NavigateTrendId(trend.Id.ToString()))">
+                                        <button class="icon-button">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="others-button">
+                                        <button class="icon-button">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                }
             </div>
-        }
-    }
+        </div>
+    </div>
+    <div class="layout-col col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+        <div class="sticky-list">
+            <h5 class="trends-list-title"> Features </h5>
+        </div>
+
+    </div>
 </div>
+
+
+
+
+
+
+@*
+    <div class="card-deck">
+        @if (Trends == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            foreach (var trend in Trends)
+            {
+                <div class="card m-3" style="min-width: 18rem; max-width:30.5%">
+                    <div class="card-header">
+                        <h3>@trend.Name</h3>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="@($"trends/{trend.Id}")" class="btn btn-primary m-1">View</a>
+
+                        <a href="@($"trends/edit/{trend.Id}")" class="btn btn-primary m-1">Edit</a>
+
+                        <a href="#" class="btn btn-danger m-1">Delete</a>
+                    </div>
+
+                </div>
+            }
+        }
+    </div>*@

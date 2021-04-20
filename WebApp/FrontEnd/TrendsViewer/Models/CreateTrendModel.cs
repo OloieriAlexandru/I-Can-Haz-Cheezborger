@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace TrendsViewer.Models
@@ -15,5 +16,6 @@ namespace TrendsViewer.Models
         [MinLength(2)]
         public string Description { get; set; }
         public string ImageUrl { get; set; }
+        public MultipartFormDataContent Image { get; set; }
     }
 }

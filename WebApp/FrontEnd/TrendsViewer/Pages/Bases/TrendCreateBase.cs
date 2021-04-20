@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Models;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
 using TrendsViewer.Services;
@@ -24,6 +26,8 @@ namespace TrendsViewer.Pages
 
         private TrendCreateDto Trend { get; set; }
 
+        private int MAXDIMFILE = 10000;
+
         public TrendCreateBase()
         {
             CreateTrendModel = new CreateTrendModel();
@@ -37,5 +41,22 @@ namespace TrendsViewer.Pages
             await TrendService.CreateTrend(Trend);
             NavigationManager.NavigateTo("/trends");
         }
+
+       /* public async Task HandleFileInput(InputFileChangeEventArgs e)
+        {
+            using var content = new MultipartFormDataContent();
+            var file = e.File;
+
+            var fileContent = new StreamContent(file.OpenReadStream());
+
+            if (file.Size < MAXDIMFILE)
+            {
+                content.Add(
+                content: fileContent,
+                name: "\"files\"",
+                fileName: file.Name);
+            }
+            CreateTrendModel.Image = content;
+        }*/
     }
 }

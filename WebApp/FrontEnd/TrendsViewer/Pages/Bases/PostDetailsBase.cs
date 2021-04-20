@@ -63,5 +63,41 @@ namespace TrendsViewer.Pages
                 }
             }
         }
+        protected void LikePostId(PostGetByIdDto post)
+        {
+            if (post.LikeClicked)
+            {
+                post.Upvotes--;
+            }
+            else
+            {
+                post.Upvotes++;
+                if (post.DislikeClicked)
+                {
+                    post.Downvotes--;
+                    post.DislikeClicked = !post.DislikeClicked;
+                }
+            }
+            post.LikeClicked = !post.LikeClicked;
+        }
+
+        protected void DislikePostId(PostGetByIdDto post)
+        {
+            if (post.DislikeClicked)
+            {
+                post.Downvotes--;
+            }
+            else
+            {
+                post.Downvotes++;
+                if (post.LikeClicked)
+                {
+                    post.Upvotes--;
+                    post.LikeClicked = !post.LikeClicked;
+                }
+            }
+            post.DislikeClicked = !post.DislikeClicked;
+        }
+
     }
 }

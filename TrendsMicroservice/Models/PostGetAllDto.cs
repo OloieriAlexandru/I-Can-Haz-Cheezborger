@@ -15,5 +15,9 @@ namespace Models
         public int Downvotes { get; set; }
 
         public Guid TrendId { get; set; }
+
+        public Boolean LikeClicked { get; set; } = false;
+
+        public Boolean DislikeClicked { get; set; } = false;
     }
 }
