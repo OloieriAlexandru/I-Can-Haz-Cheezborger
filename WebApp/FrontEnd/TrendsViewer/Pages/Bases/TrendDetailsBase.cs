@@ -1,15 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
-using TrendsViewer.Services;
+using TrendsViewer.Services.Abstractions;
 
 namespace TrendsViewer.Pages
 {
@@ -21,16 +17,17 @@ namespace TrendsViewer.Pages
         public IPostService PostService { get; set; }
         [Inject]
         public NavigationManager NavigationManager { get; set; }
+        [Inject]
+        public IMapper Mapper { get; set; }
 
         [Parameter]
         public string Id { get; set; }
 
+        public CreatePostModel createPostModel = new CreatePostModel();
+
         public TrendGetByIdDto Trend { get; set; }
         public IEnumerable<TrendGetAllDto> Trends { get; set; }
-        [Inject]
-        public IMapper Mapper { get; set; }
         public ICollection<PostGetAllDto> Posts { get; set; }
-        public CreatePostModel createPostModel = new CreatePostModel();
 
         protected async override Task OnInitializedAsync()
         {
@@ -109,7 +106,5 @@ namespace TrendsViewer.Pages
             }
             post.DislikeClicked = !post.DislikeClicked;
         }
-
-
     }
 }

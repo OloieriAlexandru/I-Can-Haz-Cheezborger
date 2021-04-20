@@ -3,11 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using TrendsViewer.Models;
-using TrendsViewer.Services;
-using TrendsViewer.Services.Abstractions;
-using TrendsViewer.Services.Implementations;
+using TrendsViewer.ExtensionMethods;
 
 namespace TrendsViewer
 {
@@ -25,21 +21,12 @@ namespace TrendsViewer
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            services.AddAutoMapper(typeof(TrendProfile));
-            services.AddHttpClient<ITrendService, TrendService>(client =>
-            {
-                client.BaseAddress = new Uri(Configuration.GetValue<string>("TrendsMicroserviceApiUrl"));
-            });
+            services.AddIdentityServerConfigurations(Configuration);
 
-            services.AddHttpClient<IPostService, PostService>(client =>
-            {
-                client.BaseAddress = new Uri(Configuration.GetValue<string>("TrendsMicroserviceApiUrl"));
-            });
+            services.AddDependencyInjectionMappings();
 
-            services.AddHttpClient<ICommentService, CommentService>(client =>
-            {
-                client.BaseAddress = new Uri(Configuration.GetValue<string>("TrendsMicroserviceApiUrl"));
-            });
+            services.AddAutoMapperProfiles();
+            services.AddHttpClients(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -58,6 +45,9 @@ namespace TrendsViewer
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

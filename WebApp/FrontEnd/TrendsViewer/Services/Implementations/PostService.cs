@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TrendsViewer.Services.Abstractions;
 
-namespace TrendsViewer.Services
+namespace TrendsViewer.Services.Implementations
 {
     public class PostService : IPostService
     {

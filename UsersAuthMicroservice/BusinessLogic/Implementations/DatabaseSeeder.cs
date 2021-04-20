@@ -44,15 +44,14 @@ namespace BusinessLogic.Implementations
         {
             configurationDbContext.Database.Migrate();
 
-            if (!configurationDbContext.Clients.Any())
+            configurationDbContext.Clients.RemoveRange(configurationDbContext.Clients);
+            foreach (var client in Data.SeedData.Clients)
             {
-                foreach (var client in Data.SeedData.Clients)
-                {
-                    configurationDbContext.Clients.Add(client.ToEntity());
-                }
-                configurationDbContext.SaveChanges();
+                configurationDbContext.Clients.Add(client.ToEntity());
             }
+            configurationDbContext.SaveChanges();
 
+            configurationDbContext.IdentityResources.RemoveRange(configurationDbContext.IdentityResources);
             if (!configurationDbContext.IdentityResources.Any())
             {
                 foreach (var resource in Data.SeedData.IdentityResources)
@@ -62,6 +61,7 @@ namespace BusinessLogic.Implementations
                 configurationDbContext.SaveChanges();
             }
 
+            configurationDbContext.ApiResources.RemoveRange(configurationDbContext.ApiResources);
             if (!configurationDbContext.ApiResources.Any())
             {
                 foreach (var resource in Data.SeedData.ApiResources)

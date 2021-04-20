@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using Models;
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
-using TrendsViewer.Services;
+using TrendsViewer.Services.Abstractions;
 
 namespace TrendsViewer.Pages
 {
@@ -39,6 +37,5 @@ namespace TrendsViewer.Pages
             await PostService.CreatePost(Guid.Parse(Id), Post);
             NavigationManager.NavigateTo("/trends/{Id}");
         }
-
     }
 }

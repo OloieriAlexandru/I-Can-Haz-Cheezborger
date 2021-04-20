@@ -50,6 +50,13 @@ namespace Service
             }));
 
             services.AddBusinessLogicServices(Configuration.GetConnectionString("TrendsDatabase"));
+
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication("Bearer", options =>
+                {
+                    options.ApiName = Configuration["IdentityServerOptions:ApiName"];
+                    options.Authority = Configuration["IdentityServerOptions:AuthorityUrl"];
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -62,9 +69,14 @@ namespace Service
             }
 
             app.UseCors("TrendsMicroservicePolicy");
+
             app.UseHttpsRedirection();
+
             app.UseRouting();
+
+            app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

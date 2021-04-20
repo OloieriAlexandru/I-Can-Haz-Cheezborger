@@ -4,7 +4,7 @@ using Models;
 using System;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
-using TrendsViewer.Services;
+using TrendsViewer.Services.Abstractions;
 
 namespace TrendsViewer.Pages
 {

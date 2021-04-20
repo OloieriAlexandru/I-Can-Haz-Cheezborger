@@ -2,7 +2,7 @@
 using Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TrendsViewer.Services;
+using TrendsViewer.Services.Abstractions;
 
 namespace TrendsViewer.Pages
 {
@@ -38,9 +38,5 @@ namespace TrendsViewer.Pages
             }
             trend.FollowClicked = !trend.FollowClicked;
         }
-
-
     }
-
-   
 }

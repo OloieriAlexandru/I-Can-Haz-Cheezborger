@@ -48,6 +48,22 @@ namespace BusinessLogic.Data
                     ClientSecrets = { new Secret("SuperSecretPassword".Sha256()) },
 
                     AllowedScopes = { "trendapi.read", "trendapi.write" }
+                },
+                new Client
+                {
+                    ClientId = "blazor-web-app",
+                    ClientSecrets = {new Secret("SuperSecretPassword".Sha256())},
+
+                    AllowedGrantTypes = GrantTypes.Code,
+
+                    RedirectUris = { "https://localhost:44374/signin-oidc" },
+                    FrontChannelLogoutUri = "https://localhost:44374/signout-oidc",
+                    PostLogoutRedirectUris = { "https://localhost:44374/signout-callback-oidc" },
+
+                    AllowOfflineAccess = true,
+                    AllowedScopes = { "openid", "profile", "trendapi.read", "trendapi.write" },
+                    RequirePkce = true,
+                    AllowPlainTextPkce = true
                 }
             });
 

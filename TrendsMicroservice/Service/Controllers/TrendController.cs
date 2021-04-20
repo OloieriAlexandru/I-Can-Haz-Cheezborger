@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System;
@@ -37,6 +38,7 @@ namespace Service.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Create([FromBody] TrendCreateDto trendDto)
         {
             TrendGetAllDto createdTrend = trendBusinessLogic.Create(trendDto);
@@ -44,6 +46,7 @@ namespace Service.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [Authorize]
         public IActionResult Update([FromRoute] Guid id, [FromBody] TrendUpdateDto trendDto)
         {
             if (id != trendDto.Id)
@@ -55,6 +58,7 @@ namespace Service.Controllers
         }
 
         [HttpDelete("{id:guid}")]
+        [Authorize]
         public IActionResult Delete([FromRoute] Guid id)
         {
             trendBusinessLogic.Delete(id);

@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using Models;
-using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
-using TrendsViewer.Services;
+using TrendsViewer.Services.Abstractions;
 
 namespace TrendsViewer.Pages
 {
@@ -25,8 +22,6 @@ namespace TrendsViewer.Pages
         public CreateTrendModel CreateTrendModel { get; set; }
 
         private TrendCreateDto Trend { get; set; }
-
-        private int MAXDIMFILE = 10000;
 
         public TrendCreateBase()
         {
