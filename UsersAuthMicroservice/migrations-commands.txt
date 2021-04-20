@@ -1,3 +1,0 @@
-Add-Migration InitialIdentityServerPersistedGrantDbMigration -c PersistedGrantDbContext
-Add-Migration InitialIdentityServerConfigurationDbMigration -c ConfigurationDbContext
-Add-Migration InitialApplicationDbMigration -c ApplicationDbContext

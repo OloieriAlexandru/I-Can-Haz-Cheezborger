@@ -21,10 +21,6 @@ namespace TrendsViewer
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            services.AddIdentityServerConfigurations(Configuration);
-
-            services.AddDependencyInjectionMappings();
-
             services.AddAutoMapperProfiles();
             services.AddHttpClients(Configuration);
         }

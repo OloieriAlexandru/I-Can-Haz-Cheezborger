@@ -1,6 +1,4 @@
-﻿using BusinessLogic.Abstractions;
-using BusinessLogic.Implementations;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace BusinessLogic.ExtensionMethods
 {
@@ -9,8 +7,6 @@ namespace BusinessLogic.ExtensionMethods
         public static void AddBusinessLogicServices(this IServiceCollection services, string connectionString)
         {
             services.AddDataAccessServices(connectionString);
-
-            services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
         }
     }
 }

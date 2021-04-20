@@ -35,8 +35,6 @@ namespace Service
                 app.UseDeveloperExceptionPage();
             }
 
-            app.AddBusinessLogicConfigurations();
-
             app.UseStaticFiles();
             app.UseRouting();
             app.UseIdentityServer();

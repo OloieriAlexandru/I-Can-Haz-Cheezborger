@@ -50,13 +50,6 @@ namespace Service
             }));
 
             services.AddBusinessLogicServices(Configuration.GetConnectionString("TrendsDatabase"));
-
-            services.AddAuthentication("Bearer")
-                .AddIdentityServerAuthentication("Bearer", options =>
-                {
-                    options.ApiName = Configuration["IdentityServerOptions:ApiName"];
-                    options.Authority = Configuration["IdentityServerOptions:AuthorityUrl"];
-                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
