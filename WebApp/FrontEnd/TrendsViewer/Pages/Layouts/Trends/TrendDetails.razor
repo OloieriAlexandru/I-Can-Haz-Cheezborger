@@ -32,7 +32,7 @@
 
                             <div class="post-body">
                                 <div class="post-resource">
-                                    <img class="post-image" src="https://img-9gag-fun.9cache.com/photo/ajmP17g_700bwp.webp" />
+                                    <img class="post-image" src=@post.MediaPath />
                                 </div>
 
                             </div>
@@ -110,7 +110,7 @@
                 @foreach (var trend in Trends)
                 {
                     <div class="trend">
-                        <span><img class="trend-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
+                        <span><img class="trend-image" src=@trend.ImageUrl /></span>
                         @if (@trend.Name == Trend.Name)
                         {
                             <span class="trend-title" style="font-weight:600;color:#1b6ec2"> @trend.Name </span>
@@ -127,102 +127,3 @@
        
     </div>
 </div>
-
-
-
-
-
-@*
-
-    @if (Trend == null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else
-    {
-        <div class="trends-page-wrapper">
-
-            <div class="trend-information">
-                <div class="trend-information-header">
-                    @Trend.Name
-                </div>
-                <div class="trend-information-main">
-                    @Trend.Description
-                </div>
-                <div class="trend-information-footer">
-                    <a href="/trends" class="btn btn-primary">Back</a>
-
-                    <a href="@($"trends/edit/{Trend.Id}")" class="btn btn-primary">Edit</a>
-
-                    <a href="#" class="btn btn-danger">Delete</a>
-                </div>
-            </div>
-
-            <EditForm Model="@createPostModel" class="post-form">
-                <div class="form-group row custom-form-group">
-                    <label for="Title" class="col-sm-2 col-form-label">
-                        Title
-                    </label>
-                    <div class="col-sm-10">
-                        <InputText @bind-Value="createPostModel.Title"></InputText>
-                    </div>
-
-                    <label for="Name" class="col-sm-2 col-form-label">
-                        MediaPath
-                    </label>
-                    <div class="col-sm-10">
-                        <InputText @bind-Value="createPostModel.MediaPath"></InputText>
-                    </div>
-                </div>
-                <button class="btn btn-primary" type="submit" @onclick="HandleValidSubmit">Create</button>
-
-            </EditForm>
-
-            @if (Posts != null)
-            {
-                foreach (var post in Posts)
-                {
-                    <div class="post-card">
-                        <div class="post-card-header">
-                            @post.Title
-                        </div>
-                        <div class="post-card-main">
-                            <img src="@post.MediaPath" />
-                        </div>
-                        <div class="post-card-footer">
-                            <div class="post-card-footer-left">
-
-                                <div class="vote-container">
-                                    <div class="vote-container-icon">
-                                        <span class="oi oi-arrow-top"></span>
-                                    </div>
-                                    <div class="vote-container-count">
-                                        @post.Upvotes
-                                    </div>
-                                </div>
-
-                                <div class="vote-container">
-                                    <div class="vote-container-icon">
-                                        <span class="oi oi-arrow-bottom"></span>
-                                    </div>
-                                    <div class="vote-container-count">
-                                        @post.Downvotes
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="post-card-footer-right">
-                                <a href="@($"trends/{Trend.Id}/posts/{post.Id}")" class="btn btn-primary m-1">View</a>
-
-                                <a href="@($"trends/edit/{Trend.Id}/posts/{post.Id}")" class="btn btn-primary m-1">Edit</a>
-
-                                <a class="btn btn-danger m-1" @onclick="async () => await DeleteClick(post.Id)">Delete</a>
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
-
-        </div>
-    }
-*@
