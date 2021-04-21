@@ -36,22 +36,5 @@ namespace TrendsViewer.Pages
             await TrendService.CreateTrend(Trend);
             NavigationManager.NavigateTo("/trends");
         }
-
-       /* public async Task HandleFileInput(InputFileChangeEventArgs e)
-        {
-            using var content = new MultipartFormDataContent();
-            var file = e.File;
-
-            var fileContent = new StreamContent(file.OpenReadStream());
-
-            if (file.Size < MAXDIMFILE)
-            {
-                content.Add(
-                content: fileContent,
-                name: "\"files\"",
-                fileName: file.Name);
-            }
-            CreateTrendModel.Image = content;
-        }*/
     }
 }

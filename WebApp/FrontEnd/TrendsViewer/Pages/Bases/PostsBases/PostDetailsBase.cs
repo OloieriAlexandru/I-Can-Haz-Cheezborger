@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
-using TrendsViewer.Services;
 using TrendsViewer.Services.Abstractions;
 
 namespace TrendsViewer.Pages
@@ -29,12 +28,11 @@ namespace TrendsViewer.Pages
         public PostGetByIdDto Post { get; set; }
         public ICollection<CommentGetDto> Comments { get; set; }
 
-        public CommentModel commentModel = new CommentModel();
-        public CommentCreateDto createdComment;
+        public CommentModel CommentModel { get; set; }
 
         public PostDetailsBase()
         {
-            createdComment = new CommentCreateDto();
+            CommentModel = new CommentModel();
         }
 
         protected async override Task OnInitializedAsync()
@@ -45,7 +43,7 @@ namespace TrendsViewer.Pages
 
         protected async Task HandleValidSubmit()
         {
-            CommentCreateDto newComment = new CommentCreateDto { Text = commentModel.CommentText, PostId = Guid.Parse(PostId)};
+            CommentCreateDto newComment = new CommentCreateDto { Text = CommentModel.CommentText, PostId = Guid.Parse(PostId)};
             await CommentService.CreateComment(Guid.Parse(TrendId), Guid.Parse(PostId), newComment);
             NavigationManager.NavigateTo($"/trends/{TrendId}/posts/{PostId}", forceLoad: true);
         }

@@ -1,7 +1,6 @@
 ﻿@page "/trends/{TrendId}/posts/{PostId}"
 @inherits PostDetailsBase
 
-
 <div class="row">
     <div class="layout-col col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
         <div class="row">
@@ -80,14 +79,14 @@
                                     <h6 style="margin-top:4px;margin-bottom:4px;font-weight:600">
                                         Comments
                                     </h6>
-                                    <EditForm Model="@commentModel" OnValidSubmit="HandleValidSubmit" class="comment-form" style="margin-bottom:10px">
+                                    <EditForm Model="@CommentModel" OnValidSubmit="HandleValidSubmit" class="comment-form" style="margin-bottom:10px">
                                         <div class="create-post-comment">
                                             <div class="post-op">
                                                 <span><img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
                                                 <span class="user-name"> Ramona </span>
                                             </div>
                                             <div class="post-text">
-                                                <InputTextArea rows="2" @bind-Value="commentModel.CommentText" style="width:calc(100% - 70px);margin-top:2px;margin-left:30px"></InputTextArea>
+                                                <InputTextArea rows="2" @bind-Value="CommentModel.CommentText" style="width:calc(100% - 70px);margin-top:2px;margin-left:30px"></InputTextArea>
 
                                             </div>
                                         </div>
@@ -107,7 +106,9 @@
                                                     <span><img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
                                                     <span class="user-name"> Ramona </span>
                                                     <span class="post-subtitle" >
-                                                        <h6 class="post-time" style="display:inline"> 12m ago</h6>
+                                                        <h6 class="post-time" style="display:inline">
+                                                            12m ago
+                                                        </h6>
                                                     </span>
                                                 </div>
                                                 <div class="post-text">

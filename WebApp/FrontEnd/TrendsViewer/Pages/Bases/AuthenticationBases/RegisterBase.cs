@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
 using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
 
@@ -20,7 +17,6 @@ namespace TrendsViewer.Pages.Bases.AuthenticationBases
 
         public UserLoginDto User { get; set; }
 
-
         public RegisterBase()
         {
             RegisterUserModel = new RegisterUserModel();
@@ -29,9 +25,10 @@ namespace TrendsViewer.Pages.Bases.AuthenticationBases
 
         protected async Task HandleValidSubmit()
         {
+            await Task.CompletedTask;
+
             Mapper.Map(RegisterUserModel, User);
 
-            // await PostService.CreatePost(Guid.Parse(Id), Post);
             NavigationManager.NavigateTo("/");
         }
     }
