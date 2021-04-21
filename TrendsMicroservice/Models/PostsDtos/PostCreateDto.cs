@@ -8,6 +8,6 @@ namespace Models
 
         public string MediaPath { get; set; }
 
-        public Guid TrendId { get; set; }
+        public string TrendId { get; set; }
     }
 }

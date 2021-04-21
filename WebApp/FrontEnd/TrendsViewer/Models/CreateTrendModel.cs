@@ -12,9 +12,9 @@ namespace TrendsViewer.Models
         [Required]
         [MinLength(2)]
         public string Description { get; set; }
-        
+
+        [Required]
         public string ImageUrl { get; set; }
         
-        public MultipartFormDataContent Image { get; set; }
     }
 }

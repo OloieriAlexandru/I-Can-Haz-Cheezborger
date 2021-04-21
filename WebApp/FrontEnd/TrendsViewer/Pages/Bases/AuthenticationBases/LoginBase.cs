@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
 using Models;
-using System;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
-using TrendsViewer.Services.Abstractions;
 
 namespace TrendsViewer.Pages
 {

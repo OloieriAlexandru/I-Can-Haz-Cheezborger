@@ -30,12 +30,19 @@ namespace TrendsViewer.Pages
             Post = new PostCreateDto();
         }
 
+        protected async override Task OnInitializedAsync()
+        {
+            CreatePostModel.TrendId = Id;
+            Post.TrendId = Id; 
+        }
+
         protected async Task HandleValidSubmit()
         {
+
             Mapper.Map(CreatePostModel, Post);
 
             await PostService.CreatePost(Guid.Parse(Id), Post);
-            NavigationManager.NavigateTo("/trends/{Id}");
+            NavigationManager.NavigateTo($"/trends/{Id}");
         }
     }
 }
