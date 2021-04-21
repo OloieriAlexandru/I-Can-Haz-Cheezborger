@@ -1,0 +1,40 @@
+﻿@layout LoginLayout
+@page "/register"
+@inherits Pages.Bases.AuthenticationBases.RegisterBase
+
+
+
+<div class="row">
+    <div class="col-12 row">
+        <div class="col-6 image-card login-col">
+            <img src="https://assets.fatjoe.com/wp-content/uploads/2019/12/Google-Trends.jpg" />
+
+        </div>
+        <div class="col-6 login-card login-col">
+            <EditForm Model="@RegisterUserModel" OnValidSubmit="@HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <div>
+                    <h3 style="font-weight:bold;color:purple">
+                        Trends Login
+                    </h3>
+                </div>
+                <div class="col-12 row">
+                    <InputText class="form-control col-12" @bind-Value="RegisterUserModel.Username" placeholder="uesrname" />
+                </div>
+                <div class="col-12 row">
+                    <InputText class="form-control col-12" @bind-Value="RegisterUserModel.Password" placeholder="password" />
+                </div>
+                <div class="col-12 row">
+                    <InputText class="form-control col-12" @bind-Value="RegisterUserModel.PasswordCheck" placeholder="password again" />
+                </div>
+                <div class="create-trend-button-container">
+                    <button class="btn btn-primary create-trend-button" type="submit">
+                        <i class="fas fa-arrow-circle-right"></i>
+                    </button>
+                </div>
+
+            </EditForm>
+        </div>
+    </div>
+
+</div>

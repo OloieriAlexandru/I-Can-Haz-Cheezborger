@@ -1,0 +1,39 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Components;
+using Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using TrendsViewer.Models;
+
+namespace TrendsViewer.Pages.Bases.AuthenticationBases
+{
+    public class RegisterBase : ComponentBase
+    {
+        [Inject]
+        public IMapper Mapper { get; set; }
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
+        public RegisterUserModel RegisterUserModel { get; set; }
+
+        public UserLoginDto User { get; set; }
+
+
+        public RegisterBase()
+        {
+            RegisterUserModel = new RegisterUserModel();
+            User = new UserLoginDto();
+        }
+
+        protected async Task HandleValidSubmit()
+        {
+            Mapper.Map(RegisterUserModel, User);
+
+            // await PostService.CreatePost(Guid.Parse(Id), Post);
+            NavigationManager.NavigateTo("/");
+        }
+    }
+
+}
