@@ -17,7 +17,6 @@ namespace TrendsViewer.Pages.Bases.AuthenticationBases
 
         public UserLoginDto User { get; set; }
 
-
         public RegisterBase()
         {
             RegisterUserModel = new RegisterUserModel();
@@ -26,9 +25,10 @@ namespace TrendsViewer.Pages.Bases.AuthenticationBases
 
         protected async Task HandleValidSubmit()
         {
+            await Task.CompletedTask;
+
             Mapper.Map(RegisterUserModel, User);
 
-            // await PostService.CreatePost(Guid.Parse(Id), Post);
             NavigationManager.NavigateTo("/");
         }
     }

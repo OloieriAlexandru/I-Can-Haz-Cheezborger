@@ -11,7 +11,6 @@
     border-radius: 4px;
 }
 
-
 .post:not(:last-of-type) {
     margin-bottom: 30px;
 }
@@ -37,13 +36,13 @@
 }
 
 .post-title {
-    font-family: Verdana;
+    font-family: Verdana, sans-serif;
 }
 
-    .post-title h4 {
-        font-weight: 800;
-        margin-bottom: 5px;
-    }
+.post-title h4 {
+    font-weight: 800;
+    margin-bottom: 5px;
+}
 
 .post-body {
     margin-bottom: 5px;
@@ -81,6 +80,6 @@
     color: #1b6ec2;
 }
 
-    .icon-button:focus {
-        outline: none;
-    }
+.icon-button:focus {
+    outline: none;
+}

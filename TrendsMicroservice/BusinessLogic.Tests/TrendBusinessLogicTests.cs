@@ -30,12 +30,19 @@ namespace BusinessLogic.Tests
             Id = Guid.Parse("fdc94950-cf1a-4eee-ad9a-53748046087f"),
             Name = "TestTrend",
             Description = "TestTrendDescription",
-            ImageUrl = "TestTrendImageUrl"
+            ImageUrl = "TestTrendImageUrl"  
         };
 
         private readonly TrendGetByIdDto testTrendGetByIdDto = new TrendGetByIdDto()
         {
             Id = Guid.Parse("fdc94950-cf1a-4eee-ad9a-53748046087f"),
+            Name = "TestTrend",
+            Description = "TestTrendDescription",
+            ImageUrl = "TestTrendImageUrl"
+        };
+
+        private readonly TrendCreateDto testTrendCreateDto = new TrendCreateDto()
+        { 
             Name = "TestTrend",
             Description = "TestTrendDescription",
             ImageUrl = "TestTrendImageUrl"
@@ -51,7 +58,7 @@ namespace BusinessLogic.Tests
         public void GetAll_ReturnsAllTheInstances()
         {
             // Arrange
-            ICollection<Trend> trends = new List<Trend> { testTrend, testTrend };
+            ICollection<Trend> trends = new List<Trend> { testTrend };
             trendRepositoryMock.Setup(x => x.GetAll()).Returns(trends);
             ICollection<TrendGetAllDto> expectedTrends = new List<TrendGetAllDto> { testTrendGetAllDto };
 
@@ -73,6 +80,18 @@ namespace BusinessLogic.Tests
 
             // Assert
             Assert.AreEqual(testTrendGetByIdDto, returnedTrend);
+        }
+
+        [TestMethod]
+        public void Create_ReturnsCreatedInstance()
+        {
+            // Act
+            TrendGetAllDto returnedTrend = systemUnderTest.Create(testTrendCreateDto);
+
+            // Assert
+            Assert.AreEqual(testTrendGetAllDto.Name, returnedTrend.Name);
+            Assert.AreEqual(testTrendGetAllDto.ImageUrl, returnedTrend.ImageUrl);
+            Assert.AreEqual(testTrendGetAllDto.Description, returnedTrend.Description);
         }
     }
 }

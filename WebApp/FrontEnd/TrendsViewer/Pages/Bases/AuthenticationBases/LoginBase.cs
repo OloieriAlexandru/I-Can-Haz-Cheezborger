@@ -13,7 +13,6 @@ namespace TrendsViewer.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-
         public UserLoginDto User { get; set; }
         public LoginUserModel LoginUserModel { get; set; }
 
@@ -25,9 +24,8 @@ namespace TrendsViewer.Pages
 
         protected async Task HandleValidSubmit()
         {
-            //Mapper.Map(LoginUserModel, User);
+            await Task.CompletedTask;
 
-           // await PostService.CreatePost(Guid.Parse(Id), Post);
             NavigationManager.NavigateTo("/index");
         }
     }

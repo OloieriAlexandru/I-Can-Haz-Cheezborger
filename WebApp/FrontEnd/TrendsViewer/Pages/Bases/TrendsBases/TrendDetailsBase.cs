@@ -23,11 +23,16 @@ namespace TrendsViewer.Pages
         [Parameter]
         public string Id { get; set; }
 
-        public CreatePostModel createPostModel = new CreatePostModel();
+        public CreatePostModel CreatePostModel { get; set; }
 
         public TrendGetByIdDto Trend { get; set; }
         public IEnumerable<TrendGetAllDto> Trends { get; set; }
         public ICollection<PostGetAllDto> Posts { get; set; }
+
+        public TrendDetailsBase()
+        {
+            CreatePostModel = new CreatePostModel();
+        }
 
         protected async override Task OnInitializedAsync()
         {
@@ -36,7 +41,7 @@ namespace TrendsViewer.Pages
             Posts = new List<PostGetAllDto>(await PostService.GetPosts(Guid.Parse(Id)));
         }
 
-        protected async void HandleValidSubmit()
+        protected async Task HandleValidSubmit()
         {
             PostCreateDto newPost = new PostCreateDto { Title = createPostModel.Title, TrendId= Id, MediaPath=createPostModel.MediaPath};
             Mapper.Map(createPostModel, newPost);
