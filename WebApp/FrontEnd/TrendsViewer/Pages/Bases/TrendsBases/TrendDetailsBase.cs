@@ -43,8 +43,8 @@ namespace TrendsViewer.Pages
 
         protected async Task HandleValidSubmit()
         {
-            PostCreateDto newPost = new PostCreateDto { Title = createPostModel.Title, TrendId= Id, MediaPath=createPostModel.MediaPath};
-            Mapper.Map(createPostModel, newPost);
+            PostCreateDto newPost = new PostCreateDto { Title = CreatePostModel.Title, TrendId= Id, MediaPath=CreatePostModel.MediaPath};
+            Mapper.Map(CreatePostModel, newPost);
 
             await PostService.CreatePost(Guid.Parse(Id), newPost);
             NavigationManager.NavigateTo($"/trends/{Id}", forceLoad:true);

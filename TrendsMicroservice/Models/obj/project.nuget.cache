@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9OS0bZe6URzMUDdDbd1yORXxM5pISDRQre28172E6OM5luq73zltGz7zvcIrpzOzaq3oVMT8OtqzKX7pkp8ewA==",
+  "dgSpecHash": "hnnt5FTagoApj9Es0MeRbrzx69NujViQPNYIA/zcaqGtZYm94xu4biuQ342uwxnW+m004HA7HDYSrEt4biO/bw==",
   "success": true,
-  "projectFilePath": "C:\\I-Can-Haz-Cheezborger-master\\TrendsMicroservice\\Models\\Models.csproj",
+  "projectFilePath": "D:\\NET\\NetProject\\I-Can-Haz-Cheezborger\\TrendsMicroservice\\Models\\Models.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

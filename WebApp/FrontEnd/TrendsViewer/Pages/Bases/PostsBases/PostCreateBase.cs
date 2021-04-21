@@ -32,6 +32,7 @@ namespace TrendsViewer.Pages
 
         protected async override Task OnInitializedAsync()
         {
+            await Task.CompletedTask;
             CreatePostModel.TrendId = Id;
             Post.TrendId = Id; 
         }

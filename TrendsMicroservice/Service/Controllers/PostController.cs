@@ -39,10 +39,6 @@ namespace Service.Controllers
         [HttpPost]
         public IActionResult Create([FromRoute] Guid trendId, [FromBody] PostCreateDto postDto)
         {
-            if (trendId != postDto.TrendId)
-            {
-                return BadRequest();
-            }
             PostGetAllDto createdPost = postBusinessLogic.Create(postDto);
             return CreatedAtAction(nameof(GetById), new { trendId = trendId, id = createdPost.Id }, createdPost);
         }

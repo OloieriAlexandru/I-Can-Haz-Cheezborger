@@ -8,19 +8,19 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Momo\\.nuget\\packages\\": {}
+    "C:\\Users\\cojoc\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\I-Can-Haz-Cheezborger-master\\TrendsMicroservice\\Models\\Models.csproj",
+      "projectUniqueName": "D:\\NET\\NetProject\\I-Can-Haz-Cheezborger\\TrendsMicroservice\\Models\\Models.csproj",
       "projectName": "Models",
-      "projectPath": "C:\\I-Can-Haz-Cheezborger-master\\TrendsMicroservice\\Models\\Models.csproj",
-      "packagesPath": "C:\\Users\\Momo\\.nuget\\packages\\",
-      "outputPath": "C:\\I-Can-Haz-Cheezborger-master\\TrendsMicroservice\\Models\\obj\\",
+      "projectPath": "D:\\NET\\NetProject\\I-Can-Haz-Cheezborger\\TrendsMicroservice\\Models\\Models.csproj",
+      "packagesPath": "C:\\Users\\cojoc\\.nuget\\packages\\",
+      "outputPath": "D:\\NET\\NetProject\\I-Can-Haz-Cheezborger\\TrendsMicroservice\\Models\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Momo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\cojoc\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -60,7 +60,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

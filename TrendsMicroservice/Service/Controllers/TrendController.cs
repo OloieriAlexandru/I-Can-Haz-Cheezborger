@@ -38,7 +38,6 @@ namespace Service.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public IActionResult Create([FromBody] TrendCreateDto trendDto)
         {
             TrendGetAllDto createdTrend = trendBusinessLogic.Create(trendDto);
