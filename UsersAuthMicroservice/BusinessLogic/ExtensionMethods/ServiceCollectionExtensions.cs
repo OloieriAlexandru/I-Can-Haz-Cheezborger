@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Abstractions;
 using BusinessLogic.Implementations;
+using BusinessLogic.Profiles;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BusinessLogic.ExtensionMethods
@@ -12,9 +13,11 @@ namespace BusinessLogic.ExtensionMethods
 
             services.AddScoped<IAuthService, AuthService>();
 
+            services.AddScoped<IUserService, UserService>();
+
             services.AddScoped<IJwtService, JwtService>();
 
-            services.AddScoped<IUserService, UserService>();
+            services.AddAutoMapper(typeof(UserProfile));
         }
 
         public static void AddBusinessLogicAuthentication(this IServiceCollection services)

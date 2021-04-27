@@ -9,9 +9,10 @@ namespace BusinessLogic.Implementations
     public class AuthService : IAuthService
     {
         private readonly UserManager<IdentityUser> userManager;
+
         private readonly IJwtService jwtService;
 
-        public AuthService(UserManager<IdentityUser> userManager, JwtService jwtService)
+        public AuthService(UserManager<IdentityUser> userManager, IJwtService jwtService)
         {
             this.userManager = userManager;
             this.jwtService = jwtService;

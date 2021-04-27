@@ -1,4 +1,5 @@
-﻿using Common.Utils;
+﻿using BusinessLogic.ExtensionMethods;
+using Common.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,7 @@ namespace Service.ExtensionMethods
         public static void AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<JwtConfig>(configuration.GetSection("JwtConfig"));
+            services.AddBusinessLogicAuthentication();
 
             services.AddAuthentication(options =>
             {
