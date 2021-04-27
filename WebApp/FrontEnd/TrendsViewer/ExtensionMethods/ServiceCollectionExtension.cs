@@ -25,6 +25,11 @@ namespace TrendsViewer.ExtensionMethods
             {
                 client.BaseAddress = new Uri(configuration.GetValue<string>("TrendsMicroserviceApiUrl"));
             });
+
+            services.AddHttpClient<IUserService, UserService>(client =>
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("UsersMicroserviceApiUrl"));
+            });
         }
 
         public static void AddAutoMapperProfiles(this IServiceCollection services)
