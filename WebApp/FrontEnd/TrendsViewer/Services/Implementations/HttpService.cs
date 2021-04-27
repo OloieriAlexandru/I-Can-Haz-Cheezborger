@@ -11,16 +11,22 @@ using TrendsViewer.Services.Abstractions;
 
 namespace TrendsViewer.Services.Implementations
 {
-    public class HttpService : IHttpService
+    public abstract class HttpService : IHttpService
     {
-        private HttpClient httpClient;
+        private readonly HttpClient httpClient;
 
-        private ILocalStorageService localStorageService;
+        private readonly ILocalStorageService localStorageService;
 
         public HttpService(HttpClient httpClient, ILocalStorageService localStorageService)
         {
             this.httpClient = httpClient;
             this.localStorageService = localStorageService;
+        }
+
+        async Task<T> IHttpService.Delete<T>(string url)
+        {
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, url);
+            return await SendRequest<T>(request);
         }
 
         async Task<T> IHttpService.Get<T>(string url)
@@ -29,9 +35,27 @@ namespace TrendsViewer.Services.Implementations
             return await SendRequest<T>(request);
         }
 
+        async Task<T> IHttpService.Patch<T>(string url, object value)
+        {
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Patch, url)
+            {
+                Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json")
+            };
+            return await SendRequest<T>(request);
+        }
+
         async Task<T> IHttpService.Post<T>(string url, object value)
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json")
+            };
+            return await SendRequest<T>(request);
+        }
+
+        async Task<T> IHttpService.Put<T>(string url, object value)
+        {
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, url)
             {
                 Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json")
             };

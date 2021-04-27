@@ -14,5 +14,11 @@ namespace TrendsViewer.Services.Abstractions
         Task Logout();
 
         bool IsLoggedIn();
+
+        string GetUsername();
+
+        string GetId();
+
+        string GetClaim(string type);
     }
 }

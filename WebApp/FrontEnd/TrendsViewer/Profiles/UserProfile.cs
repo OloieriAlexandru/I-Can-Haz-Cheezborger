@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Models.Auth;
 using Models.Users;
 using TrendsViewer.Models;
 
@@ -12,6 +13,8 @@ namespace TrendsViewer.Profiles
                 .ForMember(dest => dest.PasswordCheck,
                            opt => opt.MapFrom(src => src.Password));
             CreateMap<RegisterUserModel, UserCreateDto>();
+
+            CreateMap<LoginUserModel, AuthenticationRequest>();
         }
     }
 }

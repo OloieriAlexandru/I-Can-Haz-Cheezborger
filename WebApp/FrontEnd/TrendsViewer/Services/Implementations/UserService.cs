@@ -1,23 +1,22 @@
-﻿using Microsoft.AspNetCore.Components;
-using Models.Users;
-using System.Net.Http;
+﻿using Models.Users;
 using System.Threading.Tasks;
 using TrendsViewer.Services.Abstractions;
+using TrendsViewer.Services.Resolvers;
 
 namespace TrendsViewer.Services.Implementations
 {
     public class UserService : IUserService
     {
-        private readonly HttpClient httpClient;
+        private readonly IHttpService httpService;
 
-        public UserService(HttpClient httpClient)
+        public UserService(HttpServiceResolver httpServiceResolver)
         {
-            this.httpClient = httpClient;
+            httpService = httpServiceResolver("users");
         }
 
         async Task<UserGetAllDto> IUserService.Create(UserCreateDto newUser)
         {
-            return await httpClient.PostJsonAsync<UserGetAllDto>("api/v1/users", newUser);
+            return await httpService.Post<UserGetAllDto>("api/v1/users", newUser);
         }
     }
 }

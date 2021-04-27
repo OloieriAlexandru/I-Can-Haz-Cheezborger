@@ -20,7 +20,7 @@ namespace BusinessLogic.Implementations
 
         async Task<AuthenticationResponse> IAuthService.Authenticate(AuthenticationRequest authenticationRequest)
         {
-            IdentityUser user = await userManager.FindByNameAsync(authenticationRequest.Email);
+            IdentityUser user = await userManager.FindByEmailAsync(authenticationRequest.Email);
             
             if (user == null)
             {

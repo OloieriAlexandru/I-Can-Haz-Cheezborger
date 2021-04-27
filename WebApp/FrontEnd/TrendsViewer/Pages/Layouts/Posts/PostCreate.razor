@@ -1,76 +1,75 @@
 ﻿@page "/trends/{Id}/create"
 @inherits PostCreateBase
 
-    <div class="row">
-        <div class="layout-col col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
-            <div class="row">
-                <div class="layout-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 posts-layout">
+<div class="row">
+    <div class="layout-col col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+        <div class="row">
+            <div class="layout-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 posts-layout">
 
-                    <EditForm Model="@CreatePostModel" OnValidSubmit="HandleValidSubmit">
-                        <DataAnnotationsValidator />
-                        <h3 class="create-trend-header">Create new post</h3>
-                        <div class="create-trend">
-                            <div class="create-trend-name">
-                                <label for="Name">
-                                    Name
-                                </label>
+                <EditForm Model="@CreatePostModel" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <h3 class="create-trend-header">Create new post</h3>
+                    <div class="create-trend">
+                        <div class="create-trend-name">
+                            <label for="Name">
+                                Name
+                            </label>
 
-                                <div>
-                                    <InputText id="name" class="form-control"
-                                               @bind-Value="CreatePostModel.Title" />
-                                    <ValidationMessage For="@(()=> CreatePostModel.Title)" />
-                                </div>
-                            </div>
-
-                            <div class="create-trend-image">
-                                <label for="ImageUrl">
-                                    ImageURL
-                                </label>
-                                <div>
-                                    <InputText class="form-control"
-                                               @bind-Value="CreatePostModel.MediaPath" />
-                                    <ValidationMessage For="@(()=> CreatePostModel.MediaPath)" />
-                                    @* <InputFile OnChange="@HandleFileInput" />*@
-
-                                </div>
-
-                                @if (CreatePostModel.MediaPath != null)
-                                { 
-                                    <div class="post-resource">
-                                       <img class="post-image" src=@CreatePostModel.MediaPath />
-                                    </div>
-                                }
-                            </div>
-
-
-                            <div class="create-trend-description">
-                                <label for="Description">
-                                    Description
-                                </label>
-                                <div>
-                                    <InputTextArea rows="3" id="confirm-name" class="form-control"
-                                                   @bind-Value="CreatePostModel.Description" />
-                                    <ValidationMessage For="@(()=> CreatePostModel.Description)" />
-                                </div>
+                            <div>
+                                <InputText id="name" class="form-control"
+                                            @bind-Value="CreatePostModel.Title" />
+                                <ValidationMessage For="@(()=> CreatePostModel.Title)" />
                             </div>
                         </div>
-                        <div class="create-trend-button-container">
-                            <button class="btn btn-primary create-trend-button" type="submit">
-                                <i class="fas fa-arrow-circle-right"></i>
-                            </button>
+
+                        <div class="create-trend-image">
+                            <label for="ImageUrl">
+                                ImageURL
+                            </label>
+                            <div>
+                                <InputText class="form-control"
+                                            @bind-Value="CreatePostModel.MediaPath" />
+                                <ValidationMessage For="@(()=> CreatePostModel.MediaPath)" />
+                                @* <InputFile OnChange="@HandleFileInput" />*@
+
+                            </div>
+
+                            @if (CreatePostModel.MediaPath != null)
+                            { 
+                                <div class="post-resource">
+                                    <img class="post-image" src=@CreatePostModel.MediaPath />
+                                </div>
+                            }
                         </div>
 
 
-                    </EditForm>
-                </div>
+                        <div class="create-trend-description">
+                            <label for="Description">
+                                Description
+                            </label>
+                            <div>
+                                <InputTextArea rows="3" id="confirm-name" class="form-control"
+                                                @bind-Value="CreatePostModel.Description" />
+                                <ValidationMessage For="@(()=> CreatePostModel.Description)" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="create-trend-button-container">
+                        <button class="btn btn-primary create-trend-button" type="submit">
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </button>
+                    </div>
+
+                </EditForm>
             </div>
         </div>
+    </div>
 
-        <div class="layout-col col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-            <div class="sticky-list">
-                <h5 class="trends-list-title"> Features </h5>
-            </div>
-
+    <div class="layout-col col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+        <div class="sticky-list">
+            <h5 class="trends-list-title"> Features </h5>
         </div>
 
     </div>
+
+</div>

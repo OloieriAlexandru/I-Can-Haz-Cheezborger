@@ -2,8 +2,6 @@
 @page "/register"
 @inherits Pages.Bases.AuthenticationBases.RegisterBase
 
-
-
 <div class="row">
     <div class="col-12 row">
         <div class="col-6 image-card login-col">
@@ -19,13 +17,16 @@
                     </h3>
                 </div>
                 <div class="col-12 row">
-                    <InputText class="form-control col-12" @bind-Value="RegisterUserModel.Username" placeholder="uesrname" />
+                    <InputText class="form-control col-12" @bind-Value="RegisterUserModel.Username" placeholder="username" />
                 </div>
                 <div class="col-12 row">
-                    <InputText class="form-control col-12" @bind-Value="RegisterUserModel.Password" placeholder="password" />
+                    <InputText class="form-control col-12" @bind-Value="RegisterUserModel.Email" placeholder="email" />
                 </div>
                 <div class="col-12 row">
-                    <InputText class="form-control col-12" @bind-Value="RegisterUserModel.PasswordCheck" placeholder="password again" />
+                    <InputText class="form-control col-12" @bind-Value="RegisterUserModel.Password" type="password" placeholder="password" />
+                </div>
+                <div class="col-12 row">
+                    <InputText class="form-control col-12" @bind-Value="RegisterUserModel.PasswordCheck" type="password" placeholder="repeat password" />
                 </div>
                 <div class="create-trend-button-container">
                     <button class="btn btn-primary create-trend-button" type="submit">

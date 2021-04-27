@@ -1,45 +1,44 @@
-﻿using Microsoft.AspNetCore.Components;
-using Models.Trends;
+﻿using Models.Trends;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using TrendsViewer.Services.Abstractions;
+using TrendsViewer.Services.Resolvers;
 
 namespace TrendsViewer.Services.Implementations
 {
     public class TrendService : ITrendService
     {
-        private readonly HttpClient httpClient;
+        private readonly IHttpService httpService;
 
-        public TrendService(HttpClient httpClient)
+        public TrendService(HttpServiceResolver httpServiceResolver)
         {
-            this.httpClient = httpClient;
+            httpService = httpServiceResolver("trends");
         }
 
         async Task<TrendGetAllDto> ITrendService.CreateTrend(TrendCreateDto newTrend)
         {
-            return await httpClient.PostJsonAsync<TrendGetAllDto>("api/v1/trends", newTrend);
+            return await httpService.Post<TrendGetAllDto>("api/v1/trends", newTrend);
         }
 
         async Task ITrendService.DeleteTrend(Guid id)
         {
-            await httpClient.DeleteAsync($"api/v1/trends/{id}");
+            await httpService.Delete<ValueTask>($"api/v1/trends/{id}");
         }
 
         async Task<TrendGetByIdDto> ITrendService.GetTrend(Guid id)
         {
-            return await httpClient.GetJsonAsync<TrendGetByIdDto>($"api/v1/trends/{id}");
+            return await httpService.Get<TrendGetByIdDto>($"api/v1/trends/{id}");
         }
 
         async Task<IEnumerable<TrendGetAllDto>> ITrendService.GetTrends()
         {
-            return await httpClient.GetJsonAsync<TrendGetAllDto[]>("api/v1/trends");
+            return await httpService.Get<TrendGetAllDto[]>("api/v1/trends");
         }
 
         async Task ITrendService.UpdateTrend(Guid id, TrendUpdateDto updatedTrend)
         {
-            await httpClient.PutJsonAsync($"api/v1/trends/{id}", updatedTrend);
+            await httpService.Put<ValueTask>($"api/v1/trends/{id}", updatedTrend);
         }
     }
 }

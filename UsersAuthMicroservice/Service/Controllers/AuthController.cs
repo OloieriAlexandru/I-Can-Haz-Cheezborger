@@ -16,6 +16,7 @@ namespace Service.Controllers
             this.authService = authService;
         }
 
+        [HttpPost]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticationRequest authenticationRequest)
         {
             AuthenticationResponse response = await authService.Authenticate(authenticationRequest);
