@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
-using Models;
+using Models.Posts;
+using Models.Trends;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

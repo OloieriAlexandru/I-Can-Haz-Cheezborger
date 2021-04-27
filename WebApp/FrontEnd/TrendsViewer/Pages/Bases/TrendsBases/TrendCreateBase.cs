@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
-using Models;
+using Models.Trends;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
 using TrendsViewer.Services.Abstractions;

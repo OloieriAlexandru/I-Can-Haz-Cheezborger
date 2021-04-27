@@ -3,7 +3,7 @@ using BusinessLogic.Implementations;
 using DataAccess.Abstractions;
 using Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Models;
+using Models.Comments;
 using Moq;
 using System;
 
@@ -65,7 +65,6 @@ namespace BusinessLogic.Tests
         [TestMethod]
         public void Create_ReturnsCreatedInstance()
         {
-
             //Act
             CommentGetDto returnedComment = systemUnderTest.Create(testCommentCreateDto);
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Service.ExtensionMethods;
 
 namespace Service
 {
@@ -26,6 +27,8 @@ namespace Service
             services.AddBusinessLogicServices(connectionString);
 
             services.AddControllersWithViews();
+
+            services.AddJwtAuthentication(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -36,8 +39,10 @@ namespace Service
             }
 
             app.UseStaticFiles();
+
             app.UseRouting();
-            app.UseIdentityServer();
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());

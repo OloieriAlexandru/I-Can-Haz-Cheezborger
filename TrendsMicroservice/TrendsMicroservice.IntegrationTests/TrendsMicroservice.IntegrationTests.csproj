@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Models\TrendsModels.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 

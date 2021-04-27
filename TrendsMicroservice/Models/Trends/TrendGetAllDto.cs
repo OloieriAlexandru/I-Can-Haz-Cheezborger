@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace Models
+namespace Models.Trends
 {
-    public class TrendGetByIdDto
+    public class TrendGetAllDto
     {
         public Guid Id { get; set; }
 
@@ -13,11 +12,15 @@ namespace Models
 
         public string ImageUrl { get; set; }
 
-        public ICollection<PostGetAllDto> Posts { get; set; }
+        public int Followers { get; set; } = 0;
+
+        public int NumberPosts { get; set; } = 0;
+
+        public Boolean FollowClicked { get; set; } = false;
 
         public override bool Equals(object obj)
         {
-            return obj is TrendGetByIdDto dto &&
+            return obj is TrendGetAllDto dto &&
                    Id == dto.Id &&
                    Name == dto.Name &&
                    Description == dto.Description &&

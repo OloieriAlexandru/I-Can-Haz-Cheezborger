@@ -1,4 +1,4 @@
-﻿namespace Models
+﻿namespace Models.Trends
 {
     public class TrendCreateDto
     {

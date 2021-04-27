@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj" />
-    <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\Models\TrendsModels.csproj" />
   </ItemGroup>
 
 </Project>

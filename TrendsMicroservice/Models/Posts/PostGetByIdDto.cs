@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Models.Comments;
+using System;
 using System.Collections.Generic;
 
-namespace Models
+namespace Models.Posts
 {
     public class PostGetByIdDto
     {
@@ -19,8 +20,8 @@ namespace Models
 
         public ICollection<CommentGetDto> Comments { get; set; }
 
-        public Boolean LikeClicked { get; set; } = false;
+        public bool LikeClicked { get; set; }
 
-        public Boolean DislikeClicked { get; set; } = false;
+        public bool DislikeClicked { get; set; }
     }
 }

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Models.Comments;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Models;
 
 namespace TrendsViewer.Services.Abstractions
 {

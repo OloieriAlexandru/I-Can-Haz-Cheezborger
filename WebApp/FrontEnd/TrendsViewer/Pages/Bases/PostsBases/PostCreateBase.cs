@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
-using Models;
+using Models.Posts;
 using System;
 using System.Threading.Tasks;
 using TrendsViewer.Models;

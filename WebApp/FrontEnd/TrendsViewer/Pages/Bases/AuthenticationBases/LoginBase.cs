@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
-using Models;
+using Models.Auth;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
 
@@ -13,13 +13,13 @@ namespace TrendsViewer.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-        public UserLoginDto User { get; set; }
+        public AuthenticationRequest AuthenticationRequest { get; set; }
         public LoginUserModel LoginUserModel { get; set; }
 
         public LoginBase()
         {
             LoginUserModel = new LoginUserModel();
-            User = new UserLoginDto();
+            AuthenticationRequest = new AuthenticationRequest();
         }
 
         protected async Task HandleValidSubmit()

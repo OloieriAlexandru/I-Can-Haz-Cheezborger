@@ -1,6 +1,6 @@
 ﻿using BusinessLogic.Abstractions;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using Models.Posts;
 using System;
 using System.Collections.Generic;
 

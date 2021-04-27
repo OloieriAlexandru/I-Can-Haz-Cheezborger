@@ -1,6 +1,6 @@
 ﻿using Common.Constraints;
 using FluentValidation;
-using Models;
+using Models.Trends;
 
 namespace BusinessLogic.Validators
 {

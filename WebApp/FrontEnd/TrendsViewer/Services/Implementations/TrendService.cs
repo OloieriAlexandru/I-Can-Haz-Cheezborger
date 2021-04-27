@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Models;
+using Models.Trends;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;

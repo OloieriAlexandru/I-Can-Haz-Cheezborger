@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Entities;
-using Models;
+using Models.Comments;
 
 namespace BusinessLogic.Profiles
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Models;
+using Models.Comments;
 using TrendsViewer.Services.Abstractions;
 
 namespace TrendsViewer.Services.Implementations

@@ -2,7 +2,7 @@
 using BusinessLogic.Abstractions;
 using DataAccess.Abstractions;
 using Entities;
-using Models;
+using Models.Posts;
 using System;
 using System.Collections.Generic;
 

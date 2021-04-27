@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Models
+namespace Models.Comments
 {
-    public class CommentGetDto
+    public class CommentUpdateDto
     {
         public Guid Id { get; set; }
 

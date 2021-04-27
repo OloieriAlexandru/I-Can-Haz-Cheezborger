@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Models;
+using Models.Trends;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net;
@@ -61,6 +61,8 @@ namespace TrendsMicroservice.IntegrationTests
             // Assert
             TrendGetAllDto returnedTrend = JsonConvert.DeserializeObject<TrendGetAllDto>(await response.Content.ReadAsStringAsync());
             Assert.AreEqual(response.StatusCode, HttpStatusCode.Created);
+            Assert.AreEqual(trend.Name, returnedTrend.Name);
+            Assert.AreEqual(trend.Description, returnedTrend.Description);
             Assert.IsNotNull(returnedTrend.Id);
         }
 

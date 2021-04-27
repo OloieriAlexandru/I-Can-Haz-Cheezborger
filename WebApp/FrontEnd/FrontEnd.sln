@@ -4,8 +4,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrendsViewer", "TrendsViewer\TrendsViewer.csproj", "{0717BAE2-3DFC-475C-BDC0-6E7D01BDB1B7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F7D3DDA1-C4E4-4B0F-80F1-2B5643078EAD} = {F7D3DDA1-C4E4-4B0F-80F1-2B5643078EAD}
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "..\..\TrendsMicroservice\Models\Models.csproj", "{A3F1B810-150F-4E3D-8DF4-55EABBE6FFF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrendsModels", "..\..\TrendsMicroservice\Models\TrendsModels.csproj", "{A3F1B810-150F-4E3D-8DF4-55EABBE6FFF4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TrendsMicroservice", "TrendsMicroservice", "{183FE350-6FCB-4D5D-8B32-06A6992A48E2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UsersMicroservice", "UsersMicroservice", "{E46CC43B-50E0-4229-861A-D3B19052AAB2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersModels", "..\..\UsersAuthMicroservice\Models\UsersModels.csproj", "{F7D3DDA1-C4E4-4B0F-80F1-2B5643078EAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +30,17 @@ Global
 		{A3F1B810-150F-4E3D-8DF4-55EABBE6FFF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3F1B810-150F-4E3D-8DF4-55EABBE6FFF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3F1B810-150F-4E3D-8DF4-55EABBE6FFF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7D3DDA1-C4E4-4B0F-80F1-2B5643078EAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7D3DDA1-C4E4-4B0F-80F1-2B5643078EAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7D3DDA1-C4E4-4B0F-80F1-2B5643078EAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7D3DDA1-C4E4-4B0F-80F1-2B5643078EAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A3F1B810-150F-4E3D-8DF4-55EABBE6FFF4} = {183FE350-6FCB-4D5D-8B32-06A6992A48E2}
+		{F7D3DDA1-C4E4-4B0F-80F1-2B5643078EAD} = {E46CC43B-50E0-4229-861A-D3B19052AAB2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B4054844-B4C0-4FE1-BC0E-607F982C6360}

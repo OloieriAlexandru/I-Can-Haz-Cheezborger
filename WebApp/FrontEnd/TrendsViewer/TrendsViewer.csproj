@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\TrendsMicroservice\Models\Models.csproj" />
+    <ProjectReference Include="..\..\..\TrendsMicroservice\Models\TrendsModels.csproj" />
+    <ProjectReference Include="..\..\..\UsersAuthMicroservice\Models\UsersModels.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
-using Models;
+using Models.Users;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
 
@@ -15,12 +15,12 @@ namespace TrendsViewer.Pages.Bases.AuthenticationBases
 
         public RegisterUserModel RegisterUserModel { get; set; }
 
-        public UserLoginDto User { get; set; }
+        public UserCreateDto User { get; set; }
 
         public RegisterBase()
         {
             RegisterUserModel = new RegisterUserModel();
-            User = new UserLoginDto();
+            User = new UserCreateDto();
         }
 
         protected async Task HandleValidSubmit()

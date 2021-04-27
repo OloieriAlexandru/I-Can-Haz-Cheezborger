@@ -1,7 +1,7 @@
 ﻿using BusinessLogic.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using Models.Trends;
 using System;
 using System.Collections.Generic;
 

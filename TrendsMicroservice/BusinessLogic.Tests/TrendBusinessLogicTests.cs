@@ -3,7 +3,7 @@ using BusinessLogic.Implementations;
 using DataAccess.Abstractions;
 using Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Models;
+using Models.Trends;
 using Moq;
 using System;
 using System.Collections.Generic;

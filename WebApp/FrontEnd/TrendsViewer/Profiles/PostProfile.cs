@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Models;
+using Models.Posts;
 using TrendsViewer.Models;
 
 namespace TrendsViewer.Profiles
