@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using TrendsViewer.Services.Abstractions;
 
-namespace TrendsViewer.Shared.Bases
+namespace TrendsViewer.Pages
 {
-    public class NavMenuBase : ComponentBase
+    public class IndexBase : ComponentBase
     {
         [Inject]
         public IAuthService AuthService { get; set; }
@@ -16,11 +16,6 @@ namespace TrendsViewer.Shared.Bases
                 await AuthService.Initialize();
                 StateHasChanged();
             }
-        }
-
-        protected async Task Logout()
-        {
-            await AuthService.Logout();
         }
     }
 }

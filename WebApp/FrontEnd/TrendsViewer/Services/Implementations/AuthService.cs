@@ -23,7 +23,7 @@ namespace TrendsViewer.Services.Implementations
 
         public AuthenticationResponse AuthenticationResponse { get; private set; }
 
-        AuthenticationResponse IAuthService.AuthenticationResponse => throw new System.NotImplementedException();
+        AuthenticationResponse IAuthService.AuthenticationResponse => AuthenticationResponse;
 
         string IAuthService.GetClaim(string type)
         {
