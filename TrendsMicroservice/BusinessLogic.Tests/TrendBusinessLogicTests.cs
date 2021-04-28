@@ -86,7 +86,7 @@ namespace BusinessLogic.Tests
         public void Create_ReturnsCreatedInstance()
         {
             // Act
-            TrendGetAllDto returnedTrend = systemUnderTest.Create(testTrendCreateDto);
+            TrendGetAllDto returnedTrend = systemUnderTest.Create(testTrendCreateDto, "alex123");
 
             // Assert
             Assert.AreEqual(testTrendGetAllDto.Name, returnedTrend.Name);

@@ -36,9 +36,10 @@ namespace BusinessLogic.Implementations
             return mapper.Map<PostGetByIdDto>(post);
         }
 
-        PostGetAllDto IPostBusinessLogic.Create(PostCreateDto post)
+        PostGetAllDto IPostBusinessLogic.Create(PostCreateDto post, string username)
         {
             Post createdPost = mapper.Map<Post>(post);
+            createdPost.Username = username;
             
             postRepository.Insert(createdPost);
             postRepository.SaveChanges();

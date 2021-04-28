@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Models.Trends;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace Service.Controllers
 {
@@ -38,9 +41,14 @@ namespace Service.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Create([FromBody] TrendCreateDto trendDto)
         {
-            TrendGetAllDto createdTrend = trendBusinessLogic.Create(trendDto);
+            string username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub).Value;
+            Debug.WriteLine("******************************************************");
+            Debug.WriteLine(username);
+
+            TrendGetAllDto createdTrend = trendBusinessLogic.Create(trendDto, username);
             return CreatedAtAction(nameof(GetById), new { id = createdTrend.Id }, createdTrend);
         }
 

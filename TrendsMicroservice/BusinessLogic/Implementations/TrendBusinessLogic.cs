@@ -36,9 +36,10 @@ namespace BusinessLogic.Implementations
             return mapper.Map<TrendGetByIdDto>(trend);
         }
 
-        TrendGetAllDto ITrendBusinessLogic.Create(TrendCreateDto trend)
+        TrendGetAllDto ITrendBusinessLogic.Create(TrendCreateDto trend, string username)
         {
             Trend createdTrend = mapper.Map<Trend>(trend);
+            createdTrend.Username = username;
 
             trendRepository.Insert(createdTrend);
             trendRepository.SaveChanges();

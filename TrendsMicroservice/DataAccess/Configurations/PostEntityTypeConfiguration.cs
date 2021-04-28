@@ -20,6 +20,9 @@ namespace DataAccess.Configurations
             builder.Property(p => p.Downvotes)
                 .IsRequired();
 
+            builder.Property(p => p.Username)
+                .IsRequired();
+
             builder.HasOne(p => p.Trend)
                 .WithMany(t => t.Posts);
         }

@@ -10,7 +10,7 @@ namespace BusinessLogic.Abstractions
 
         TrendGetByIdDto GetById(Guid id);
 
-        TrendGetAllDto Create(TrendCreateDto trend);
+        TrendGetAllDto Create(TrendCreateDto trend, string username);
 
         void Update(TrendUpdateDto trend);
 

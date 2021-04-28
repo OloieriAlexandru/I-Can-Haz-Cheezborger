@@ -16,6 +16,8 @@ namespace Models.Posts
 
         public int Downvotes { get; set; }
 
+        public string Username { get; set; }
+
         public Guid TrendId { get; set; }
 
         public ICollection<CommentGetDto> Comments { get; set; }

@@ -57,7 +57,7 @@ namespace BusinessLogic.Tests
         public void Create_ReturnsCreatedInstance()
         { 
             // Act
-            PostGetAllDto returnedPost = systemUnderTest.Create(testPostCreateDto);
+            PostGetAllDto returnedPost = systemUnderTest.Create(testPostCreateDto, "alex123");
 
             // Assert
             Assert.AreEqual(testPostGetAllDto.Title, returnedPost.Title);

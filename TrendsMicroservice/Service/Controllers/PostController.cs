@@ -1,8 +1,11 @@
 ﻿using BusinessLogic.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Posts;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace Service.Controllers
 {
@@ -37,9 +40,12 @@ namespace Service.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Create([FromRoute] Guid trendId, [FromBody] PostCreateDto postDto)
         {
-            PostGetAllDto createdPost = postBusinessLogic.Create(postDto);
+            string username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub).Value;
+
+            PostGetAllDto createdPost = postBusinessLogic.Create(postDto, username);
             return CreatedAtAction(nameof(GetById), new { trendId = trendId, id = createdPost.Id }, createdPost);
         }
         

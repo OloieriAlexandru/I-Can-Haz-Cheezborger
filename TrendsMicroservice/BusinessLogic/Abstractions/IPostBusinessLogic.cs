@@ -10,7 +10,7 @@ namespace BusinessLogic.Abstractions
 
         PostGetByIdDto GetById(Guid id);
 
-        PostGetAllDto Create(PostCreateDto post);
+        PostGetAllDto Create(PostCreateDto post, string username);
         
         void Update(PostUpdateDto post);
 

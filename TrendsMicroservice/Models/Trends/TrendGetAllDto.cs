@@ -16,6 +16,7 @@ namespace Models.Trends
 
         public int NumberPosts { get; set; } = 0;
 
+        public string Username { get; set; }
         public Boolean FollowClicked { get; set; } = false;
 
         public override bool Equals(object obj)

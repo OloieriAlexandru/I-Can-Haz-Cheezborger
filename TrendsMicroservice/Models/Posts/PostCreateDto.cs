@@ -7,5 +7,6 @@
         public string MediaPath { get; set; }
 
         public string TrendId { get; set; }
+
     }
 }

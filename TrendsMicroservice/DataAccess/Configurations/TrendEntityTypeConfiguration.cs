@@ -14,6 +14,9 @@ namespace DataAccess.Configurations
             builder.Property(t => t.Name)
                 .IsRequired()
                 .HasMaxLength(TrendConstraints.NameMaxLength);
+
+            builder.Property(t => t.Username)
+                .IsRequired();
         }
     }
 }

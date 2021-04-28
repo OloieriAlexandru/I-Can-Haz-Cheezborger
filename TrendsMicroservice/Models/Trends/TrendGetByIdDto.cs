@@ -14,6 +14,8 @@ namespace Models.Trends
 
         public string ImageUrl { get; set; }
 
+        public string Username { get; set; }
+
         public ICollection<PostGetAllDto> Posts { get; set; }
 
         public override bool Equals(object obj)

@@ -10,6 +10,8 @@ namespace Entities
 
         public string ImageUrl { get; set; }
 
+        public string Username { get; set; }
+
         public ICollection<Post> Posts { get; set; }
     }
 }
