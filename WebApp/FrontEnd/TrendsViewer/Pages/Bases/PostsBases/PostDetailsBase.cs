@@ -45,10 +45,14 @@ namespace TrendsViewer.Pages
             Comment = new CommentUpdateDto();
         }
 
-        protected async override Task OnInitializedAsync()
+        protected async override Task OnAfterRenderAsync(bool firstRender)
         {
-            Post = await PostService.GetPost(Guid.Parse(TrendId), Guid.Parse(PostId));
-            Comments = new List<CommentGetDto>(await CommentService.GetComments(Guid.Parse(TrendId), Guid.Parse(PostId)));
+            if (firstRender)
+            {
+                Post = await PostService.GetPost(Guid.Parse(TrendId), Guid.Parse(PostId));
+                Comments = new List<CommentGetDto>(await CommentService.GetComments(Guid.Parse(TrendId), Guid.Parse(PostId)));
+                StateHasChanged();
+            }
         }
 
         protected async Task HandleValidSubmit()

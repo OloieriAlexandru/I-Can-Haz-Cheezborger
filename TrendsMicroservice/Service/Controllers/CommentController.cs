@@ -1,8 +1,11 @@
 ﻿using BusinessLogic.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Comments;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace Service.Controllers
 {
@@ -37,8 +40,14 @@ namespace Service.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Create([FromRoute] Guid trendId, [FromRoute] Guid postId, [FromBody] CommentCreateDto commentDto)
         {
+            var currentUser = HttpContext.User;
+
+            string userId = currentUser.Claims.FirstOrDefault(c => c.Type == "Id").Value;
+            string username = currentUser.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub).Value;
+
             if (postId != commentDto.PostId)
             {
                 return BadRequest();
