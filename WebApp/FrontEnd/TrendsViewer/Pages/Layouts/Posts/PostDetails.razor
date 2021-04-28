@@ -37,7 +37,7 @@
                         <div class="post-description">
                             <div class="post-op">
                                 <span><img class="user-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
-                                <span class="user-name"> Rebeca </span>
+                                <span class="user-name"> @Post.Username </span>
                             </div>
                             <div class="post-text">
                                 <p>Look at this cute puppy...</p>
@@ -138,7 +138,7 @@
                                         { 
                                             <div class="create-post-comment">
                                                 
-                                                @if (AuthService.IsLoggedIn())
+                                                @if (AuthService.IsLoggedIn() && comment.Username == AuthService.GetUsername())
                                                 {
                                                     <div class="comment-options comment-edit" @onclick="(() => EditComment(comment))">
                                                         <i class="fas fa-cogs"></i>

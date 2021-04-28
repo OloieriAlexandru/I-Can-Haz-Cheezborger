@@ -45,8 +45,8 @@ namespace Service.Controllers
         public IActionResult Create([FromBody] TrendCreateDto trendDto)
         {
             string username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub).Value;
-            Debug.WriteLine("******************************************************");
-            Debug.WriteLine(username);
+            Console.WriteLine("******************************************************");
+            Console.WriteLine(username);
 
             TrendGetAllDto createdTrend = trendBusinessLogic.Create(trendDto, username);
             return CreatedAtAction(nameof(GetById), new { id = createdTrend.Id }, createdTrend);
