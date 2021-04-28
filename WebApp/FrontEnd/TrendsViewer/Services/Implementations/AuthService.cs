@@ -37,7 +37,7 @@ namespace TrendsViewer.Services.Implementations
 
         string IAuthService.GetUsername()
         {
-            return jwt.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Email).Value;
+            return jwt.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Sub).Value;
         }
 
         async Task IAuthService.Initialize()

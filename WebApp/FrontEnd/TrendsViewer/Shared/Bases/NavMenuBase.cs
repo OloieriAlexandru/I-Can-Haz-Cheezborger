@@ -8,6 +8,8 @@ namespace TrendsViewer.Shared.Bases
     {
         [Inject]
         public IAuthService AuthService { get; set; }
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -21,6 +23,7 @@ namespace TrendsViewer.Shared.Bases
         protected async Task Logout()
         {
             await AuthService.Logout();
+            NavigationManager.NavigateTo("/", true);
         }
     }
 }
