@@ -12,6 +12,9 @@ namespace TrendsViewer.Pages
         public ITrendService TrendService { get; set; }
 
         [Inject]
+        public IAuthService AuthService { get; set; }
+
+        [Inject]
         public NavigationManager NavigationManager { get; set; }
 
         public IEnumerable<TrendGetAllDto> Trends { get; set; }

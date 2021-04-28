@@ -1,9 +1,9 @@
-﻿@page "/trends/edit/{TrendId}/posts/{PostId}"
+﻿@page "/trends/{TrendId}/posts/{PostId}/edit"
 @inherits PostEditBase
 
 <EditForm Model="@EditPostModel" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
-    <h3>Edit Trend</h3>
+    <h3>Edit Post</h3>
     <div class="form-group row">
         <label for="Name" class="col-sm-2 col-form-label">
             Title

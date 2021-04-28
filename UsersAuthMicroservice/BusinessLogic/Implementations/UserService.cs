@@ -22,6 +22,7 @@ namespace BusinessLogic.Implementations
         {
             IdentityUser existingUser = await userManager.FindByEmailAsync(newUser.Email);
 
+
             if (existingUser != null)
             {
                 return null;

@@ -5,44 +5,53 @@
     <div class="layout-col col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
         <div class="row">
             <div class="layout-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 posts-layout">
-                <div class="post-plus">
-                    <a style="text-decoration:none;" href="@($"trends/{TrendId}")">
+                @if (!AuthService.IsLoggedIn())
+                {
+                    <a style="text-decoration:none;color:black;" href="@($"trends/{TrendId}/posts/{PostId}/edit/")">
+                        <div class="post-option post-cogs">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                    </a>
+                }
+                <div class="post-option post-plus">
+                    <a style="text-decoration:none;color: #1b6ec2;" href="@($"trends/{TrendId}")">
                         <i class="fas fa-arrow-circle-left"></i>
                     </a>
                 </div>
                 @if (Post != null)
                 {
-                        <div class="post">
-                            <div class="post-title">
-                                <h4>@Post.Title</h4>
-                            </div>
-                            <div class="post-subtitle">
-                                <h6 class="post-time">12m ago</h6>
+                    <div class="post">
+                        <div class="post-title">
+                            <h4>@Post.Title</h4>
+                        </div>
+                        <div class="post-subtitle">
+                            <h6 class="post-time">12m ago</h6>
+                        </div>
+
+                        <div class="post-body">
+                            <div class="post-resource">
+                                <img class="post-image" src=@Post.MediaPath />
                             </div>
 
-                            <div class="post-body">
-                                <div class="post-resource">
-                                    <img class="post-image" src=@Post.MediaPath />
-                                </div>
-
+                        </div>
+                        <div class="post-description">
+                            <div class="post-op">
+                                <span><img class="user-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
+                                <span class="user-name"> Rebeca </span>
                             </div>
-                            <div class="post-description">
-                                <div class="post-op">
-                                    <span><img class="user-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
-                                    <span class="user-name"> Rebeca </span>
-                                </div>
-                                <div class="post-text">
-                                    <p>Look at this cute puppy...</p>
-                                </div>
+                            <div class="post-text">
+                                <p>Look at this cute puppy...</p>
                             </div>
-                            <div class="post-footer">
-                                <div class="post-information">
-                                    <span>@Post.Upvotes upvotes</span>
-                                    <span>@Post.Downvotes downvotes</span>
-                                    <span>54 comments</span>
-                                </div>
-                                <div class="post-buttons">
-
+                        </div>
+                        <div class="post-footer">
+                            <div class="post-information">
+                                <span>@Post.Upvotes upvotes</span>
+                                <span>@Post.Downvotes downvotes</span>
+                                <span>54 comments</span>
+                            </div>
+                            <div class="post-buttons">
+                                @if (!AuthService.IsLoggedIn())
+                                {
                                     <div class="upvote-button" @onclick="(() => LikePostId(Post))">
                                         <button class="icon-button">
                                             @if (Post.LikeClicked == true)
@@ -53,7 +62,6 @@
                                             {
                                                 <i class="far fa-thumbs-up"></i>
                                             }
-
                                         </button>
                                     </div>
                                     <div class="downvote-button" @onclick="(() => DislikePostId(Post))">
@@ -68,56 +76,97 @@
                                             }
                                         </button>
                                     </div>
-                                    
-                                    <div class="others-button">
-                                        <button class="icon-button">
-                                            <i class="fas fa-ellipsis-h"></i>
-                                        </button>
-                                    </div>
+                                }
+
+                                <div class="others-button">
+                                    <button class="icon-button">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </button>
                                 </div>
-                                <div class="post-comments">
-                                    <h6 style="margin-top:4px;margin-bottom:4px;font-weight:600">
-                                        Comments
-                                    </h6>
+
+                            </div>
+                            <div class="post-comments">
+                                <h6 style="margin-top:4px;margin-bottom:4px;font-weight:600">
+                                    Comments
+                                </h6>
+                                @if (!AuthService.IsLoggedIn())
+                                {
                                     <EditForm Model="@CommentModel" OnValidSubmit="HandleValidSubmit" class="comment-form" style="margin-bottom:10px">
                                         <div class="create-post-comment">
                                             <div class="post-op">
                                                 <span><img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
-                                                <span class="user-name"> Ramona </span>
+                                                @*<span class="user-name"> @AuthService.GetUsername() </span>*@
+                                                 <span class="user-name"> Ramona </span>
                                             </div>
                                             <div class="post-text">
                                                 <InputTextArea rows="2" @bind-Value="CommentModel.CommentText" style="width:calc(100% - 70px);margin-top:2px;margin-left:30px"></InputTextArea>
-
                                             </div>
                                         </div>
-
                                         <div class="create-trend-button-container" style="margin-top:-50px;">
                                             <button class="btn btn-primary create-trend-button" type="submit">
                                                 <i class="fas fa-arrow-circle-right"></i>
                                             </button>
                                         </div>
                                     </EditForm>
-                                    @if (Comments != null)
+                                }
+                                @if (Comments != null)
+                                {
+                                    @foreach (var comment in Comments)
                                     {
-                                        @foreach (var comment in Comments)
+
+                                        @if (commentToEdit != Guid.Empty && comment.Id == commentToEdit)
                                         {
+                                            <EditForm Model="@EditCommentModel" OnValidSubmit="HandleValidSubmitEdit" class="comment-form" style="margin-bottom:10px">
+                                                <div class="create-post-comment">
+                                                    <div class="post-op">
+                                                        <span><img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
+                                                        @* <span class="user-name"> @AuthService.GetUsername() </span>*@
+                                                        <span class="user-name"> Ramona </span>
+                                                    </div>
+                                                    <div class="post-text">
+                                                        <InputTextArea rows="2" @bind-Value="EditCommentModel.Text" style="width:calc(100% - 70px);margin-top:2px;margin-left:30px"></InputTextArea>
+                                                    </div>
+                                                </div>
+                                                <div class="create-trend-button-container" style="margin-top:-50px;">
+                                                    <button class="btn btn-primary create-trend-button" type="submit">
+                                                        <i class="fas fa-arrow-circle-right"></i>
+                                                    </button>
+                                                </div>
+                                            </EditForm>
+                                        }
+                                        else
+                                        { 
                                             <div class="create-post-comment">
+                                                
+                                                @if (!AuthService.IsLoggedIn())
+                                                {
+                                                    <div class="comment-options comment-edit" @onclick="(() => EditComment(comment))">
+                                                        <i class="fas fa-cogs"></i>
+                                                    </div>
+                                                    <div class="comment-options comment-delete" @onclick="(() => DeleteComment(comment))">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </div>
+                                                }
                                                 <div class="post-op">
                                                     <span><img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
                                                     <span class="user-name"> Ramona </span>
-                                                    <span class="post-subtitle" >
+                                                    <span class="post-subtitle">
                                                         <h6 class="post-time" style="display:inline">
                                                             12m ago
                                                         </h6>
                                                     </span>
                                                 </div>
+
+
                                                 <div class="post-text">
                                                     <p style="width:calc(100% - 30px);margin-top:-2px;margin-left:30px"> @comment.Text</p>
                                                 </div>
+
                                             </div>
                                         }
-                                    }
-                                </div>
+                                     }
+                                }
+                            </div>
                         </div>
 
                     </div>

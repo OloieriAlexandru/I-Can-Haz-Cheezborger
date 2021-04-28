@@ -1,15 +1,24 @@
-﻿.post-plus {
+﻿.post-option {
     position: fixed;
-    bottom: 10px;
     left: 264px;
     z-index: 99;
-    font-size: 36px;
     border: none;
     outline: none;
     color: #1b6ec2;
     cursor: pointer;
     border-radius: 4px;
 }
+
+.post-plus {
+    bottom: 10px;
+    font-size: 36px;
+}
+
+.post-cogs {
+    bottom: 60px;
+    font-size: 30px;
+}
+
 
 .post:not(:last-of-type) {
     margin-bottom: 30px;

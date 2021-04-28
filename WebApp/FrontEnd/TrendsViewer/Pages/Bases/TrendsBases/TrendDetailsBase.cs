@@ -17,6 +17,8 @@ namespace TrendsViewer.Pages
         [Inject]
         public IPostService PostService { get; set; }
         [Inject]
+        public IAuthService AuthService { get; set; }
+        [Inject]
         public NavigationManager NavigationManager { get; set; }
         [Inject]
         public IMapper Mapper { get; set; }

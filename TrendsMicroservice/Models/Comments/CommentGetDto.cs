@@ -14,6 +14,7 @@ namespace Models.Comments
 
         public Guid PostId { get; set; }
 
+
         public override bool Equals(object obj)
         {
             return obj is CommentGetDto dto &&
