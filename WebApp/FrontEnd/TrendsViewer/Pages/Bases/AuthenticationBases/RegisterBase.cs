@@ -32,7 +32,7 @@ namespace TrendsViewer.Pages.Bases.AuthenticationBases
                 UserGetAllDto userGetAllDto = await UserService.Create(newUser);
                 if (userGetAllDto != null)
                 {
-                    NavigationManager.NavigateTo("/");
+                    NavigationManager.NavigateTo("/login");
                 }
             } catch (Exception e)
             {
