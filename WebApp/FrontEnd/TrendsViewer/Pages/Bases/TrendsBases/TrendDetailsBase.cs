@@ -17,6 +17,8 @@ namespace TrendsViewer.Pages
         [Inject]
         public IPostService PostService { get; set; }
         [Inject]
+        public IAuthService AuthService { get; set; }
+        [Inject]
         public NavigationManager NavigationManager { get; set; }
         [Inject]
         public IMapper Mapper { get; set; }
@@ -35,11 +37,15 @@ namespace TrendsViewer.Pages
             CreatePostModel = new CreatePostModel();
         }
 
-        protected async override Task OnInitializedAsync()
+        protected async override Task OnAfterRenderAsync(bool firstRender)
         {
-            Trend = await TrendService.GetTrend(Guid.Parse(Id));
-            Trends = await TrendService.GetTrends();
-            Posts = new List<PostGetAllDto>(await PostService.GetPosts(Guid.Parse(Id)));
+            if (firstRender)
+            {
+                Trend = await TrendService.GetTrend(Guid.Parse(Id));
+                Trends = await TrendService.GetTrends();
+                Posts = new List<PostGetAllDto>(await PostService.GetPosts(Guid.Parse(Id)));
+                StateHasChanged();
+            }
         }
 
         protected async Task HandleValidSubmit()

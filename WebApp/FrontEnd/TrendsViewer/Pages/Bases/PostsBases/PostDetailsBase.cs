@@ -17,6 +17,8 @@ namespace TrendsViewer.Pages
         [Inject]
         public ICommentService CommentService { get; set; }
         [Inject]
+        public IAuthService AuthService { get; set; }
+        [Inject]
         public NavigationManager NavigationManager { get; set; }
         [Inject]
         public IMapper Mapper { get; set; }
@@ -30,16 +32,27 @@ namespace TrendsViewer.Pages
         public ICollection<CommentGetDto> Comments { get; set; }
 
         public CommentModel CommentModel { get; set; }
+        public EditCommentModel EditCommentModel { get; set; }
+        private CommentUpdateDto Comment { get; set; }
+
+        public Guid commentToEdit { get; set; }
 
         public PostDetailsBase()
         {
             CommentModel = new CommentModel();
+            commentToEdit = Guid.Empty;
+            EditCommentModel = new EditCommentModel();
+            Comment = new CommentUpdateDto();
         }
 
-        protected async override Task OnInitializedAsync()
+        protected async override Task OnAfterRenderAsync(bool firstRender)
         {
-            Post = await PostService.GetPost(Guid.Parse(TrendId), Guid.Parse(PostId));
-            Comments = new List<CommentGetDto>(await CommentService.GetComments(Guid.Parse(TrendId), Guid.Parse(PostId)));
+            if (firstRender)
+            {
+                Post = await PostService.GetPost(Guid.Parse(TrendId), Guid.Parse(PostId));
+                Comments = new List<CommentGetDto>(await CommentService.GetComments(Guid.Parse(TrendId), Guid.Parse(PostId)));
+                StateHasChanged();
+            }
         }
 
         protected async Task HandleValidSubmit()
@@ -49,19 +62,6 @@ namespace TrendsViewer.Pages
             NavigationManager.NavigateTo($"/trends/{TrendId}/posts/{PostId}", forceLoad: true);
         }
 
-        protected async Task HandleDeleteComment(Guid commentId)
-        {
-            await CommentService.DeleteComment(Guid.Parse(TrendId), Guid.Parse(PostId), commentId);
-
-            foreach (CommentGetDto comment in Comments)
-            {
-                if (comment.Id == commentId)
-                {
-                    Comments.Remove(comment);
-                    break;
-                }
-            }
-        }
         protected void LikePostId(PostGetByIdDto post)
         {
             if (post.LikeClicked)
@@ -98,5 +98,36 @@ namespace TrendsViewer.Pages
             post.DislikeClicked = !post.DislikeClicked;
         }
 
+        protected void EditComment(CommentGetDto comment)
+        {
+            EditCommentModel.Text = comment.Text;
+            commentToEdit = comment.Id;
+
+        }
+
+        protected async Task DeleteComment(CommentGetDto comment2)
+        {
+            await CommentService.DeleteComment(Guid.Parse(TrendId), Guid.Parse(PostId), comment2.Id);
+
+            foreach (CommentGetDto comment in Comments)
+            {
+                if (comment.Id == comment2.Id)
+                {
+                    Comments.Remove(comment);
+                    break;
+                }
+            }
+            NavigationManager.NavigateTo($"/trends/{TrendId}/posts/{PostId}");
+        }
+
+        protected async Task HandleValidSubmitEdit()
+        {
+            Mapper.Map(EditCommentModel, Comment);
+            Comment.PostId = Guid.Parse(PostId);
+            Comment.Id = commentToEdit;
+
+            await CommentService.UpdateComment(Guid.Parse(TrendId), Guid.Parse(PostId), Comment.Id, Comment);
+            NavigationManager.NavigateTo($"/trends/{TrendId}/posts/{PostId}", forceLoad: true);
+        }
     }
 }

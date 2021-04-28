@@ -1,14 +1,18 @@
 using BusinessLogic.ExtensionMethods;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Service.Filters;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Text;
 
 namespace Service
 {
@@ -49,6 +53,19 @@ namespace Service
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             }));
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]))
+                };
+            });
+
             services.AddBusinessLogicServices(Configuration.GetConnectionString("TrendsDatabase"));
         }
 
@@ -67,6 +84,7 @@ namespace Service
 
             app.UseRouting();
 
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             app.UseAuthentication();
             app.UseAuthorization();
 

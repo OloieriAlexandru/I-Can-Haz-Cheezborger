@@ -74,10 +74,11 @@ namespace TrendsViewer.Services.Implementations
 
             using HttpResponseMessage response = await httpClient.SendAsync(request);
 
-            if (!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode || response.StatusCode == System.Net.HttpStatusCode.NoContent)
             {
-                Dictionary<string, string> error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
-                throw new Exception(error["message"]);
+                return default;
+                //Dictionary<string, string> error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+                // throw new Exception(error["message"]);
             }
 
             return await response.Content.ReadFromJsonAsync<T>();

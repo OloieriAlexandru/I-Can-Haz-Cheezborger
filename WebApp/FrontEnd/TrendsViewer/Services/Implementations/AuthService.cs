@@ -23,7 +23,7 @@ namespace TrendsViewer.Services.Implementations
 
         public AuthenticationResponse AuthenticationResponse { get; private set; }
 
-        AuthenticationResponse IAuthService.AuthenticationResponse => throw new System.NotImplementedException();
+        AuthenticationResponse IAuthService.AuthenticationResponse => AuthenticationResponse;
 
         string IAuthService.GetClaim(string type)
         {
@@ -37,7 +37,7 @@ namespace TrendsViewer.Services.Implementations
 
         string IAuthService.GetUsername()
         {
-            return jwt.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Email).Value;
+            return jwt.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Sub).Value;
         }
 
         async Task IAuthService.Initialize()

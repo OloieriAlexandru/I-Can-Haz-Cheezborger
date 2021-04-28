@@ -1,8 +1,11 @@
 ﻿using BusinessLogic.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Comments;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace Service.Controllers
 {
@@ -37,13 +40,16 @@ namespace Service.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Create([FromRoute] Guid trendId, [FromRoute] Guid postId, [FromBody] CommentCreateDto commentDto)
         {
+            string username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub).Value;
+
             if (postId != commentDto.PostId)
             {
                 return BadRequest();
             }
-            CommentGetDto createdComment = commentBusinessLogic.Create(commentDto);
+            CommentGetDto createdComment = commentBusinessLogic.Create(commentDto, username);
             return CreatedAtAction(nameof(GetById), new { trendId = trendId, postId = postId, id = createdComment.Id }, createdComment);
         }
 

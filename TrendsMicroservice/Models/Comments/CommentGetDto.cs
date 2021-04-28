@@ -12,6 +12,8 @@ namespace Models.Comments
 
         public int Downvotes { get; set; }
 
+        public string Username { get; set; }
+
         public Guid PostId { get; set; }
 
         public override bool Equals(object obj)

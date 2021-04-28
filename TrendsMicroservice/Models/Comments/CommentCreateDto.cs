@@ -8,6 +8,8 @@ namespace Models.Comments
 
         public Guid PostId { get; set; }
 
+        public String Username { get; set; }
+
         public override bool Equals(object obj)
         {
             return obj is CommentGetDto dto &&

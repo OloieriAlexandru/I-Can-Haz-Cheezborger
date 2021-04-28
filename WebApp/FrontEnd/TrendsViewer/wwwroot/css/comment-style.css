@@ -2,8 +2,28 @@
     border: 1px;
     border-color: gray;
     border-radius: 10px;
+
 }
 
 .post-comments {
     font-size: 14px;
+}
+
+
+.comment-options {
+    display:inline;
+    position: relative;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.comment-edit {
+    left: 300px;
+    top: 20px;
+    color: #1b6ec2;
+}
+.comment-delete {
+    left: 300px;
+    top: 20px;
+    color: red;
 }

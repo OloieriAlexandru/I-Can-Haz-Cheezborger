@@ -53,7 +53,7 @@ namespace TrendsViewer.Pages
         protected async Task DeleteClick()
         {
             await PostService.DeletePost(Guid.Parse(TrendId), Guid.Parse(PostId));
-            NavigationManager.NavigateTo("/trends");
+            NavigationManager.NavigateTo("/trends/{TrendId}");
         }
     }
 }
