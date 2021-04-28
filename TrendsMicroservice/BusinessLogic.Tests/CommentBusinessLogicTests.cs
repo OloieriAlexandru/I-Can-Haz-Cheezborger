@@ -66,7 +66,7 @@ namespace BusinessLogic.Tests
         public void Create_ReturnsCreatedInstance()
         {
             //Act
-            CommentGetDto returnedComment = systemUnderTest.Create(testCommentCreateDto);
+            CommentGetDto returnedComment = systemUnderTest.Create(testCommentCreateDto, "username");
 
             //Assert
             Assert.AreEqual(testCommentCreateDto, returnedComment);

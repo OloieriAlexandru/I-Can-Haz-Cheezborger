@@ -10,6 +10,8 @@ namespace Entities
 
         public int Downvotes { get; set; }
 
+        public string Username { get; set; }
+
         public Guid PostId { get; set; }
 
         public Post Post { get; set; }

@@ -10,7 +10,7 @@ namespace BusinessLogic.Abstractions
 
         CommentGetDto GetById(Guid id);
         
-        CommentGetDto Create(CommentCreateDto comment);
+        CommentGetDto Create(CommentCreateDto comment, string username);
         
         void Update(CommentUpdateDto comment);
 

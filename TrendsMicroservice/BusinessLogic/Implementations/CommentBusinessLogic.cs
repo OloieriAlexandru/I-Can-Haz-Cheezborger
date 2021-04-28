@@ -36,9 +36,10 @@ namespace BusinessLogic.Implementations
             return mapper.Map<CommentGetDto>(comment);
         }
 
-        CommentGetDto ICommentBusinessLogic.Create(CommentCreateDto comment)
+        CommentGetDto ICommentBusinessLogic.Create(CommentCreateDto comment, string username)
         {
             Comment newComment = mapper.Map<Comment>(comment);
+            newComment.Username = username;
 
             commentRepository.Insert(newComment);
             commentRepository.SaveChanges();

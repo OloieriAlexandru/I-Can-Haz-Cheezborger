@@ -104,6 +104,7 @@ namespace TrendsViewer.Pages
             commentToEdit = comment.Id;
 
         }
+
         protected async Task DeleteComment(CommentGetDto comment2)
         {
             await CommentService.DeleteComment(Guid.Parse(TrendId), Guid.Parse(PostId), comment2.Id);
@@ -122,9 +123,11 @@ namespace TrendsViewer.Pages
         protected async Task HandleValidSubmitEdit()
         {
             Mapper.Map(EditCommentModel, Comment);
+            Comment.PostId = Guid.Parse(PostId);
+            Comment.Id = commentToEdit;
+
             await CommentService.UpdateComment(Guid.Parse(TrendId), Guid.Parse(PostId), Comment.Id, Comment);
             NavigationManager.NavigateTo($"/trends/{TrendId}/posts/{PostId}", forceLoad: true);
-
         }
     }
 }

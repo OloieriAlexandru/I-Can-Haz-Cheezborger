@@ -43,16 +43,13 @@ namespace Service.Controllers
         [Authorize]
         public IActionResult Create([FromRoute] Guid trendId, [FromRoute] Guid postId, [FromBody] CommentCreateDto commentDto)
         {
-            var currentUser = HttpContext.User;
-
-            string userId = currentUser.Claims.FirstOrDefault(c => c.Type == "Id").Value;
-            string username = currentUser.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub).Value;
+            string username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub).Value;
 
             if (postId != commentDto.PostId)
             {
                 return BadRequest();
             }
-            CommentGetDto createdComment = commentBusinessLogic.Create(commentDto);
+            CommentGetDto createdComment = commentBusinessLogic.Create(commentDto, username);
             return CreatedAtAction(nameof(GetById), new { trendId = trendId, postId = postId, id = createdComment.Id }, createdComment);
         }
 
