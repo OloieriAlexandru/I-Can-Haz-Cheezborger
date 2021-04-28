@@ -112,14 +112,15 @@ namespace TrendsViewer.Pages
                     break;
                 }
             }
-            NavigationManager.NavigateTo($"/trends/{TrendId}/posts/{PostId}", forceLoad: true);
+            NavigationManager.NavigateTo($"/trends/{TrendId}/posts/{PostId}");
         }
 
         protected async Task HandleValidSubmitEdit()
         {
             Mapper.Map(EditCommentModel, Comment);
             await CommentService.UpdateComment(Guid.Parse(TrendId), Guid.Parse(PostId), Comment.Id, Comment);
-            NavigationManager.NavigateTo($"/trends/{TrendId}/");
+            NavigationManager.NavigateTo($"/trends/{TrendId}/posts/{PostId}", forceLoad: true);
+
         }
     }
 }

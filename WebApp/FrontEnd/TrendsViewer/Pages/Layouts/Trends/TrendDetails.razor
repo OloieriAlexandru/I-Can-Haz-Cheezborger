@@ -5,7 +5,7 @@
     <div class="layout-col col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
         <div class="row">
             <div class="layout-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 posts-layout">
-                @if (!AuthService.IsLoggedIn())
+                @if (AuthService.IsLoggedIn())
                 {
                     <a style="text-decoration:none;color:black;" href="@($"trends/{Id}/create/")">
                         <div class="post-option post-plus">

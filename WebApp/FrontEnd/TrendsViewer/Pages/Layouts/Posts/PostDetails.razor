@@ -5,7 +5,7 @@
     <div class="layout-col col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
         <div class="row">
             <div class="layout-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 posts-layout">
-                @if (!AuthService.IsLoggedIn())
+                @if (AuthService.IsLoggedIn())
                 {
                     <a style="text-decoration:none;color:black;" href="@($"trends/{TrendId}/posts/{PostId}/edit/")">
                         <div class="post-option post-cogs">
@@ -50,7 +50,7 @@
                                 <span>54 comments</span>
                             </div>
                             <div class="post-buttons">
-                                @if (!AuthService.IsLoggedIn())
+                                @if (AuthService.IsLoggedIn())
                                 {
                                     <div class="upvote-button" @onclick="(() => LikePostId(Post))">
                                         <button class="icon-button">
@@ -89,14 +89,14 @@
                                 <h6 style="margin-top:4px;margin-bottom:4px;font-weight:600">
                                     Comments
                                 </h6>
-                                @if (!AuthService.IsLoggedIn())
+                                @if (AuthService.IsLoggedIn())
                                 {
                                     <EditForm Model="@CommentModel" OnValidSubmit="HandleValidSubmit" class="comment-form" style="margin-bottom:10px">
                                         <div class="create-post-comment">
                                             <div class="post-op">
                                                 <span><img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
-                                                @*<span class="user-name"> @AuthService.GetUsername() </span>*@
-                                                 <span class="user-name"> Ramona </span>
+                                                <span class="user-name"> @AuthService.GetUsername() </span>
+                                                @* <span class="user-name"> Ramona </span>*@
                                             </div>
                                             <div class="post-text">
                                                 <InputTextArea rows="2" @bind-Value="CommentModel.CommentText" style="width:calc(100% - 70px);margin-top:2px;margin-left:30px"></InputTextArea>
@@ -138,7 +138,7 @@
                                         { 
                                             <div class="create-post-comment">
                                                 
-                                                @if (!AuthService.IsLoggedIn())
+                                                @if (AuthService.IsLoggedIn())
                                                 {
                                                     <div class="comment-options comment-edit" @onclick="(() => EditComment(comment))">
                                                         <i class="fas fa-cogs"></i>
