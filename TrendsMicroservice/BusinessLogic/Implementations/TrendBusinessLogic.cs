@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLogic.Abstractions;
 using DataAccess.Abstractions;
+using DataAccess.Seed;
 using Entities;
 using Models.Trends;
 using System;
@@ -12,12 +13,16 @@ namespace BusinessLogic.Implementations
     {
         private readonly IRepository<Trend> trendRepository;
 
+        private readonly IRepository<TrendFollow> trendFollowRepository;
+
         private readonly IMapper mapper;
 
-        public TrendBusinessLogic(IRepository<Trend> _trendRepository, IMapper _mapper)
+        public TrendBusinessLogic(IRepository<Trend> trendRepository, IRepository<TrendFollow> trendFollowRepository,
+            IMapper mapper)
         {
-            trendRepository = _trendRepository;
-            mapper = _mapper;
+            this.trendRepository = trendRepository;
+            this.trendFollowRepository = trendFollowRepository;
+            this.mapper = mapper;
         }
 
         ICollection<TrendGetAllDto> ITrendBusinessLogic.GetAll()
@@ -36,10 +41,9 @@ namespace BusinessLogic.Implementations
             return mapper.Map<TrendGetByIdDto>(trend);
         }
 
-        TrendGetAllDto ITrendBusinessLogic.Create(TrendCreateDto trend, string username)
+        TrendGetAllDto ITrendBusinessLogic.Create(TrendCreateDto trend)
         {
             Trend createdTrend = mapper.Map<Trend>(trend);
-            createdTrend.Username = username;
 
             trendRepository.Insert(createdTrend);
             trendRepository.SaveChanges();
@@ -64,6 +68,34 @@ namespace BusinessLogic.Implementations
         {
             trendRepository.Delete(id);
             trendRepository.SaveChanges();
+        }
+
+        void ITrendBusinessLogic.PatchFollow(TrendPatchFollowDto trendPatchFollowDto)
+        {
+            TrendFollow trendFollow = trendFollowRepository.GetByFilter(
+                tf => tf.UserId == trendPatchFollowDto.CreatorId && tf.TrendId == trendPatchFollowDto.Id);
+            bool doFollow = trendPatchFollowDto.Type == "Follow" ? true : false;
+
+            if (trendFollow == null && doFollow)
+            {
+                trendFollow = new TrendFollow
+                {
+                    TrendId = trendPatchFollowDto.Id,
+                    UserId = trendPatchFollowDto.CreatorId
+                };
+                trendFollowRepository.Insert(trendFollow);
+                trendFollowRepository.SaveChanges();
+            }
+            else if (trendFollow != null && !doFollow)
+            {
+                trendFollowRepository.Delete(trendFollow.Id);
+                trendFollowRepository.SaveChanges();
+            }
+        }
+
+        ICollection<TrendGetAllDto> ITrendBusinessLogic.GetPopular()
+        {
+            return mapper.Map<ICollection<TrendGetAllDto>>(TrendsSeed.Seed());
         }
     }
 }

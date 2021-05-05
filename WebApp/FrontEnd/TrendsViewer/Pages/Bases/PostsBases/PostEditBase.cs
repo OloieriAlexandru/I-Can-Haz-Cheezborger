@@ -24,12 +24,12 @@ namespace TrendsViewer.Pages
 
         public EditPostModel EditPostModel { get; set; }
 
-        private PostUpdateDto Post { get; set; }
+        private PostPatchDto Post { get; set; }
 
         public PostEditBase()
         {
             EditPostModel = new EditPostModel();
-            Post = new PostUpdateDto();
+            Post = new PostPatchDto();
         }
 
         protected async override Task OnInitializedAsync()
@@ -39,14 +39,14 @@ namespace TrendsViewer.Pages
                 throw new InvalidProgramException("Invalid Id!");
             }
             PostGetByIdDto updatedPost = await PostService.GetPost(Guid.Parse(TrendId), Guid.Parse(PostId));
-            Post = Mapper.Map<PostUpdateDto>(updatedPost);
+            Post = Mapper.Map<PostPatchDto>(updatedPost);
             Mapper.Map(Post, EditPostModel);
         }
 
         protected async Task HandleValidSubmit()
         {
             Mapper.Map(EditPostModel, Post);
-            await PostService.UpdatePost(Guid.Parse(TrendId), Guid.Parse(PostId), Post);
+            await PostService.PatchPost(Guid.Parse(TrendId), Guid.Parse(PostId), Post);
             NavigationManager.NavigateTo($"/trends/{TrendId}/");
         }
 

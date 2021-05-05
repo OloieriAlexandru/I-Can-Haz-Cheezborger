@@ -2,7 +2,7 @@
 
 namespace Models.Posts
 {
-    public class PostGetAllDto
+    public class PostGetAllDto : UserInfoModel
     {
         public Guid Id { get; set; }
 
@@ -14,12 +14,12 @@ namespace Models.Posts
 
         public int Downvotes { get; set; }
 
-        public string Username { get; set; }
+        public bool Liked { get; set; }
+
+        public bool Disliked { get; set; }
+
+        public int CommentsCount { get; set; }
 
         public Guid TrendId { get; set; }
-
-        public Boolean LikeClicked { get; set; } = false;
-
-        public Boolean DislikeClicked { get; set; } = false;
     }
 }

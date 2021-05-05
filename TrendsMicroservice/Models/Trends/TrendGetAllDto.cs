@@ -2,7 +2,7 @@
 
 namespace Models.Trends
 {
-    public class TrendGetAllDto
+    public class TrendGetAllDto : UserInfoModel
     {
         public Guid Id { get; set; }
 
@@ -12,25 +12,10 @@ namespace Models.Trends
 
         public string ImageUrl { get; set; }
 
-        public int Followers { get; set; } = 0;
+        public int FollowersCount { get; set; }
 
-        public int NumberPosts { get; set; } = 0;
+        public int PostsCount { get; set; }
 
-        public string Username { get; set; }
-        public Boolean FollowClicked { get; set; } = false;
-
-        public override bool Equals(object obj)
-        {
-            return obj is TrendGetAllDto dto &&
-                   Id == dto.Id &&
-                   Name == dto.Name &&
-                   Description == dto.Description &&
-                   ImageUrl == dto.ImageUrl;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Id, Name, Description, ImageUrl);
-        }
+        public bool Followed { get; set; }
     }
 }

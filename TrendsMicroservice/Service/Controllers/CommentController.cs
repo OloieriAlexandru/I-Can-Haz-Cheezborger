@@ -2,10 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Comments;
+using Service.Utils;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 
 namespace Service.Controllers
 {
@@ -43,24 +42,36 @@ namespace Service.Controllers
         [Authorize]
         public IActionResult Create([FromRoute] Guid trendId, [FromRoute] Guid postId, [FromBody] CommentCreateDto commentDto)
         {
-            string username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub).Value;
+            UserInfoExtractor.Extract(HttpContext.User, commentDto);
 
             if (postId != commentDto.PostId)
             {
                 return BadRequest();
             }
-            CommentGetDto createdComment = commentBusinessLogic.Create(commentDto, username);
-            return CreatedAtAction(nameof(GetById), new { trendId = trendId, postId = postId, id = createdComment.Id }, createdComment);
+            CommentGetDto createdComment = commentBusinessLogic.Create(commentDto);
+            return CreatedAtAction(nameof(GetById), new { trendId, postId, id = createdComment.Id }, createdComment);
         }
 
-        [HttpPut("{id:guid}")]
-        public IActionResult Update([FromRoute] Guid postId, [FromRoute] Guid id, [FromBody] CommentUpdateDto commentDto)
+        [HttpPatch("{id:guid}")]
+        public IActionResult Patch([FromRoute] Guid id, [FromBody] CommentPatchDto commentDto)
         {
-            if (id != commentDto.Id || postId != commentDto.PostId)
+            if (id != commentDto.Id)
             {
                 return BadRequest();
             }
-            commentBusinessLogic.Update(commentDto);
+            commentBusinessLogic.Patch(commentDto);
+            return NoContent();
+        }
+
+        [HttpPatch("{id:guid}/react")]
+        public IActionResult PatchReact([FromRoute] Guid id, [FromBody] CommentPatchReactDto commentPatchReactDto)
+        {
+            if (id != commentPatchReactDto.Id)
+            {
+                return BadRequest();
+            }
+            UserInfoExtractor.Extract(HttpContext.User, commentPatchReactDto);
+            commentBusinessLogic.PatchReact(commentPatchReactDto);
             return NoContent();
         }
 

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Entities
 {
-    public class Trend : BaseEntity
+    public class Trend : UserCreatedEntity
     {
         public string Name { get; set; }
 
@@ -10,8 +11,8 @@ namespace Entities
 
         public string ImageUrl { get; set; }
 
-        public string Username { get; set; }
-
         public ICollection<Post> Posts { get; set; }
+
+        public ICollection<TrendFollow> Follows { get; set; }
     }
 }

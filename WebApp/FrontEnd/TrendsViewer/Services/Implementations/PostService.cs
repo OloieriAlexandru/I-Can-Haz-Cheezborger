@@ -11,9 +11,13 @@ namespace TrendsViewer.Services.Implementations
     {
         private readonly IHttpService httpService;
 
-        public PostService(HttpServiceResolver httpServiceResolver)
+        private readonly IAuthService authService;
+
+        public PostService(HttpServiceResolver httpServiceResolver, IAuthService authService)
         {
             httpService = httpServiceResolver("trends");
+
+            this.authService = authService;
         }
 
         async Task<PostGetAllDto> IPostService.CreatePost(Guid trendId, PostCreateDto newPost)
@@ -28,17 +32,34 @@ namespace TrendsViewer.Services.Implementations
 
         async Task<PostGetByIdDto> IPostService.GetPost(Guid trendId, Guid postId)
         {
-            return await httpService.Get<PostGetByIdDto>($"api/v1/trends/{trendId}/posts/{postId}");
+            string url = $"api/v1/trends/{trendId}/posts/{postId}";
+            await authService.Initialize();
+            if (authService.IsLoggedIn())
+            {
+                url += "/auth";
+            }
+            return await httpService.Get<PostGetByIdDto>(url);
         }
 
         async Task<ICollection<PostGetAllDto>> IPostService.GetPosts(Guid trendId)
         {
-            return await httpService.Get<PostGetAllDto[]>($"api/v1/trends/{trendId}/posts");
+            string url = $"api/v1/trends/{trendId}/posts";
+            await authService.Initialize();
+            if (authService.IsLoggedIn())
+            {
+                url += "/auth";
+            }
+            return await httpService.Get<PostGetAllDto[]>(url);
         }
 
-        async Task IPostService.UpdatePost(Guid trendId, Guid postId, PostUpdateDto updatedPost)
+        async Task IPostService.PatchPost(Guid trendId, Guid postId, PostPatchDto postPatchDto)
         {
-            await httpService.Put<ValueTask>($"api/v1/trends/{trendId}/posts/{postId}", updatedPost);
+            await httpService.Patch<ValueTask>($"api/v1/trends/{trendId}/posts/{postId}", postPatchDto);
+        }
+
+        async Task IPostService.PatchPostReact(Guid trendId, PostPatchReactDto postPatchReactDto)
+        {
+            await httpService.Patch<ValueTask>($"api/v1/trends/{trendId}/posts/{postPatchReactDto.Id}/react", postPatchReactDto);
         }
     }
 }

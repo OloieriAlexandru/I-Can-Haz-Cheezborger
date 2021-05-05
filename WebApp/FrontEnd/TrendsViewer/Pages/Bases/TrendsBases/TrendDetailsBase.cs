@@ -24,7 +24,7 @@ namespace TrendsViewer.Pages
         public IMapper Mapper { get; set; }
 
         [Parameter]
-        public string Id { get; set; }
+        public string TrendId { get; set; }
 
         public CreatePostModel CreatePostModel { get; set; }
 
@@ -41,20 +41,21 @@ namespace TrendsViewer.Pages
         {
             if (firstRender)
             {
-                Trend = await TrendService.GetTrend(Guid.Parse(Id));
-                Trends = await TrendService.GetTrends();
-                Posts = new List<PostGetAllDto>(await PostService.GetPosts(Guid.Parse(Id)));
+                Trend = await TrendService.GetById(Guid.Parse(TrendId));
+                Trends = await TrendService.GetAll();
+                Posts = new List<PostGetAllDto>(await PostService.GetPosts(Guid.Parse(TrendId)));
                 StateHasChanged();
             }
         }
 
         protected async Task HandleValidSubmit()
         {
-            PostCreateDto newPost = new PostCreateDto { Title = CreatePostModel.Title, TrendId= Id, MediaPath=CreatePostModel.MediaPath};
+            PostCreateDto newPost = new PostCreateDto { Title = CreatePostModel.Title, MediaPath=CreatePostModel.MediaPath};
             Mapper.Map(CreatePostModel, newPost);
+            newPost.TrendId = Guid.Parse(TrendId);
 
-            await PostService.CreatePost(Guid.Parse(Id), newPost);
-            NavigationManager.NavigateTo($"/trends/{Id}", forceLoad:true);
+            await PostService.CreatePost(Guid.Parse(TrendId), newPost);
+            NavigationManager.NavigateTo($"/trends/{TrendId}", forceLoad:true);
         }
 
         protected async Task DeleteClick(Guid postId)
@@ -70,6 +71,7 @@ namespace TrendsViewer.Pages
                 }
             }
         }
+
         protected void NavigateTrendId(Guid trendId)
         {
             NavigationManager.NavigateTo($"/trends/{trendId}", forceLoad: true);
@@ -79,44 +81,70 @@ namespace TrendsViewer.Pages
         {
             NavigationManager.NavigateTo($"/trends/{trendId}/posts/{postId}", forceLoad: true);
         }
+        
         protected void NavigateNewTrend()
         {
             NavigationManager.NavigateTo($"/trends/create", forceLoad: true);
         }
-        protected void LikePostId(PostGetAllDto post)
+
+        protected void LikePost(PostGetAllDto post)
         {
-            if (post.LikeClicked)
+            if (post.Liked)
             {
                 post.Upvotes--;
             }
             else
             {
                 post.Upvotes++;
-                if (post.DislikeClicked)
+                if (post.Disliked)
                 {
                     post.Downvotes--;
-                    post.DislikeClicked = !post.DislikeClicked;
+                    post.Disliked = !post.Disliked;
                 }
             }
-            post.LikeClicked = !post.LikeClicked;
+            post.Liked = !post.Liked;
+            UpdatePostReact(post);
         }
 
-        protected void DislikePostId(PostGetAllDto post)
+        protected void DislikePost(PostGetAllDto post)
         {
-            if (post.DislikeClicked)
+            if (post.Disliked)
             {
                 post.Downvotes--;
             }
             else
             {
                 post.Downvotes++;
-                if (post.LikeClicked)
+                if (post.Liked)
                 {
                     post.Upvotes--;
-                    post.LikeClicked = !post.LikeClicked;
+                    post.Liked = !post.Liked;
                 }
             }
-            post.DislikeClicked = !post.DislikeClicked;
+            post.Disliked = !post.Disliked;
+            UpdatePostReact(post);
+        }
+
+        private void UpdatePostReact(PostGetAllDto post)
+        {
+            PostPatchReactDto postPatchReactDto = new PostPatchReactDto
+            {
+                Id = post.Id
+            };
+            if (post.Liked)
+            {
+                postPatchReactDto.Type = "Like";
+            }
+            else if (post.Disliked)
+            {
+                postPatchReactDto.Type = "Dislike";
+            }
+            else
+            {
+                postPatchReactDto.Type = "None";
+            }
+            PostService.PatchPostReact(Guid.Parse(TrendId), postPatchReactDto);
+            StateHasChanged();
         }
     }
 }

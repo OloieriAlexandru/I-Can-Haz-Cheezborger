@@ -1,4 +1,4 @@
-﻿@page "/trends/{Id}"
+﻿@page "/trends/{TrendId}"
 @inherits TrendDetailsBase
 
 <div class="row">
@@ -7,12 +7,12 @@
             <div class="layout-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 posts-layout">
                 @if (AuthService.IsLoggedIn())
                 {
-                    <a style="text-decoration:none;color:black;" href="@($"trends/{Id}/create/")">
+                    <a style="text-decoration:none;color:black;" href="@($"trends/{TrendId}/create/")">
                         <div class="post-option post-plus">
                             <i class="fas fa-plus-circle"></i>
                         </div>
                     </a> 
-                    <a style="text-decoration:none;color: #1b6ec2;" href="@($"trends/{Id}/edit/")">
+                    <a style="text-decoration:none;color: #1b6ec2;" href="@($"trends/{TrendId}/edit/")">
                         <div class="post-option post-cogs">
                             <i class="fas fa-cogs"></i>
                         </div>
@@ -25,7 +25,7 @@
                     {
                         <div class="post">
                             <div class="post-title">
-                                <a style="text-decoration:none;color:black;" href="@($"trends/{Id}/posts/{post.Id}")">
+                                <a style="text-decoration:none;color:black;" href="@($"trends/{TrendId}/posts/{post.Id}")">
                                     <h4>@post.Title</h4>
                                 </a>
                             </div>
@@ -43,7 +43,7 @@
                             <div class="post-description">
                                 <div class="post-op">
                                     <span><img class="user-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
-                                    <span class="user-name"> @post.Username </span>
+                                    <span class="user-name"> @post.CreatorUsername </span>
                                 </div>
                                 <div class="post-text">
                                     <p>Description</p>
@@ -53,14 +53,14 @@
                                 <div class="post-information">
                                     <span>@post.Upvotes upvotes</span>
                                     <span>@post.Downvotes downvotes</span>
-                                    <span>54 comments</span>
+                                    <span>@post.CommentsCount comments</span>
                                 </div>
                                 <div class="post-buttons">
                                     @if (AuthService.IsLoggedIn())
                                     {
-                                        <div class="upvote-button" @onclick="(() => LikePostId(post))">
+                                        <div class="upvote-button" @onclick="(() => LikePost(post))">
                                             <button class="icon-button">
-                                                @if (post.LikeClicked == true)
+                                                @if (post.Liked == true)
                                                 {
                                                     <i class="fas fa-thumbs-up"></i>
                                                 }
@@ -71,9 +71,9 @@
 
                                             </button>
                                         </div>
-                                        <div class="downvote-button" @onclick="(() => DislikePostId(post))">
+                                        <div class="downvote-button" @onclick="(() => DislikePost(post))">
                                             <button class="icon-button">
-                                                @if (post.DislikeClicked == true)
+                                                @if (post.Disliked == true)
                                                 {
                                                     <i class="fas fa-thumbs-down"></i>
                                                 }
@@ -84,7 +84,7 @@
                                             </button>
                                         </div>
                                     }
-                                    <div class="comments-button" @onclick="(() => NavigateToPostId(Id, post.Id.ToString()))">
+                                    <div class="comments-button" @onclick="(() => NavigateToPostId(TrendId, post.Id.ToString()))">
                                         <button class="icon-button">
                                             <i class="far fa-comments"></i>
                                         </button>

@@ -30,7 +30,7 @@ namespace BusinessLogic.Tests
             PostId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6")
         };
 
-        private readonly CommentUpdateDto testCommentUpdateDto = new CommentUpdateDto()
+        private readonly CommentPatchDto testCommentUpdateDto = new CommentPatchDto()
         {
             Id = Guid.Parse("3fa85f64-0000-4562-b3fc-2c963f66afa6"),
             Text = "TestCommentUpdateText",

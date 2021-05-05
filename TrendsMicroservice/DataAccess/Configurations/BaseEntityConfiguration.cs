@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DataAccess.Configurations
 {
-    public abstract class BaseEntityTypeConfiguration
+    public abstract class BaseEntityConfiguration
     {
-        protected BaseEntityTypeConfiguration()
+        protected BaseEntityConfiguration()
         {
         }
 
-        public static void Configure<T>(EntityTypeBuilder<T> builder) where T : BaseEntity
+        public static void ConfigureBaseEntity<T>(EntityTypeBuilder<T> builder) where T : BaseEntity
         {
             builder.HasKey(e => e.Id);
 

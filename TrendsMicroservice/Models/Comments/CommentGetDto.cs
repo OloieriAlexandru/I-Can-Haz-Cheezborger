@@ -2,7 +2,7 @@
 
 namespace Models.Comments
 {
-    public class CommentGetDto
+    public class CommentGetDto : UserInfoModel
     {
         public Guid Id { get; set; }
 
@@ -12,20 +12,8 @@ namespace Models.Comments
 
         public int Downvotes { get; set; }
 
-        public string Username { get; set; }
+        public string CreatedBy { get; set; }
 
         public Guid PostId { get; set; }
-
-        public override bool Equals(object obj)
-        {
-            return obj is CommentGetDto dto &&
-                   Id == dto.Id &&
-                   Text == dto.Text &&
-                   PostId == dto.PostId;
-        }
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Id, Text, PostId);
-        }
     }
 }

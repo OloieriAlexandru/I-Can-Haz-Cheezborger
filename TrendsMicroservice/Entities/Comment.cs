@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Entities
 {
-    public class Comment : BaseEntity
+    public class Comment : UserCreatedEntity
     {
         public string Text { get; set; }
 
@@ -10,10 +11,10 @@ namespace Entities
 
         public int Downvotes { get; set; }
 
-        public string Username { get; set; }
-
         public Guid PostId { get; set; }
 
         public Post Post { get; set; }
+
+        public ICollection<CommentReact> Reacts { get; set; }
     }
 }

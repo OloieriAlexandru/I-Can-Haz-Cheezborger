@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Entities
 {
-    public class Post : BaseEntity
+    public class Post : UserCreatedEntity
     {
         public string Title { get; set; }
 
@@ -17,8 +17,10 @@ namespace Entities
         
         public Trend Trend { get; set; }
 
-        public string Username { get; set; }
+        public int CommentsCount { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
+
+        public ICollection<PostReact> Reacts { get; set; }
     }
 }

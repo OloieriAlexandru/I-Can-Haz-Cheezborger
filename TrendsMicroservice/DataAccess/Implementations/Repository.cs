@@ -25,14 +25,19 @@ namespace DataAccess.Implementations
             return entities.ToList();
         }
 
-        ICollection<T> IRepository<T>.GetAllByFilter(Expression<Func<T, bool>> filter)
+        T IRepository<T>.GetById(Guid guid, params string[] includes)
         {
-            return entities.Where(filter).ToList();
+            IQueryable<T> query = entities.Where(entity => entity.Id == guid);
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return query.SingleOrDefault();
         }
 
-        T IRepository<T>.GetById(Guid guid)
+        T IRepository<T>.GetByFilter(Expression<Func<T, bool>> filter)
         {
-            return entities.SingleOrDefault(entity => entity.Id == guid);
+            return entities.SingleOrDefault(filter);
         }
 
         void IRepository<T>.Insert(T entity)
@@ -54,6 +59,16 @@ namespace DataAccess.Implementations
         void IRepository<T>.SaveChanges()
         {
             context.SaveChanges();
+        }
+
+        ICollection<T> IRepository<T>.GetAllByFilter(Expression<Func<T, bool>> filter, params string[] includes)
+        {
+            IQueryable<T> query = entities.Where(filter);
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return query.ToList();
         }
     }
 }

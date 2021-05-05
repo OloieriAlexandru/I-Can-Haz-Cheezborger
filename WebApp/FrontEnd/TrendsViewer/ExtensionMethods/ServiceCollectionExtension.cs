@@ -29,7 +29,7 @@ namespace TrendsViewer.ExtensionMethods
                 {
                     "trends" => serviceProvider.GetService<HttpServiceTrends>(),
                     "users" => serviceProvider.GetService<HttpServiceUsers>(),
-                    _ => throw new KeyNotFoundException(string.Format("There is no HttpService of type %s", type)),
+                    _ => throw new KeyNotFoundException(string.Format("There is no HttpService of type {0}", type)),
                 };
             });
 

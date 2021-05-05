@@ -13,7 +13,7 @@ namespace TrendsViewer.Services.Abstractions
 
         Task<CommentGetDto> CreateComment(Guid trendId, Guid postId, CommentCreateDto newComment);
 
-        Task UpdateComment(Guid trendId, Guid postId, Guid commentId, CommentUpdateDto updatedComment);
+        Task UpdateComment(Guid trendId, Guid postId, Guid commentId, CommentPatchDto commentPatchDto);
         
         Task DeleteComment(Guid trendId, Guid postId, Guid commentId);
     }

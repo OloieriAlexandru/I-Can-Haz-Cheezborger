@@ -41,7 +41,7 @@
                             <div class="post-description">
                                 <div class="post-op">
                                     <span><img class="user-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
-                                    <span class="user-name"> @trend.Username </span>
+                                    <span class="user-name"> @trend.CreatorUsername </span>
                                 </div>
                                 <div class="post-text">
                                     <p>@trend.Description</p>
@@ -49,8 +49,8 @@
                             </div>
                             <div class="post-footer">
                                 <div class="post-information">
-                                    <span>@trend.Followers followers</span>
-                                    <span>@trend.NumberPosts posts</span>
+                                    <span>@trend.FollowersCount followers</span>
+                                    <span>@trend.PostsCount posts</span>
                                 </div>
                                 @if (AuthService.IsLoggedIn())
                                 {
@@ -58,7 +58,7 @@
 
                                         <div class="upvote-button" @onclick="(() => FollowTrendId(trend))">
                                             <button class="icon-button">
-                                                @if (trend.FollowClicked == true)
+                                                @if (trend.Followed == true)
                                                 {
                                                     <i class="fas fa-heart"></i>
                                                 }

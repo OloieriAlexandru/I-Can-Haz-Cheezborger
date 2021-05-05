@@ -1,6 +1,4 @@
 ﻿using Models.Auth;
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -77,8 +75,6 @@ namespace TrendsViewer.Services.Implementations
             if (!response.IsSuccessStatusCode || response.StatusCode == System.Net.HttpStatusCode.NoContent)
             {
                 return default;
-                //Dictionary<string, string> error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
-                // throw new Exception(error["message"]);
             }
 
             return await response.Content.ReadFromJsonAsync<T>();

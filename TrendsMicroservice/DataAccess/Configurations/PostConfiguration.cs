@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DataAccess.Configurations
 {
-    public class PostEntityTypeConfiguration : BaseEntityTypeConfiguration, IEntityTypeConfiguration<Post>
+    public class PostConfiguration : UserCreatedEntityConfiguration, IEntityTypeConfiguration<Post>
     {
-       void IEntityTypeConfiguration<Post>.Configure(EntityTypeBuilder<Post> builder)
+        void IEntityTypeConfiguration<Post>.Configure(EntityTypeBuilder<Post> builder)
         {
+            ConfigureUserCreatedEntity(builder);
+
             builder.Property(p => p.Title)
                 .IsRequired();
 
@@ -20,7 +22,7 @@ namespace DataAccess.Configurations
             builder.Property(p => p.Downvotes)
                 .IsRequired();
 
-            builder.Property(p => p.Username)
+            builder.Property(p => p.CommentsCount)
                 .IsRequired();
 
             builder.HasOne(p => p.Trend)

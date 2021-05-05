@@ -37,7 +37,7 @@
                         <div class="post-description">
                             <div class="post-op">
                                 <span><img class="user-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
-                                <span class="user-name"> @Post.Username </span>
+                                <span class="user-name"> @Post.CreatorUsername </span>
                             </div>
                             <div class="post-text">
                                 <p>Description</p>
@@ -47,14 +47,14 @@
                             <div class="post-information">
                                 <span>@Post.Upvotes upvotes</span>
                                 <span>@Post.Downvotes downvotes</span>
-                                <span>54 comments</span>
+                                <span>@Post.CommentsCount comments</span>
                             </div>
                             <div class="post-buttons">
                                 @if (AuthService.IsLoggedIn())
                                 {
-                                    <div class="upvote-button" @onclick="(() => LikePostId(Post))">
+                                    <div class="upvote-button" @onclick="(() => LikePost(Post))">
                                         <button class="icon-button">
-                                            @if (Post.LikeClicked == true)
+                                            @if (Post.Liked == true)
                                             {
                                                 <i class="fas fa-thumbs-up"></i>
                                             }
@@ -64,9 +64,9 @@
                                             }
                                         </button>
                                     </div>
-                                    <div class="downvote-button" @onclick="(() => DislikePostId(Post))">
+                                    <div class="downvote-button" @onclick="(() => DislikePost(Post))">
                                         <button class="icon-button">
-                                            @if (Post.DislikeClicked == true)
+                                            @if (Post.Disliked == true)
                                             {
                                                 <i class="fas fa-thumbs-down"></i>
                                             }
@@ -114,14 +114,14 @@
                                     @foreach (var comment in Comments)
                                     {
 
-                                        @if (commentToEdit != Guid.Empty && comment.Id == commentToEdit)
+                                        @if (CommentToEdit != Guid.Empty && comment.Id == CommentToEdit)
                                         {
                                             <EditForm Model="@EditCommentModel" OnValidSubmit="HandleValidSubmitEdit" class="comment-form" style="margin-bottom:10px">
                                                 <div class="create-post-comment">
                                                     <div class="post-op">
                                                         <span><img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
                                                         @* <span class="user-name"> @AuthService.GetUsername() </span>*@
-                                                        <span class="user-name"> @comment.Username </span>
+                                                        <span class="user-name"> @comment.CreatorUsername </span>
                                                     </div>
                                                     <div class="post-text">
                                                         <InputTextArea rows="2" @bind-Value="EditCommentModel.Text" style="width:calc(100% - 70px);margin-top:2px;margin-left:30px"></InputTextArea>
@@ -138,7 +138,7 @@
                                         { 
                                             <div class="create-post-comment">
                                                 
-                                                @if (AuthService.IsLoggedIn() && comment.Username == AuthService.GetUsername())
+                                                @if (AuthService.IsLoggedIn() && comment.CreatorUsername == AuthService.GetUsername())
                                                 {
                                                     <div class="comment-options comment-edit" @onclick="(() => EditComment(comment))">
                                                         <i class="fas fa-cogs"></i>
@@ -149,7 +149,7 @@
                                                 }
                                                 <div class="post-op">
                                                     <span><img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
-                                                    <span class="user-name"> @comment.Username </span>
+                                                    <span class="user-name"> @comment.CreatorUsername </span>
                                                     <span class="post-subtitle">
                                                         <h6 class="post-time" style="display:inline">
                                                             12m ago

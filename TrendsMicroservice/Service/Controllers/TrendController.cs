@@ -2,11 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Trends;
+using Service.Utils;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 
 namespace Service.Controllers
 {
@@ -27,6 +25,12 @@ namespace Service.Controllers
             return trendBusinessLogic.GetAll();
         }
 
+        [HttpGet("popular")]
+        public ICollection<TrendGetAllDto> GetPopular()
+        {
+            return trendBusinessLogic.GetPopular();
+        }
+
         [HttpGet("{id:guid}")]
         [ProducesResponseType(200, Type = typeof(TrendGetByIdDto))]
         [ProducesResponseType(404)]
@@ -44,11 +48,8 @@ namespace Service.Controllers
         [Authorize]
         public IActionResult Create([FromBody] TrendCreateDto trendDto)
         {
-            string username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub).Value;
-            Console.WriteLine("******************************************************");
-            Console.WriteLine(username);
-
-            TrendGetAllDto createdTrend = trendBusinessLogic.Create(trendDto, username);
+            UserInfoExtractor.Extract(HttpContext.User, trendDto);
+            TrendGetAllDto createdTrend = trendBusinessLogic.Create(trendDto);
             return CreatedAtAction(nameof(GetById), new { id = createdTrend.Id }, createdTrend);
         }
 
@@ -61,6 +62,19 @@ namespace Service.Controllers
                 return BadRequest();
             }
             trendBusinessLogic.Update(trendDto);
+            return NoContent();
+        }
+
+        [HttpPatch("{id:guid}/follow")]
+        [Authorize]
+        public IActionResult PatchFollow([FromRoute] Guid id, [FromBody] TrendPatchFollowDto trendPatchFollowDto)
+        {
+            if (id != trendPatchFollowDto.Id)
+            {
+                return BadRequest();
+            }
+            UserInfoExtractor.Extract(HttpContext.User, trendPatchFollowDto);
+            trendBusinessLogic.PatchFollow(trendPatchFollowDto);
             return NoContent();
         }
 

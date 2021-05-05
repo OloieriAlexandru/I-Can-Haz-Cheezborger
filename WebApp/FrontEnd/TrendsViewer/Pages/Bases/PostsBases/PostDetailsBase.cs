@@ -33,16 +33,16 @@ namespace TrendsViewer.Pages
 
         public CommentModel CommentModel { get; set; }
         public EditCommentModel EditCommentModel { get; set; }
-        private CommentUpdateDto Comment { get; set; }
+        private CommentPatchDto Comment { get; set; }
 
-        public Guid commentToEdit { get; set; }
+        public Guid CommentToEdit { get; set; }
 
         public PostDetailsBase()
         {
             CommentModel = new CommentModel();
-            commentToEdit = Guid.Empty;
+            CommentToEdit = Guid.Empty;
             EditCommentModel = new EditCommentModel();
-            Comment = new CommentUpdateDto();
+            Comment = new CommentPatchDto();
         }
 
         protected async override Task OnAfterRenderAsync(bool firstRender)
@@ -62,47 +62,69 @@ namespace TrendsViewer.Pages
             NavigationManager.NavigateTo($"/trends/{TrendId}/posts/{PostId}", forceLoad: true);
         }
 
-        protected void LikePostId(PostGetByIdDto post)
+        protected void LikePost(PostGetByIdDto post)
         {
-            if (post.LikeClicked)
+            if (post.Liked)
             {
                 post.Upvotes--;
             }
             else
             {
                 post.Upvotes++;
-                if (post.DislikeClicked)
+                if (post.Disliked)
                 {
                     post.Downvotes--;
-                    post.DislikeClicked = !post.DislikeClicked;
+                    post.Disliked = !post.Disliked;
                 }
             }
-            post.LikeClicked = !post.LikeClicked;
+            UpdatePostReact(post);
         }
 
-        protected void DislikePostId(PostGetByIdDto post)
+        protected void DislikePost(PostGetByIdDto post)
         {
-            if (post.DislikeClicked)
+            if (post.Disliked)
             {
                 post.Downvotes--;
             }
             else
             {
                 post.Downvotes++;
-                if (post.LikeClicked)
+                if (post.Liked)
                 {
                     post.Upvotes--;
-                    post.LikeClicked = !post.LikeClicked;
+                    post.Liked = !post.Liked;
                 }
             }
-            post.DislikeClicked = !post.DislikeClicked;
+            post.Disliked = !post.Disliked;
+            UpdatePostReact(post);
         }
 
         protected void EditComment(CommentGetDto comment)
         {
             EditCommentModel.Text = comment.Text;
-            commentToEdit = comment.Id;
+            CommentToEdit = comment.Id;
+        }
 
+        private void UpdatePostReact(PostGetByIdDto post)
+        {
+            PostPatchReactDto postPatchReactDto = new PostPatchReactDto
+            {
+                Id = post.Id
+            };
+            if (post.Liked)
+            {
+                postPatchReactDto.Type = "Like";
+            }
+            else if (post.Disliked)
+            {
+                postPatchReactDto.Type = "Dislike";
+            }
+            else
+            {
+                postPatchReactDto.Type = "None";
+            }
+            PostService.PatchPostReact(Guid.Parse(TrendId), postPatchReactDto);
+            StateHasChanged();
         }
 
         protected async Task DeleteComment(CommentGetDto comment2)
@@ -123,8 +145,7 @@ namespace TrendsViewer.Pages
         protected async Task HandleValidSubmitEdit()
         {
             Mapper.Map(EditCommentModel, Comment);
-            Comment.PostId = Guid.Parse(PostId);
-            Comment.Id = commentToEdit;
+            Comment.Id = CommentToEdit;
 
             await CommentService.UpdateComment(Guid.Parse(TrendId), Guid.Parse(PostId), Comment.Id, Comment);
             NavigationManager.NavigateTo($"/trends/{TrendId}/posts/{PostId}", forceLoad: true);

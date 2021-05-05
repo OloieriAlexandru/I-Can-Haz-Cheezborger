@@ -2,23 +2,23 @@
 
 namespace DataAccess.Migrations
 {
-    public partial class CommentEntityTypeConfiguration : Migration
+    public partial class AddedCommentsCountFieldToPostsTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Username",
-                table: "Comments",
-                type: "nvarchar(max)",
+            migrationBuilder.AddColumn<int>(
+                name: "CommentsCount",
+                table: "Posts",
+                type: "int",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: 0);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Username",
-                table: "Comments");
+                name: "CommentsCount",
+                table: "Posts");
         }
     }
 }

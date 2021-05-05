@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TrendsViewer.Models;
 using TrendsViewer.Services.Abstractions;
 
-namespace TrendsViewer.Pages.Bases.AuthenticationBases
+namespace TrendsViewer.Pages
 {
     public class RegisterBase : ComponentBase
     {

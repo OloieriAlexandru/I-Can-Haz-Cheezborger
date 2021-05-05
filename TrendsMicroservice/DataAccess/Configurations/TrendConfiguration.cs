@@ -1,22 +1,22 @@
 ﻿using Common.Constraints;
+using DataAccess.Seed;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DataAccess.Configurations
 {
-    public class TrendEntityTypeConfiguration : BaseEntityTypeConfiguration, IEntityTypeConfiguration<Trend>
+    public class TrendConfiguration : UserCreatedEntityConfiguration, IEntityTypeConfiguration<Trend>
     {
         void IEntityTypeConfiguration<Trend>.Configure(EntityTypeBuilder<Trend> builder)
         {
-            Configure(builder);
+            ConfigureUserCreatedEntity(builder);
 
             builder.Property(t => t.Name)
                 .IsRequired()
                 .HasMaxLength(TrendConstraints.NameMaxLength);
 
-            builder.Property(t => t.Username)
-                .IsRequired();
+            builder.HasData(TrendsSeed.Seed());
         }
     }
 }

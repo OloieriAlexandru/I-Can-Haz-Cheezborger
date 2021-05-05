@@ -7,8 +7,11 @@ namespace DataAccess
     public class AppDbContext : DbContext
     {
         public DbSet<Trend> Trends { get; set; }
+        
         public DbSet<Post> Posts { get; set; }
+        
         public DbSet<Comment> Comments { get; set; }
+        
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
@@ -16,15 +19,17 @@ namespace DataAccess
         // https://docs.microsoft.com/en-us/ef/core/modeling/
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new TrendEntityTypeConfiguration());
-            modelBuilder.Entity<Trend>()
-                .HasMany(p => p.Posts);
+            modelBuilder.ApplyConfiguration(new TrendConfiguration());
 
-            modelBuilder.ApplyConfiguration(new PostEntityTypeConfiguration());
-            modelBuilder.Entity<Post>()
-                .HasMany(c => c.Comments);
+            modelBuilder.ApplyConfiguration(new PostConfiguration());
 
-            modelBuilder.ApplyConfiguration(new CommentEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new CommentConfiguration());
+
+            modelBuilder.ApplyConfiguration(new CommentReactConfiguration());
+
+            modelBuilder.ApplyConfiguration(new PostReactConfiguration());
+
+            modelBuilder.ApplyConfiguration(new TrendFollowConfiguration());
         }
     }
 }

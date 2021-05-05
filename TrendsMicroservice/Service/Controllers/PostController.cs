@@ -1,11 +1,11 @@
 ﻿using BusinessLogic.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Models.Posts;
+using Service.Utils;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 
 namespace Service.Controllers
 {
@@ -20,18 +20,41 @@ namespace Service.Controllers
             postBusinessLogic = _postBusinessLogic;
         }
 
-        [HttpGet]
-        public ICollection<PostGetAllDto> GetAll([FromRoute] Guid trendId)
+        [HttpGet("auth")]
+        [Authorize]
+        public ICollection<PostGetAllDto> GetAllAuthorized([FromRoute] Guid trendId)
         {
-            return postBusinessLogic.GetAll(trendId);
+            UserInfoModel userInfoModel = new UserInfoModel();
+            UserInfoExtractor.Extract(HttpContext.User, userInfoModel);
+
+            return postBusinessLogic.GetAll(trendId, userInfoModel);
+        }
+
+        [HttpGet]
+        public ICollection<PostGetAllDto> GetAllUnauthorized([FromRoute] Guid trendId)
+        {
+            return postBusinessLogic.GetAll(trendId, null);
+        }
+
+        [HttpGet("{id:guid}/auth")]
+        [Authorize]
+        public ActionResult<PostGetByIdDto> GetByIdAuthorized([FromRoute] Guid id)
+        {
+            UserInfoModel userInfoModel = new UserInfoModel();
+            UserInfoExtractor.Extract(HttpContext.User, userInfoModel);
+
+            PostGetByIdDto postDto = postBusinessLogic.GetById(id, userInfoModel);
+            if (postDto == null)
+            {
+                return NotFound();
+            }
+            return Ok(postDto);
         }
 
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
-        public ActionResult<PostGetByIdDto> GetById([FromRoute] Guid id)
+        public ActionResult<PostGetByIdDto> GetByIdUnauthorized([FromRoute] Guid id)
         {
-            PostGetByIdDto postDto = postBusinessLogic.GetById(id);
+            PostGetByIdDto postDto = postBusinessLogic.GetById(id, null);
             if (postDto == null)
             {
                 return NotFound();
@@ -43,20 +66,36 @@ namespace Service.Controllers
         [Authorize]
         public IActionResult Create([FromRoute] Guid trendId, [FromBody] PostCreateDto postDto)
         {
-            string username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub).Value;
-
-            PostGetAllDto createdPost = postBusinessLogic.Create(postDto, username);
-            return CreatedAtAction(nameof(GetById), new { trendId = trendId, id = createdPost.Id }, createdPost);
-        }
-        
-        [HttpPut("{id:guid}")]
-        public IActionResult Update([FromRoute] Guid trendId, [FromRoute] Guid id, [FromBody] PostUpdateDto postDto)
-        {
-            if (id != postDto.Id || trendId != postDto.TrendId)
+            if (trendId != postDto.TrendId)
             {
                 return BadRequest();
             }
-            postBusinessLogic.Update(postDto);
+            UserInfoExtractor.Extract(HttpContext.User, postDto);
+
+            PostGetAllDto createdPost = postBusinessLogic.Create(postDto);
+            return CreatedAtAction(nameof(GetByIdUnauthorized), new { trendId, id = createdPost.Id }, createdPost);
+        }
+        
+        [HttpPatch("{id:guid}")]
+        public IActionResult Patch([FromRoute] Guid id, [FromBody] PostPatchDto postDto)
+        {
+            if (id != postDto.Id)
+            {
+                return BadRequest();
+            }
+            postBusinessLogic.Patch(postDto);
+            return NoContent();
+        }
+
+        [HttpPatch("{id:guid}/react")]
+        public IActionResult PatchReact([FromRoute] Guid id, [FromBody] PostPatchReactDto postPatchReactDto)
+        {
+            if (id != postPatchReactDto.Id)
+            {
+                return BadRequest();
+            }
+            UserInfoExtractor.Extract(HttpContext.User, postPatchReactDto);
+            postBusinessLogic.PatchReact(postPatchReactDto);
             return NoContent();
         }
 

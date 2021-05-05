@@ -1,0 +1,37 @@
+﻿@using TrendsViewer.Shared.Bases
+@inherits NavBarBase
+
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="#">I Can Haz Cheezborger</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">
+                    Home
+                </a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="/trends">
+                    Trends
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="right-items">
+        @if (AuthService.IsLoggedIn())
+        {
+            <a type="button" href="#" class="btn btn-light" @onclick="Logout"> Logout </a>
+        }
+        else
+        {
+            <a type="button" href="login" class="btn btn-outline-secondary"> Log In </a>
+            <a type="button" href="register" class="btn btn-light"> Sign Up </a>
+        }
+    </div>
+</nav>

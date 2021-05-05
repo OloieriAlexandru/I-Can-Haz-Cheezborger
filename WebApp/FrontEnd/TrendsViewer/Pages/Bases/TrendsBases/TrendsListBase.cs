@@ -21,7 +21,7 @@ namespace TrendsViewer.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            Trends = await TrendService.GetTrends();
+            Trends = await TrendService.GetAll();
         }
 
         protected void NavigateTrendId(string trendId)
@@ -31,15 +31,15 @@ namespace TrendsViewer.Pages
 
         protected void FollowTrendId(TrendGetAllDto trend)
         {
-            if (trend.FollowClicked)
+            if (trend.Followed)
             {
-                trend.Followers--;
+                --trend.FollowersCount;
             }
             else
             {
-                trend.Followers++;
+                ++trend.FollowersCount;
             }
-            trend.FollowClicked = !trend.FollowClicked;
+            trend.Followed = !trend.Followed;
         }
     }
 }

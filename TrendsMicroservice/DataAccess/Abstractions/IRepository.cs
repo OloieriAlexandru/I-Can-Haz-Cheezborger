@@ -10,10 +10,12 @@ namespace DataAccess.Abstractions
     {
         ICollection<T> GetAll();
 
-        ICollection<T> GetAllByFilter(Expression<Func<T, bool>> filter);
+        ICollection<T> GetAllByFilter(Expression<Func<T, bool>> filter, params string[] includes);
 
-        T GetById(Guid guid);
-        
+        T GetById(Guid guid, params string[] includes);
+
+        T GetByFilter(Expression<Func<T, bool>> filter);
+
         void Insert(T entity);
         
         void Update(T entity);

@@ -36,7 +36,7 @@ namespace TrendsViewer.Pages
             {
                 throw new InvalidProgramException("Invalid Id!");
             }
-            TrendGetByIdDto updatedTrend = await TrendService.GetTrend(Guid.Parse(Id));
+            TrendGetByIdDto updatedTrend = await TrendService.GetById(Guid.Parse(Id));
             Trend = Mapper.Map<TrendUpdateDto>(updatedTrend);
             Mapper.Map(Trend, EditTrendModel);
         }

@@ -10,14 +10,21 @@ namespace BusinessLogic.Implementations
 {
     public class CommentBusinessLogic : ICommentBusinessLogic
     {
+        private readonly IRepository<Post> postRepository;
+
         private readonly IRepository<Comment> commentRepository;
+
+        private readonly IRepository<CommentReact> commentReactRepository;
 
         private readonly IMapper mapper;
 
-        public CommentBusinessLogic(IRepository<Comment> _commentRepository, IMapper _mapper)
+        public CommentBusinessLogic(IRepository<Post> postRepository, IRepository<Comment> commentRepository,
+            IRepository<CommentReact> commentReactRepository, IMapper mapper)
         {
-            commentRepository = _commentRepository;
-            mapper = _mapper;
+            this.postRepository = postRepository;
+            this.commentRepository = commentRepository;
+            this.commentReactRepository = commentReactRepository;
+            this.mapper = mapper;
         }
 
         ICollection<CommentGetDto> ICommentBusinessLogic.GetAll(Guid postId)
@@ -36,25 +43,27 @@ namespace BusinessLogic.Implementations
             return mapper.Map<CommentGetDto>(comment);
         }
 
-        CommentGetDto ICommentBusinessLogic.Create(CommentCreateDto comment, string username)
+        CommentGetDto ICommentBusinessLogic.Create(CommentCreateDto comment)
         {
             Comment newComment = mapper.Map<Comment>(comment);
-            newComment.Username = username;
-
             commentRepository.Insert(newComment);
-            commentRepository.SaveChanges();
+
+            Post post = postRepository.GetById(comment.PostId);
+            ++post.CommentsCount;
+            postRepository.Update(post);
+            postRepository.SaveChanges();
 
             return mapper.Map<CommentGetDto>(newComment);
         }
 
-        void ICommentBusinessLogic.Update(CommentUpdateDto comment)
+        void ICommentBusinessLogic.Patch(CommentPatchDto comment)
         {
             Comment updatedComment = commentRepository.GetById(comment.Id);
             if (updatedComment == null)
             {
                 return;
             }
-            mapper.Map<CommentUpdateDto, Comment>(comment, updatedComment);
+            mapper.Map<CommentPatchDto, Comment>(comment, updatedComment);
 
             commentRepository.Update(updatedComment);
             commentRepository.SaveChanges();
@@ -62,8 +71,45 @@ namespace BusinessLogic.Implementations
 
         void ICommentBusinessLogic.Delete(Guid id)
         {
+            Comment comment = commentRepository.GetById(id);
+
+            Post post = postRepository.GetById(comment.PostId);
+            --post.CommentsCount;
+            postRepository.Update(post);
+
             commentRepository.Delete(id);
             commentRepository.SaveChanges();
+        }
+
+        void ICommentBusinessLogic.PatchReact(CommentPatchReactDto commentPatchReact)
+        {
+            CommentReact commentReact = commentReactRepository.GetByFilter(
+                cr => cr.UserId == commentPatchReact.CreatorId && cr.CommentId == commentPatchReact.Id);
+            ReactType type = (ReactType)Enum.Parse(typeof(ReactType), commentPatchReact.Type);
+
+            if (commentReact == null)
+            {
+                commentReact = new CommentReact
+                {
+                    CommentId = commentPatchReact.Id,
+                    UserId = commentPatchReact.CreatorId,
+                    Type = type
+                };
+            }
+            else
+            {
+                if (type == ReactType.None)
+                {
+                    commentReactRepository.Delete(commentReact.Id);
+                    commentReactRepository.SaveChanges();
+                }
+                else if (type != commentReact.Type)
+                {
+                    commentReact.Type = type;
+                    commentReactRepository.Update(commentReact);
+                    commentReactRepository.SaveChanges();
+                }
+            }
         }
     }
 }

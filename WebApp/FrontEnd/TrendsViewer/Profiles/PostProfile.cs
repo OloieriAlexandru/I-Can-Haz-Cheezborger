@@ -12,12 +12,12 @@ namespace TrendsViewer.Profiles
             CreateMap<CreatePostModel, PostCreateDto>();
 
             CreateMap<PostGetByIdDto, UpdatePostModel>();
-            CreateMap<EditPostModel, PostUpdateDto>();
+            CreateMap<EditPostModel, PostPatchDto>();
 
-            CreateMap<PostUpdateDto, EditPostModel>();
+            CreateMap<PostPatchDto, EditPostModel>();
 
-            CreateMap<PostGetByIdDto, PostUpdateDto>();
-            CreateMap<EditPostModel, PostUpdateDto>();
+            CreateMap<PostGetByIdDto, PostPatchDto>();
+            CreateMap<EditPostModel, PostPatchDto>();
         }
     }
 }

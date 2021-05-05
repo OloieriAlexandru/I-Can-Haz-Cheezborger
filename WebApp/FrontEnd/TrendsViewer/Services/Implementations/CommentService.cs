@@ -36,9 +36,9 @@ namespace TrendsViewer.Services.Implementations
             return await httpService.Get<CommentGetDto[]>($"api/v1/trends/{trendId}/posts/{postId}/comments");
         }
 
-        async Task ICommentService.UpdateComment(Guid trendId, Guid postId, Guid commentId, CommentUpdateDto updatedComment)
+        async Task ICommentService.UpdateComment(Guid trendId, Guid postId, Guid commentId, CommentPatchDto commentPatchDto)
         {
-            await httpService.Put<ValueTask>($"api/v1/trends/{trendId}/posts/{postId}/comments/{updatedComment.Id}", updatedComment);
+            await httpService.Patch<ValueTask>($"api/v1/trends/{trendId}/posts/{postId}/comments/{commentPatchDto.Id}", commentPatchDto);
         }
     }
 }

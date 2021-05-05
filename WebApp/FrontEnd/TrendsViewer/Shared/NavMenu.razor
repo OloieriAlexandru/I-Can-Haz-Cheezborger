@@ -1,63 +1,20 @@
 ﻿@using TrendsViewer.Shared.Bases
 @inherits NavMenuBase
 
-<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="/">TrendsViewer</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</div>
+<div>
+    <h5>
+        Popular
+    </h5>    
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        @if (!AuthService.IsLoggedIn())
-        {
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="login" Match="NavLinkMatch.All">
-                    <span class="oi oi-home" aria-hidden="true"></span> Login
-                </NavLink>
-            </li>
-        }
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="trends" Match="NavLinkMatch.All">
-                <span class="oi oi-plus" aria-hidden="true"></span> Trends
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="trends/create" @onclick="HandleClick" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Create Trend
-            </NavLink>
-        </li>
-        @if (AuthService.IsLoggedIn())
-        {
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="/" @onclick="Logout" Match="NavLinkMatch.All">
-                    <span class="oi oi-home" aria-hidden="true"></span> Logout
-                </NavLink>
-            </li>
-        }
-    </ul>
-</div>
-
-@code {
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    @inject NavigationManager NavigationManager;
-
-    private void HandleClick()
+    @if (Trends != null)
     {
-        NavigationManager.NavigateTo("trends/create", true);
+        <ul>
+            @foreach (var trend in Trends)
+            {
+                <li>
+                    @trend.Name
+                </li>
+            }
+        </ul>
     }
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
+</div>

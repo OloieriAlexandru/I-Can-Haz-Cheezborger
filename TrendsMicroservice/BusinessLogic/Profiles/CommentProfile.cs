@@ -11,7 +11,7 @@ namespace BusinessLogic.Profiles
             CreateMap<Comment, CommentGetDto>();
 
             CreateMap<CommentCreateDto, Comment>();
-            CreateMap<CommentUpdateDto, Comment>();
+            CreateMap<CommentPatchDto, Comment>();
         }
     }
 }

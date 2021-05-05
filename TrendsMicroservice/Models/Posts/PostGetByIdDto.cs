@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Models.Posts
 {
-    public class PostGetByIdDto
+    public class PostGetByIdDto : UserInfoModel
     {
         public Guid Id { get; set; }
         
@@ -16,14 +16,14 @@ namespace Models.Posts
 
         public int Downvotes { get; set; }
 
-        public string Username { get; set; }
-
         public Guid TrendId { get; set; }
 
+        public bool Liked { get; set; }
+
+        public bool Disliked { get; set; }
+
+        public int CommentsCount { get; set; }
+
         public ICollection<CommentGetDto> Comments { get; set; }
-
-        public bool LikeClicked { get; set; }
-
-        public bool DislikeClicked { get; set; }
     }
 }

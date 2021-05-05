@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DataAccess.Configurations
 {
-    public class CommentEntityTypeConfiguration : BaseEntityTypeConfiguration, IEntityTypeConfiguration<Comment>
+    public class CommentConfiguration : UserCreatedEntityConfiguration, IEntityTypeConfiguration<Comment>
     {
         void IEntityTypeConfiguration<Comment>.Configure(EntityTypeBuilder<Comment> builder)
         {
+            ConfigureUserCreatedEntity(builder);
+
             builder.Property(c => c.Text)
                 .IsRequired();
 
@@ -18,9 +20,6 @@ namespace DataAccess.Configurations
                 .IsRequired();
 
             builder.Property(c => c.PostId)
-                .IsRequired();
-
-            builder.Property(c => c.Username)
                 .IsRequired();
 
             builder.HasOne(c => c.Post)

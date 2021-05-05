@@ -18,7 +18,7 @@ namespace TrendsViewer.Pages
         public NavigationManager NavigationManager { get; set; }
 
         [Parameter]
-        public string Id { get; set; }
+        public string TrendId { get; set; }
 
         public CreatePostModel CreatePostModel { get; set; }
 
@@ -33,17 +33,15 @@ namespace TrendsViewer.Pages
         protected async override Task OnInitializedAsync()
         {
             await Task.CompletedTask;
-            CreatePostModel.TrendId = Id;
-            Post.TrendId = Id; 
+            CreatePostModel.TrendId = TrendId;
         }
 
         protected async Task HandleValidSubmit()
         {
-
             Mapper.Map(CreatePostModel, Post);
 
-            await PostService.CreatePost(Guid.Parse(Id), Post);
-            NavigationManager.NavigateTo($"/trends/{Id}");
+            await PostService.CreatePost(Guid.Parse(TrendId), Post);
+            NavigationManager.NavigateTo($"/trends/{TrendId}");
         }
     }
 }

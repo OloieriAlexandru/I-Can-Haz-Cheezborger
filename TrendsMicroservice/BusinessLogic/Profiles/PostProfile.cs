@@ -12,7 +12,7 @@ namespace BusinessLogic.Profiles
             CreateMap<Post, PostGetAllDto>();
 
             CreateMap<PostCreateDto, Post>();
-            CreateMap<PostUpdateDto, Post>();
+            CreateMap<PostPatchDto, Post>();
         }
     }
 }

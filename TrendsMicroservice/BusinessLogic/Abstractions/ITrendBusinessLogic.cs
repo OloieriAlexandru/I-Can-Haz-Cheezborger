@@ -8,11 +8,15 @@ namespace BusinessLogic.Abstractions
     {
         ICollection<TrendGetAllDto> GetAll();
 
+        ICollection<TrendGetAllDto> GetPopular();
+
         TrendGetByIdDto GetById(Guid id);
 
-        TrendGetAllDto Create(TrendCreateDto trend, string username);
+        TrendGetAllDto Create(TrendCreateDto trend);
 
         void Update(TrendUpdateDto trend);
+
+        void PatchFollow(TrendPatchFollowDto trendPatchFollowDto);
 
         void Delete(Guid id);
     }

@@ -8,8 +8,8 @@ namespace TrendsViewer.Profiles
     {
         public CommentProfile()
         {
-            CreateMap<CommentUpdateDto, EditCommentModel>();
-            CreateMap<EditCommentModel, CommentUpdateDto>();
+            CreateMap<CommentPatchDto, EditCommentModel>();
+            CreateMap<EditCommentModel, CommentPatchDto>();
         }
        
     }

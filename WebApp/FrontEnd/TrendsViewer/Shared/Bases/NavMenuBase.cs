@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Models.Trends;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TrendsViewer.Services.Abstractions;
 
@@ -7,23 +9,17 @@ namespace TrendsViewer.Shared.Bases
     public class NavMenuBase : ComponentBase
     {
         [Inject]
-        public IAuthService AuthService { get; set; }
-        [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public ITrendService TrendService { get; set; }
+
+        public IEnumerable<TrendGetAllDto> Trends { get; set; }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                await AuthService.Initialize();
+                Trends = await TrendService.GetPopular();
                 StateHasChanged();
             }
-        }
-
-        protected async Task Logout()
-        {
-            await AuthService.Logout();
-            NavigationManager.NavigateTo("/", true);
         }
     }
 }
