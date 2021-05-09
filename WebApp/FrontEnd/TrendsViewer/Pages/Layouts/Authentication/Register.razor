@@ -1,6 +1,15 @@
 ﻿@layout LoginLayout
 @page "/register"
 @inherits RegisterBase
+@using Syncfusion.Blazor.Notifications
+
+<SfToast Title="Successfull sign in!" Content=@ToastContentRegisterOK @ref="ToastObjRegisterOK">
+    <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+</SfToast>
+
+<SfToast Title="Failed sign in!" Content=@ToastContentRegisterFailed @ref="ToastObjRegisterFailed">
+    <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+</SfToast>
 
 <div class="row">
     <div class="col-12 row">

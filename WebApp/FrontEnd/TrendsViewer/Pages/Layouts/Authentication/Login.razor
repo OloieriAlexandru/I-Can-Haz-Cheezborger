@@ -1,15 +1,21 @@
 ﻿@layout LoginLayout
 @inherits LoginBase
+@using Syncfusion.Blazor.Notifications
 
 @page "/login"
+
+
+<SfToast Title="Something went wrong" Content=@ToastContentLoggingStatus @ref="ToastObjLoggingStatus">
+    <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+</SfToast>
 
 <div class="row">
     <div class="col-12 row">
         <div class="col-6 image-card login-col">
-            <img src="https://www.pngitem.com/pimgs/m/56-567726_cheeseburger-cartoon-png-burger-cartoon-transparent-png-download.png"/>
+            <img src="https://www.pngitem.com/pimgs/m/56-567726_cheeseburger-cartoon-png-burger-cartoon-transparent-png-download.png" />
 
         </div>
-        <div class="col-6 login-card login-col" >
+        <div class="col-6 login-card login-col">
             <EditForm Model="@LoginUserModel" OnValidSubmit="@HandleValidSubmit">
                 <DataAnnotationsValidator />
                 <div>

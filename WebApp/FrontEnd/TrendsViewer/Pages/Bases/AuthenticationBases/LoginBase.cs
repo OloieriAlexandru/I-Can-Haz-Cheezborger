@@ -5,6 +5,8 @@ using System;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
 using TrendsViewer.Services.Abstractions;
+using Syncfusion.Blazor.Notifications;
+
 
 namespace TrendsViewer.Pages
 {
@@ -19,6 +21,8 @@ namespace TrendsViewer.Pages
 
         public LoginUserModel LoginUserModel { get; set; }
 
+        public string ToastContentLoggingStatus { get; set; } = "Wrong password or unregistered account";
+        public SfToast ToastObjLoggingStatus { get; set; }
         public LoginBase()
         {
             LoginUserModel = new LoginUserModel();
@@ -34,6 +38,10 @@ namespace TrendsViewer.Pages
                 if (AuthService.IsLoggedIn())
                 {
                     NavigationManager.NavigateTo("/");
+                }
+                else
+                {
+                    ToastObjLoggingStatus.Show();
                 }
             } catch (Exception e)
             {

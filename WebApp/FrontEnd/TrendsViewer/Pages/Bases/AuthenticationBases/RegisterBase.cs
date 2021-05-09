@@ -5,6 +5,8 @@ using System;
 using System.Threading.Tasks;
 using TrendsViewer.Models;
 using TrendsViewer.Services.Abstractions;
+using Syncfusion.Blazor.Notifications;
+
 
 namespace TrendsViewer.Pages
 {
@@ -24,6 +26,10 @@ namespace TrendsViewer.Pages
             RegisterUserModel = new RegisterUserModel();
         }
 
+        public string ToastContentRegisterOK { get; set; } = "Enjoy our app";
+        public SfToast ToastObjRegisterOK { get; set; }
+        public string ToastContentRegisterFailed { get; set; } = "Check if your email is valid and passwords match";
+        public SfToast ToastObjRegisterFailed { get; set; }
         protected async Task HandleValidSubmit()
         {
             UserCreateDto newUser = Mapper.Map<UserCreateDto>(RegisterUserModel);
@@ -32,8 +38,13 @@ namespace TrendsViewer.Pages
                 UserGetAllDto userGetAllDto = await UserService.Create(newUser);
                 if (userGetAllDto != null)
                 {
+                    
                     NavigationManager.NavigateTo("/login");
                 }
+                else
+                {
+                    ToastObjRegisterFailed.Show();
+                }          
             } catch (Exception e)
             {
                 Console.WriteLine(e);

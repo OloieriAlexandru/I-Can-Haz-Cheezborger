@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TrendsViewer.ExtensionMethods;
+using Syncfusion.Blazor;
 
 namespace TrendsViewer
 {
@@ -23,6 +24,7 @@ namespace TrendsViewer
 
             services.AddAutoMapperProfiles();
             services.AddHttpClients(Configuration);
+            services.AddSyncfusionBlazor();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -50,6 +52,8 @@ namespace TrendsViewer
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NDQzNDQ0QDMxMzkyZTMxMmUzMFNObW9NaEhlMmg5dm5sUVVHcUFvM2RlclFXUUxhOTBhM01kU1crM2ZzMzg9");
         }
     }
 }
