@@ -6,6 +6,7 @@ namespace TrendsViewer.Shared.Bases
 {
     public class NavBarBase : ComponentBase
     {
+
         [Inject]
         public IAuthService AuthService { get; set; }
         [Inject]
