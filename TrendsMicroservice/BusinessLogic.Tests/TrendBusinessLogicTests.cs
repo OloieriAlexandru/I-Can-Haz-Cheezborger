@@ -5,7 +5,6 @@ using Entities;
 using Models.Trends;
 using Moq;
 using System;
-using System.Collections.Generic;
 using Xunit;
 
 namespace BusinessLogic.Tests
@@ -29,8 +28,10 @@ namespace BusinessLogic.Tests
         public void GetById_ReturnsTrendById()
         {
             //Arrange
-            Trend trend = new Trend();
-            trend.Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6");
+            Trend trend = new Trend
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            };
             trendRepositoryMock.Setup(x => x.GetById(Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).Returns(trend);
 
             //Act
@@ -44,8 +45,10 @@ namespace BusinessLogic.Tests
         public void GetById_ReturnsNullIfTrendDoesNotExist()
         {
             //Arrange
-            Trend trend = new Trend();
-            trend.Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6");
+            Trend trend = new Trend
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            };
             trendRepositoryMock.Setup(x => x.GetById(Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).Returns(() => null);
 
             //Act
@@ -59,9 +62,10 @@ namespace BusinessLogic.Tests
         public void Create_InsertsTheTrendGiven()
         {
             //Arrange
-            TrendCreateDto trendCreateDto = new TrendCreateDto();
-            trendCreateDto.CreatorId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6");
-            Trend trend = mapper.Map<Trend>(trendCreateDto);
+            TrendCreateDto trendCreateDto = new TrendCreateDto
+            {
+                CreatorId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            };
 
             //Act
             TrendGetAllDto trendGetAllDto = systemUnderTest.Create(trendCreateDto);

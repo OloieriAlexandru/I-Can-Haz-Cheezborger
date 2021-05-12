@@ -1,22 +1,21 @@
 ﻿using BusinessLogic.Validators;
 using Common.Constraints;
 using FluentValidation.TestHelper;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace BusinessLogic.Tests
 {
-    [TestClass]
     public class TrendValidatorTests
     {
         private readonly TrendCreateDtoValidator _validator = new TrendCreateDtoValidator();
 
-        [TestMethod]
+        [Fact]
         public void GivenATrendName_ShouldHaveNonEmptyValidation()
         {
             _validator.ShouldHaveValidationErrorFor(trendDto => trendDto.Name, string.Empty);
         }
 
-        [TestMethod]
+        [Fact]
         public void GivenATrendName_Validate_ShouldHaveLengthValidation()
         {
             _validator.ShouldHaveValidationErrorFor(trendDto => trendDto.Name, new string('A', TrendConstraints.NameMinLength - 1));
