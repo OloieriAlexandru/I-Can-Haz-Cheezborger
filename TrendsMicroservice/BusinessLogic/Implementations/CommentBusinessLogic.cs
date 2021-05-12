@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLogic.Abstractions;
+using BusinessLogic.Utils;
 using DataAccess.Abstractions;
 using Entities;
 using Models.Comments;
@@ -87,6 +88,7 @@ namespace BusinessLogic.Implementations
                 cr => cr.UserId == commentPatchReact.CreatorId && cr.CommentId == commentPatchReact.Id);
             ReactType type = (ReactType)Enum.Parse(typeof(ReactType), commentPatchReact.Type);
 
+            int deltaUpvotes = 0, deltaDownvotes = 0;
             if (commentReact == null)
             {
                 commentReact = new CommentReact
@@ -95,6 +97,9 @@ namespace BusinessLogic.Implementations
                     UserId = commentPatchReact.CreatorId,
                     Type = type
                 };
+                commentReactRepository.Insert(commentReact);
+                commentRepository.SaveChanges();
+                ReactsUtils.UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, ReactType.None);
             }
             else
             {
@@ -102,13 +107,23 @@ namespace BusinessLogic.Implementations
                 {
                     commentReactRepository.Delete(commentReact.Id);
                     commentReactRepository.SaveChanges();
+                    ReactsUtils.UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, commentReact.Type);
                 }
                 else if (type != commentReact.Type)
                 {
                     commentReact.Type = type;
                     commentReactRepository.Update(commentReact);
                     commentReactRepository.SaveChanges();
+                    ReactsUtils.UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, commentReact.Type);
                 }
+            }
+            if (deltaUpvotes != 0 || deltaDownvotes != 0)
+            {
+                Comment comment = commentRepository.GetById(commentPatchReact.Id);
+                comment.Upvotes += deltaUpvotes;
+                comment.Downvotes += deltaDownvotes;
+                commentRepository.Update(comment);
+                commentRepository.SaveChanges();
             }
         }
     }

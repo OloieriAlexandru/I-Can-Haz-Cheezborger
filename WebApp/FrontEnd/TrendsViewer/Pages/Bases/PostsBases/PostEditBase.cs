@@ -32,15 +32,18 @@ namespace TrendsViewer.Pages
             Post = new PostPatchDto();
         }
 
-        protected async override Task OnInitializedAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (!Guid.TryParse(TrendId, out Guid trendId))
+            if (firstRender)
             {
-                throw new InvalidProgramException("Invalid Id!");
+                if (!Guid.TryParse(TrendId, out Guid trendId))
+                {
+                    throw new InvalidProgramException("Invalid Id!");
+                }
+                PostGetByIdDto updatedPost = await PostService.GetPost(Guid.Parse(TrendId), Guid.Parse(PostId));
+                Post = Mapper.Map<PostPatchDto>(updatedPost);
+                Mapper.Map(Post, EditPostModel);
             }
-            PostGetByIdDto updatedPost = await PostService.GetPost(Guid.Parse(TrendId), Guid.Parse(PostId));
-            Post = Mapper.Map<PostPatchDto>(updatedPost);
-            Mapper.Map(Post, EditPostModel);
         }
 
         protected async Task HandleValidSubmit()

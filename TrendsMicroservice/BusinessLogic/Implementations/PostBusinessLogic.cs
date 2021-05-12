@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLogic.Abstractions;
+using BusinessLogic.Utils;
 using DataAccess.Abstractions;
 using Entities;
 using Models;
@@ -36,7 +37,7 @@ namespace BusinessLogic.Implementations
                 PostGetAllDto postGetAllDto = mapper.Map<PostGetAllDto>(post);
                 if (userInfo != null && post.Reacts != null)
                 {
-                    PostReact react = post.Reacts.Where(pr => pr.UserId == userInfo.CreatorId).FirstOrDefault();
+                    PostReact react = post.Reacts.FirstOrDefault(pr => pr.UserId == userInfo.CreatorId);
                     if (react != null)
                     {
                         if (react.Type == ReactType.Like)
@@ -65,7 +66,7 @@ namespace BusinessLogic.Implementations
             PostGetByIdDto returnedPost = mapper.Map<PostGetByIdDto>(post);
             if (userInfo != null && post.Reacts != null)
             {
-                PostReact react = post.Reacts.Where(pr => pr.UserId == userInfo.CreatorId).FirstOrDefault();
+                PostReact react = post.Reacts.FirstOrDefault(pr => pr.UserId == userInfo.CreatorId);
                 if (react != null)
                 {
                     if (react.Type == ReactType.Like)
@@ -116,8 +117,7 @@ namespace BusinessLogic.Implementations
                 pr => pr.UserId == postPatchReact.CreatorId && pr.PostId == postPatchReact.Id);
             ReactType type = (ReactType)Enum.Parse(typeof(ReactType), postPatchReact.Type);
 
-            int deltaUpvotes = 0;
-            int deltaDownvotes = 0;
+            int deltaUpvotes = 0, deltaDownvotes = 0;
             if (postReact == null)
             {
                 postReact = new PostReact
@@ -128,7 +128,7 @@ namespace BusinessLogic.Implementations
                 };
                 postReactRepository.Insert(postReact);
                 postReactRepository.SaveChanges();
-                UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, null);
+                ReactsUtils.UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, ReactType.None);
             }
             else
             {
@@ -136,14 +136,14 @@ namespace BusinessLogic.Implementations
                 {
                     postReactRepository.Delete(postReact.Id);
                     postReactRepository.SaveChanges();
-                    UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, postReact);
+                    ReactsUtils.UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, postReact.Type);
                 }
                 else if (type != postReact.Type)
                 {
                     postReact.Type = type;
                     postReactRepository.Update(postReact);
                     postReactRepository.SaveChanges();
-                    UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, postReact);
+                    ReactsUtils.UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, postReact.Type);
                 }
             }
             if (deltaUpvotes != 0 || deltaDownvotes != 0)
@@ -153,41 +153,6 @@ namespace BusinessLogic.Implementations
                 post.Downvotes += deltaDownvotes;
                 postRepository.Update(post);
                 postRepository.SaveChanges();
-            }
-        }
-
-        private static void UpdateDeltas(ref int deltaUpvotes, ref int deltaDownvotes, ReactType type, PostReact oldReact)
-        {
-            if (type == ReactType.Like)
-            {
-                ++deltaUpvotes;
-                if (oldReact != null)
-                {
-                    --deltaDownvotes;
-                }
-            }
-            else if (type == ReactType.Dislike)
-            {
-                ++deltaDownvotes;
-                if (oldReact != null)
-                {
-                    --deltaUpvotes;
-                }
-            }
-            else
-            {
-                if (oldReact == null)
-                {
-                    return;
-                }
-                if (oldReact.Type == ReactType.Like)
-                {
-                    --deltaUpvotes;
-                }
-                else if (oldReact.Type == ReactType.Dislike)
-                {
-                    --deltaDownvotes;
-                }
             }
         }
     }

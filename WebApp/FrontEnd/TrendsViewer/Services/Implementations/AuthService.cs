@@ -9,7 +9,7 @@ namespace TrendsViewer.Services.Implementations
 {
     public class AuthService : IAuthService
     {
-        private IHttpService httpService;
+        private readonly IHttpService httpService;
 
         private readonly ILocalStorageService localStorageService;
 

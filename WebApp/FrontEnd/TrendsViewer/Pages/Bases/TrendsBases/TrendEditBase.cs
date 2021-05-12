@@ -30,15 +30,18 @@ namespace TrendsViewer.Pages
             Trend = new TrendUpdateDto();
         }
 
-        protected async override Task OnInitializedAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (!Guid.TryParse(Id, out Guid trendId))
+            if (firstRender)
             {
-                throw new InvalidProgramException("Invalid Id!");
+                if (!Guid.TryParse(Id, out Guid trendId))
+                {
+                    throw new InvalidProgramException("Invalid Id!");
+                }
+                TrendGetByIdDto updatedTrend = await TrendService.GetById(Guid.Parse(Id));
+                Trend = Mapper.Map<TrendUpdateDto>(updatedTrend);
+                Mapper.Map(Trend, EditTrendModel);
             }
-            TrendGetByIdDto updatedTrend = await TrendService.GetById(Guid.Parse(Id));
-            Trend = Mapper.Map<TrendUpdateDto>(updatedTrend);
-            Mapper.Map(Trend, EditTrendModel);
         }
 
         protected async Task HandleValidSubmit()

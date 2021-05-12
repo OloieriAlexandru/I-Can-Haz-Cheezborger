@@ -11,7 +11,7 @@ namespace TrendsMicroservice.IntegrationTests
 {
     public class TrendsControllerTests : BaseIntegrationTests
     {
-        private List<TrendCreateDto> trendsToBeCreatedList;
+        private readonly List<TrendCreateDto> trendsToBeCreatedList;
 
         public TrendsControllerTests() : base()
         {

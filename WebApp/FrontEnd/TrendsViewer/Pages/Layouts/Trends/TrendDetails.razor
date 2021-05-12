@@ -109,34 +109,4 @@
             </div>
         </div>
     </div>
-    <div class="layout-col col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-        @*<div class="sticky-list">
-            @if (Trends != null)
-            {
-                <h5 class="trends-list-title"> Trends </h5>
-                @if (AuthService.IsLoggedIn())
-                {
-                    <div class="trend-plus" @onclick="(() => NavigateNewTrend())">
-                        <i class="fas fa-plus-circle"></i>
-                    </div>
-                }
-
-                @foreach (var trend in Trends)
-                {
-                    <div class="trend">
-                        <span><img class="trend-image" src=@trend.ImageUrl /></span>
-                        @if (@trend.Name == Trend.Name)
-                        {
-                            <span class="trend-title" style="font-weight:600;color:#1b6ec2"> @trend.Name </span>
-                        }
-                        else
-                        {
-                            <span class="trend-title" @onclick="(() => NavigateTrendId(trend.Id))"> @trend.Name </span>
-                        }
-                    </div>
-                }
-            }
-        </div>*@
-       
-    </div>
 </div>

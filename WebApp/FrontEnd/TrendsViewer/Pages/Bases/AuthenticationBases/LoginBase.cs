@@ -7,7 +7,6 @@ using TrendsViewer.Models;
 using TrendsViewer.Services.Abstractions;
 using Syncfusion.Blazor.Notifications;
 
-
 namespace TrendsViewer.Pages
 {
     public class LoginBase : ComponentBase
@@ -41,14 +40,13 @@ namespace TrendsViewer.Pages
                 }
                 else
                 {
-                    ToastObjLoggingStatus.Show();
+                    await ToastObjLoggingStatus.Show();
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e);
             }
-
-            // TODO: Display error
         }
     }
 }

@@ -19,9 +19,13 @@ namespace TrendsViewer.Pages
 
         public IEnumerable<TrendGetAllDto> Trends { get; set; }
 
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            Trends = await TrendService.GetAll();
+            if (firstRender)
+            {
+                Trends = await TrendService.GetAll();
+                StateHasChanged();
+            }
         }
 
         protected void NavigateTrendId(string trendId)
@@ -29,7 +33,7 @@ namespace TrendsViewer.Pages
             NavigationManager.NavigateTo($"/trends/{trendId}", forceLoad: true);
         }
 
-        protected void FollowTrendId(TrendGetAllDto trend)
+        protected void FollowTrend(TrendGetAllDto trend)
         {
             if (trend.Followed)
             {

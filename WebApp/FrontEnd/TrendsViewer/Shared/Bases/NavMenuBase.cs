@@ -26,10 +26,12 @@ namespace TrendsViewer.Shared.Bases
                 StateHasChanged();
             }
         }
-        protected void NavigateTrendId(Guid trendId)
+
+        protected void NavigateTrend(Guid trendId)
         {
             NavigationManager.NavigateTo($"/trends/{trendId}", forceLoad: true);
         }
+
         protected void NavigateNewTrend()
         {
             NavigationManager.NavigateTo($"/trends/create", forceLoad: true);

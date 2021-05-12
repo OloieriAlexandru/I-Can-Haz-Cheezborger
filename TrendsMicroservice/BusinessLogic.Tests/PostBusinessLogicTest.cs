@@ -62,8 +62,10 @@ namespace BusinessLogic.Tests
             //Arrange
             PostGetByIdDto postGetById = new PostGetByIdDto();
             UserInfoModel userInfo = new UserInfoModel();
-            Post post = new Post();
-            post.Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6");
+            Post post = new Post
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            };
             postRepositoryMock.Setup(x => x.GetById(Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"), "Reacts")).Returns(post);
             PostGetByIdDto mappedPost = mapper.Map<PostGetByIdDto>(post);
 
@@ -93,8 +95,10 @@ namespace BusinessLogic.Tests
         public void Patch_UpdatesRepoWithPostGiven()
         {
             //Arrange
-            PostPatchDto postPatch = new PostPatchDto();
-            postPatch.Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6");
+            PostPatchDto postPatch = new PostPatchDto
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            };
             Post post = mapper.Map<Post>(postPatch);
             postRepositoryMock.Setup(x => x.GetById(Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).Returns(post);
 
@@ -109,8 +113,10 @@ namespace BusinessLogic.Tests
         public void Patch_ReturnsNullIfPostGivenDoesNotExist()
         {
             //Arrange
-            PostPatchDto postPatch = new PostPatchDto();
-            postPatch.Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6");
+            PostPatchDto postPatch = new PostPatchDto
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            };
             Post post = mapper.Map<Post>(postPatch);
             postRepositoryMock.Setup(x => x.GetById(Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).Returns(() => null);
 
@@ -126,8 +132,10 @@ namespace BusinessLogic.Tests
         public void Patch_SavesRepoAfterUpdate()
         {
             //Arrange
-            PostPatchDto postPatch = new PostPatchDto();
-            postPatch.Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6");
+            PostPatchDto postPatch = new PostPatchDto
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            };
             Post post = mapper.Map<Post>(postPatch);
             postRepositoryMock.Setup(x => x.GetById(Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).Returns(post);
 

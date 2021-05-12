@@ -15,7 +15,7 @@ namespace TrendsViewer.Services.Implementations
 
         private readonly ILocalStorageService localStorageService;
 
-        public HttpService(HttpClient httpClient, ILocalStorageService localStorageService)
+        protected HttpService(HttpClient httpClient, ILocalStorageService localStorageService)
         {
             this.httpClient = httpClient;
             this.localStorageService = localStorageService;

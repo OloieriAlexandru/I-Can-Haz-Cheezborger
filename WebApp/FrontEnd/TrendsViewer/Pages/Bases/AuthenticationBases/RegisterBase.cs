@@ -7,7 +7,6 @@ using TrendsViewer.Models;
 using TrendsViewer.Services.Abstractions;
 using Syncfusion.Blazor.Notifications;
 
-
 namespace TrendsViewer.Pages
 {
     public class RegisterBase : ComponentBase
@@ -30,6 +29,7 @@ namespace TrendsViewer.Pages
         public SfToast ToastObjRegisterOK { get; set; }
         public string ToastContentRegisterFailed { get; set; } = "Check if your email is valid and passwords match";
         public SfToast ToastObjRegisterFailed { get; set; }
+
         protected async Task HandleValidSubmit()
         {
             UserCreateDto newUser = Mapper.Map<UserCreateDto>(RegisterUserModel);
@@ -43,9 +43,10 @@ namespace TrendsViewer.Pages
                 }
                 else
                 {
-                    ToastObjRegisterFailed.Show();
+                    await ToastObjRegisterFailed.Show();
                 }          
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e);
             }

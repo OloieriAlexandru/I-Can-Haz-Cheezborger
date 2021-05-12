@@ -74,7 +74,7 @@ namespace BusinessLogic.Implementations
         {
             TrendFollow trendFollow = trendFollowRepository.GetByFilter(
                 tf => tf.UserId == trendPatchFollowDto.CreatorId && tf.TrendId == trendPatchFollowDto.Id);
-            bool doFollow = trendPatchFollowDto.Type == "Follow" ? true : false;
+            bool doFollow = trendPatchFollowDto.Type == "Follow";
 
             if (trendFollow == null && doFollow)
             {

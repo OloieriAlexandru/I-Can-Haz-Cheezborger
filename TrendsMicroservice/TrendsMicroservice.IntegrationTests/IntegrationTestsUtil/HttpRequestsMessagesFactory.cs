@@ -7,7 +7,7 @@ namespace TrendsMicroservice.IntegrationTests.IntegrationTestsUtil
 {
     public static class HttpRequestsMessagesFactory
     {
-        private static string BEARER_TOKEN;
+        private readonly static string BEARER_TOKEN;
 
         static HttpRequestsMessagesFactory()
         {
