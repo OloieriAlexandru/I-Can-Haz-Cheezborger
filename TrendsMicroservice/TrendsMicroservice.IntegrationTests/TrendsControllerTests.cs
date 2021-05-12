@@ -14,7 +14,7 @@ namespace TrendsMicroservice.IntegrationTests
     {
         private List<TrendCreateDto> trendsToBeCreatedList;
 
-        [TestInitialize]
+        /*[TestInitialize]
         public void TestInitialize()
         {
             trendsToBeCreatedList = new List<TrendCreateDto>()
@@ -73,6 +73,6 @@ namespace TrendsMicroservice.IntegrationTests
                 var response = await TestHttpClient.PostAsJsonAsync(ApiRoutes.Trends.Create, trend);
                 Assert.AreEqual(response.StatusCode, HttpStatusCode.Created);
             }
-        }
+        }*/
     }
 }
