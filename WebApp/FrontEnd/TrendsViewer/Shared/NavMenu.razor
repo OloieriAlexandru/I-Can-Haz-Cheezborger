@@ -2,19 +2,24 @@
 @inherits NavMenuBase
 
 <div>
-    <h5>
-        Popular
-    </h5>    
 
-    @if (Trends != null)
-    {
-        <ul>
+    <div class="sticky-list">
+        @if (Trends != null)
+        {
+            <h5 class="trends-list-title"> Trends </h5>
+            @if (AuthService.IsLoggedIn())
+            {
+                <div class="trend-plus" @onclick="(() => NavigateNewTrend())">
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+            }
             @foreach (var trend in Trends)
             {
-                <li>
-                    @trend.Name
-                </li>
+                <div class="trend">
+                    <span><img class="trend-image" src=@trend.ImageUrl /></span>
+                    <span class="trend-title" @onclick="(() => NavigateTrendId(trend.Id))"> @trend.Name </span>
+                </div>
             }
-        </ul>
-    }
+        }
+    </div>
 </div>

@@ -25,8 +25,9 @@
 .main-sidebar {
     width: 224px;
     height: 100%;
+    padding: 0 26px;
 
-    border-right: 1px solid #A0A0A0;
+   /* border-right: 1px solid #A0A0A0;*/
 }
 
 .rendered-content-container {

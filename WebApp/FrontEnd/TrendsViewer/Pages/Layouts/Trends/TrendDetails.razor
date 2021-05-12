@@ -5,6 +5,11 @@
     <div class="layout-col col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
         <div class="row">
             <div class="layout-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 posts-layout">
+                @if (Trend != null)
+                {
+                    <h5 style="font-weight:700;font-size:28px">@Trend.Name</h5>
+                }
+
                 @if (AuthService.IsLoggedIn())
                 {
                     <a style="text-decoration:none;color:black;" href="@($"trends/{TrendId}/create/")">
@@ -105,7 +110,7 @@
         </div>
     </div>
     <div class="layout-col col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-        <div class="sticky-list">
+        @*<div class="sticky-list">
             @if (Trends != null)
             {
                 <h5 class="trends-list-title"> Trends </h5>
@@ -131,7 +136,7 @@
                     </div>
                 }
             }
-        </div>
+        </div>*@
        
     </div>
 </div>
