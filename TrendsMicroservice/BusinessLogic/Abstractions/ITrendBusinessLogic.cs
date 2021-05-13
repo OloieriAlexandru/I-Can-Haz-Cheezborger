@@ -1,4 +1,5 @@
-﻿using Models.Trends;
+﻿using Models;
+using Models.Trends;
 using System;
 using System.Collections.Generic;
 
@@ -6,7 +7,7 @@ namespace BusinessLogic.Abstractions
 {
     public interface ITrendBusinessLogic
     {
-        ICollection<TrendGetAllDto> GetAll();
+        ICollection<TrendGetAllDto> GetAll(UserInfoModel userInfo);
 
         ICollection<TrendGetAllDto> GetPopular();
 

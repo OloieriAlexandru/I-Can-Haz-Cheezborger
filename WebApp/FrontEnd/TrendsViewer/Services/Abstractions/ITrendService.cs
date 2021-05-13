@@ -15,7 +15,7 @@ namespace TrendsViewer.Services.Abstractions
         
         Task UpdateTrend(Guid id, TrendUpdateDto updatedTrend);
 
-        Task UpdateTrendReact(Guid id, TrendPatchFollowDto trendPatchFollowDto);
+        Task PatchTrendFollow(Guid id, TrendPatchFollowDto trendPatchFollowDto);
 
         Task<TrendGetAllDto> CreateTrend(TrendCreateDto newTrend);
         

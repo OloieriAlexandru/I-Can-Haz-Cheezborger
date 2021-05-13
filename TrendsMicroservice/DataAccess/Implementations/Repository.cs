@@ -20,9 +20,14 @@ namespace DataAccess.Implementations
             entities = context.Set<T>();
         }
 
-        ICollection<T> IRepository<T>.GetAll()
+        ICollection<T> IRepository<T>.GetAll(params string[] includes)
         {
-            return entities.ToList();
+            IQueryable<T> query = entities;
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return query.ToList();
         }
 
         T IRepository<T>.GetById(Guid guid, params string[] includes)

@@ -33,17 +33,26 @@ namespace TrendsViewer.Pages
             NavigationManager.NavigateTo($"/trends/{trendId}", forceLoad: true);
         }
 
-        protected void FollowTrend(TrendGetAllDto trend)
+        protected async Task FollowTrend(TrendGetAllDto trend)
         {
+            TrendPatchFollowDto trendPatchFollowDto = new TrendPatchFollowDto()
+            {
+                Id = trend.Id
+            };
             if (trend.Followed)
             {
                 --trend.FollowersCount;
+                trendPatchFollowDto.Type = "Unfollow";
             }
             else
             {
                 ++trend.FollowersCount;
+                trendPatchFollowDto.Type = "Follow";
             }
             trend.Followed = !trend.Followed;
+            StateHasChanged();
+
+            await TrendService.PatchTrendFollow(trend.Id, trendPatchFollowDto);
         }
     }
 }

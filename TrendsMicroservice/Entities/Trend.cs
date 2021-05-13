@@ -10,6 +10,10 @@ namespace Entities
 
         public string ImageUrl { get; set; }
 
+        public int FollowersCount { get; set; }
+
+        public int PostsCount { get; set; }
+
         public ICollection<Post> Posts { get; set; }
 
         public ICollection<TrendFollow> Follows { get; set; }
