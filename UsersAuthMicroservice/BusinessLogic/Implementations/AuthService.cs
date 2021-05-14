@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Abstractions;
+using Entities;
 using Microsoft.AspNetCore.Identity;
 using Models.Auth;
 using System.Collections.Generic;
@@ -8,11 +9,11 @@ namespace BusinessLogic.Implementations
 {
     public class AuthService : IAuthService
     {
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
 
         private readonly IJwtService jwtService;
 
-        public AuthService(UserManager<IdentityUser> userManager, IJwtService jwtService)
+        public AuthService(UserManager<ApplicationUser> userManager, IJwtService jwtService)
         {
             this.userManager = userManager;
             this.jwtService = jwtService;
@@ -20,7 +21,7 @@ namespace BusinessLogic.Implementations
 
         async Task<AuthenticationResponse> IAuthService.Authenticate(AuthenticationRequest authenticationRequest)
         {
-            IdentityUser user = await userManager.FindByEmailAsync(authenticationRequest.Email);
+            ApplicationUser user = await userManager.FindByEmailAsync(authenticationRequest.Email);
             
             if (user == null)
             {

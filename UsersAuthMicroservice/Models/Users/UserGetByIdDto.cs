@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models.Users
 {
-    public class UserGetAllDto
+    public class UserGetByIdDto
     {
-        public Guid Id { get; set; }
-
         public string Username { get; set; }
 
         public string Email { get; set; }
+
+        public ICollection<Guid> ModeratedTrendsIds { get; set; }
     }
 }

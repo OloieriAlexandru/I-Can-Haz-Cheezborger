@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
+using Entities;
 using Models.Auth;
 using Models.Users;
 
@@ -9,13 +9,15 @@ namespace BusinessLogic.Profiles
     {
         public UserProfile()
         {
-            CreateMap<AuthenticationRequest, IdentityUser>()
+            CreateMap<AuthenticationRequest, ApplicationUser>()
                 .ForSourceMember(authRequest => authRequest.Password, options => options.DoNotValidate());
 
-            CreateMap<UserCreateDto, IdentityUser>()
+            CreateMap<UserCreateDto, ApplicationUser>()
                 .ForSourceMember(user => user.Password, options => options.DoNotValidate());
 
-            CreateMap<IdentityUser, UserGetAllDto>();
+            CreateMap<ApplicationUser, UserGetAllDto>();
+
+            CreateMap<ApplicationUser, UserGetByIdDto>();
         }
     }
 }

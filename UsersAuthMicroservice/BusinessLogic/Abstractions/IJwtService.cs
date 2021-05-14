@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Entities;
 
 namespace BusinessLogic.Abstractions
 {
     public interface IJwtService
     {
-        public string GenerateJwtToken(IdentityUser user);
+        public string GenerateJwtToken(ApplicationUser user);
     }
 }

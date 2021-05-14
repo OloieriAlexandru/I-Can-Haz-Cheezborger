@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,13 +8,14 @@ namespace BusinessLogic.ExtensionMethods
     {
         public static void AddDataAccessServices(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(connectionString).UseLazyLoadingProxies());
         }
 
         public static void AddDataAccessAuthentication(this IServiceCollection services)
         {
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                   .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<ApplicationUser, ModeratorRole>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
         }
     }
 }
