@@ -1,20 +1,20 @@
-name: Users-Microservice-CI-CD
+name: Trends-Microservice-CI-CD
 
 on:
   push:
     branches:
       - master
     paths:
-      - ".github/workflows/workflow-users-microservice.yml"
-      - "UsersAuthMicroservice/**"
+      - ".github/workflows/workflow-trends-microservice.yml"
+      - "TrendsMicroservice/**"
 
 jobs:
   deploy:
     name: Google Cloud Run Deploy
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}-users-microservice
-      working-directory: ./UsersAuthMicroservice
+      IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}-trends-microservice
+      working-directory: ./TrendsMicroservice
     
     steps:
 
