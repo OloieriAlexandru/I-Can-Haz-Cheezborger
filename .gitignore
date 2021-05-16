@@ -3,6 +3,7 @@
 **/*.zip
 **/obj
 **/bin
+**/coverage.json
 
 key.json
 olo-key.json

@@ -35,7 +35,7 @@ jobs:
 
     - name: Test
       working-directory: ${{ env.working-directory }}
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test --no-restore /p:CollectCoverage=true
 
   deploy:
     name: Google Cloud Run Deploy
