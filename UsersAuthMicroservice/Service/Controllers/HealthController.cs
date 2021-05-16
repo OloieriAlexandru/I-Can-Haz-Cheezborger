@@ -9,7 +9,7 @@ namespace Service.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            return Ok();
+            return Ok("It's working - Deployed by Olo");
         }
     }
 }
