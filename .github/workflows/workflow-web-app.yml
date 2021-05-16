@@ -1,0 +1,59 @@
+name: Web-App-CI-CD
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - ".github/workflows/workflow-web-app.yml"
+      - "WebApp/**"
+      - "TrendsMicroservice/Models/**"
+      - "UsersAuthMicroservice/Models/**"
+
+jobs:
+  deploy:
+    name: Google Cloud Run Deploy
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}-web-app
+      working-directory-sln: ./WebApp/FrontEnd
+      working-directory-proj: ./WebApp/FrontEnd/TrendsViewer
+    
+    steps:
+
+    - name: Login
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_email: ${{ secrets.GCP_EMAIL }}
+        service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+
+    - name: Configure Docker
+      run: gcloud auth configure-docker --quiet
+    
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Setup .NET Core SDK '5.0.x'
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        dotnet-version: '5.0.x'
+
+    - name: Install dependencies
+      working-directory: ${{ env.working-directory-sln }}
+      run: dotnet restore
+
+    - name: Release Blazor app
+      working-directory: ${{ env.working-directory-proj }}
+      run: dotnet publish -c Release -o web-app-build
+
+    - name: Build Docker image
+      working-directory: ${{ env.working-directory-proj }}
+      run: docker build . -t $IMAGE_NAME
+    
+    - name: Push Docker image
+      run: docker push $IMAGE_NAME
+    
+    - name: Deploy Docker image
+      run: gcloud run deploy ${{ secrets.GCP_PROJECT_ID }}-web-app --image $IMAGE_NAME --region europe-west2 --platform managed

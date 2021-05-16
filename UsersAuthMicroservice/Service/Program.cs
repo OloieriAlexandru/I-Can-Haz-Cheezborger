@@ -16,7 +16,7 @@ namespace Service
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    string? port = Environment.GetEnvironmentVariable("PORT");
+                    string port = Environment.GetEnvironmentVariable("PORT");
                     if (port == null)
                     {
                         webBuilder.UseStartup<Startup>();
