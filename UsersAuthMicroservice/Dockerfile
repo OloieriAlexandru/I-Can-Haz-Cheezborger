@@ -32,7 +32,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
 
 WORKDIR /app
 
-ENV ASPNETCORE_URLS=http://+:$PORT
+ENV ASPNETCORE_URLS=http://*:$PORT
+ENV ASPNETCORE_ENVIRONMENT=Production
+ENV TAPTAKE_SEED=False
 EXPOSE $PORT
 COPY --from=build /app/Service/service-build ./
 ENTRYPOINT [ "dotnet", "Service.dll" ]
