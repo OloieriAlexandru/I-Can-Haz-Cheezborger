@@ -3,3 +3,9 @@
 **/*.zip
 **/obj
 **/bin
+
+key.json
+olo-key.json
+passwords.md
+cloud_sql_proxy.exe
+key.json
