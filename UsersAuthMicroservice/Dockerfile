@@ -17,8 +17,8 @@ RUN dotnet restore
 COPY BusinessLogic/* ./BusinessLogic/
 COPY Common/* ./Common/
 COPY DataAccess/* ./DataAccess/
-COPY Entities/* ./Entities
-COPY Models/* ./Models
+COPY Entities/* ./Entities/
+COPY Models/* ./Models/
 COPY Service/* ./Service/
 
 WORKDIR /app/Service
