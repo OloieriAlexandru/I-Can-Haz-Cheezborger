@@ -52,8 +52,6 @@ namespace Service.Controllers
         [HttpPatch("{id:guid}/roles")]
         public async Task<IActionResult> PatchModeratorRole([FromRoute] Guid id, UserPatchModeratorRoleDto patchModelDto)
         {
-            // UserInfoExtractor.Extract(HttpContext.User, patchModelDto);
-
             await userService.PatchRole(patchModelDto);
 
             return NoContent();
@@ -62,8 +60,6 @@ namespace Service.Controllers
         [HttpDelete("{id:guid}/roles")]
         public async Task<IActionResult> DeleteModeratorRole([FromRoute] Guid id, UserDeleteModeratorRoleDto deleteModelDto)
         {
-            // UserInfoExtractor.Extract(HttpContext.User, deleteModelDto);
-
             await userService.DeleteRole(deleteModelDto);
 
             return NoContent();

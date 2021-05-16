@@ -20,13 +20,13 @@ namespace BusinessLogic
             this.passwordHasher = passwordHasher;
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(builder);
 
-            modelBuilder.ApplyConfiguration(new ApplicationUserConfiguration(passwordHasher));
+            builder.ApplyConfiguration(new ApplicationUserConfiguration(passwordHasher));
 
-            modelBuilder.ApplyConfiguration(new ModeratorRoleConfiguration());
+            builder.ApplyConfiguration(new ModeratorRoleConfiguration());
         }
     }
 }

@@ -35,7 +35,7 @@ namespace BusinessLogic.Implementations
             }
 
             ApplicationUser user = mapper.Map<ApplicationUser>(newUser);
-            user.SecurityStamp = new Guid().ToString();
+            user.SecurityStamp = Guid.NewGuid().ToString();
             IdentityResult wasCreated = await userManager.CreateAsync(user, newUser.Password);
 
             if (!wasCreated.Succeeded)
@@ -80,7 +80,7 @@ namespace BusinessLogic.Implementations
                     Name = patchRoleModel.TrendId.ToString()
                 };
                 IdentityResult result = await roleManager.CreateAsync(newRole);
-                if (result.Succeeded == false)
+                if (!result.Succeeded)
                 {
                     return;
                 }
