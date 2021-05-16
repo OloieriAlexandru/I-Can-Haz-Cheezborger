@@ -1,8 +1,6 @@
 ﻿using BusinessLogic.Abstractions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Users;
-using Service.Utils;
 using System;
 using System.Threading.Tasks;
 
