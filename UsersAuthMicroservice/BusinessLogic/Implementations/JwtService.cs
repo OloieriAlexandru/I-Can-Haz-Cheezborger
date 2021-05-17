@@ -1,6 +1,6 @@
 ﻿using BusinessLogic.Abstractions;
 using Common.Utils;
-using Microsoft.AspNetCore.Identity;
+using Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -19,7 +19,7 @@ namespace BusinessLogic.Implementations
             jwtConfig = optionsMonitor.CurrentValue;
         }
 
-        string IJwtService.GenerateJwtToken(IdentityUser user)
+        string IJwtService.GenerateJwtToken(ApplicationUser user)
         {
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
 
@@ -29,7 +29,7 @@ namespace BusinessLogic.Implementations
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim("Id", user.Id),
+                    new Claim("Id", user.Id.ToString()),
 
                     new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email)

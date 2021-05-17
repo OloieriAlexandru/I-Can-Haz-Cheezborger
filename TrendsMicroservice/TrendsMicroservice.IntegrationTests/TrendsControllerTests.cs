@@ -1,21 +1,19 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Models.Trends;
+﻿using Models.Trends;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http.Json;
+using System.Net.Http;
 using System.Threading.Tasks;
 using TrendsMicroservice.IntegrationTests.IntegrationTestsUtil;
+using Xunit;
 
 namespace TrendsMicroservice.IntegrationTests
 {
-    [TestClass]
     public class TrendsControllerTests : BaseIntegrationTests
     {
-        private List<TrendCreateDto> trendsToBeCreatedList;
+        private readonly List<TrendCreateDto> trendsToBeCreatedList;
 
-        [TestInitialize]
-        public void TestInitialize()
+        public TrendsControllerTests() : base()
         {
             trendsToBeCreatedList = new List<TrendCreateDto>()
             {
@@ -34,44 +32,40 @@ namespace TrendsMicroservice.IntegrationTests
             };
         }
         
-        [TestMethod]
+        [Fact]
         public async Task GetAll_WithMultipleTrends_ReturnsAllTheTrends()
         {
-            // Arrange
             await CreateTrends(trendsToBeCreatedList);
 
-            // Act
-            var response = await TestHttpClient.GetAsync(ApiRoutes.Trends.GetAll);
+            var request = HttpRequestsMessagesFactory.Get(HttpMethod.Get, ApiRoutes.Trends.GetAll);
+            var response = await TestHttpClient.SendAsync(request);
 
-            // Assert
             List<TrendGetAllDto> trends = JsonConvert.DeserializeObject<List<TrendGetAllDto>>(await response.Content.ReadAsStringAsync());
-            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-            Assert.IsTrue(trends.Count >= trendsToBeCreatedList.Count);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.True(trends.Count >= trendsToBeCreatedList.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Create_WithValidTrend_SuccessfullyCreatesTrend()
         {
-            // Arrange
             TrendCreateDto trend = trendsToBeCreatedList[0];
 
-            // Act
-            var response = await TestHttpClient.PostAsJsonAsync(ApiRoutes.Trends.Create, trend);
+            var request = HttpRequestsMessagesFactory.Get(HttpMethod.Post, ApiRoutes.Trends.Create, trend);
+            var response = await TestHttpClient.SendAsync(request);
 
-            // Assert
             TrendGetAllDto returnedTrend = JsonConvert.DeserializeObject<TrendGetAllDto>(await response.Content.ReadAsStringAsync());
-            Assert.AreEqual(response.StatusCode, HttpStatusCode.Created);
-            Assert.AreEqual(trend.Name, returnedTrend.Name);
-            Assert.AreEqual(trend.Description, returnedTrend.Description);
-            Assert.IsNotNull(returnedTrend.Id);
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+            Assert.Equal(trend.Name, returnedTrend.Name);
+            Assert.Equal(trend.Description, returnedTrend.Description);
         }
 
         private async Task CreateTrends(List<TrendCreateDto> trendsToBeCreatedList)
         {
             foreach(TrendCreateDto trend in trendsToBeCreatedList)
             {
-                var response = await TestHttpClient.PostAsJsonAsync(ApiRoutes.Trends.Create, trend);
-                Assert.AreEqual(response.StatusCode, HttpStatusCode.Created);
+                var request = HttpRequestsMessagesFactory.Get(HttpMethod.Post, ApiRoutes.Trends.Create, trend);
+                var response = await TestHttpClient.SendAsync(request);
+                Assert.Equal(HttpStatusCode.Created, response.StatusCode);
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Entities
 {
@@ -14,6 +13,9 @@ namespace Entities
         public bool ApprovedImage { get; set; }
 
         public bool ApprovedText { get; set; }
+        public int FollowersCount { get; set; }
+
+        public int PostsCount { get; set; }
 
         public ICollection<Post> Posts { get; set; }
 

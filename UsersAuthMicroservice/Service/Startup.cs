@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Service.ExtensionMethods;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Service
 {
@@ -55,10 +56,15 @@ namespace Service
 
             app.UseRouting();
 
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllerRoute("default", "{controller=Health}/{action=Get}");
+            });
         }
     }
 }

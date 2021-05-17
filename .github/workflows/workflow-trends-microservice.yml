@@ -1,0 +1,71 @@
+name: Trends-Microservice-CI-CD
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - ".github/workflows/workflow-trends-microservice.yml"
+      - "TrendsMicroservice/**"
+
+jobs:
+  test:
+    name: Unit & Integration Tests Run
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./TrendsMicroservice
+    
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup .NET Core SDK '5.0.x'
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        dotnet-version: '5.0.x'
+
+    - name: Install dependencies
+      working-directory: ${{ env.working-directory }}
+      run: dotnet restore
+
+    - name: Build
+      working-directory: ${{ env.working-directory }}
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Test
+      working-directory: ${{ env.working-directory }}
+      run: dotnet test --no-restore /p:CollectCoverage=true
+
+  deploy:
+    name: Google Cloud Run Deploy
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}-trends-microservice
+      working-directory: ./TrendsMicroservice
+    
+    steps:
+
+    - name: Login
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_email: ${{ secrets.GCP_EMAIL }}
+        service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+
+    - name: Configure Docker
+      run: gcloud auth configure-docker --quiet
+    
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Build Docker image
+      working-directory: ${{ env.working-directory }}
+      run: docker build . -t $IMAGE_NAME
+    
+    - name: Push Docker image
+      run: docker push $IMAGE_NAME
+    
+    - name: Deploy Docker image
+      run: gcloud run deploy ${{ secrets.GCP_PROJECT_ID }}-trends-microservice --image $IMAGE_NAME --region europe-west2 --platform managed

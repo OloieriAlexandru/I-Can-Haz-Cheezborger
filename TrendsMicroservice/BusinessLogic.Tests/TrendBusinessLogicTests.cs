@@ -2,96 +2,294 @@
 using BusinessLogic.Implementations;
 using DataAccess.Abstractions;
 using Entities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Trends;
 using Moq;
 using System;
-using System.Collections.Generic;
+using Xunit;
 
 namespace BusinessLogic.Tests
 {
-    [TestClass]
     public class TrendBusinessLogicTests : BaseBusinessLogicTests
     {
         private readonly Mock<IRepository<Trend>> trendRepositoryMock;
 
+        private readonly Mock<IRepository<TrendFollow>> trendFollowRepositoryMock;
+
         private readonly ITrendBusinessLogic systemUnderTest;
 
-        private readonly Trend testTrend = new Trend()
-        {
-            Id = Guid.Parse("fdc94950-cf1a-4eee-ad9a-53748046087f"),
-            Name = "TestTrend",
-            Description = "TestTrendDescription",
-            ImageUrl = "TestTrendImageUrl"
-        };
-
-        private readonly TrendGetAllDto testTrendGetAllDto = new TrendGetAllDto()
-        {
-            Id = Guid.Parse("fdc94950-cf1a-4eee-ad9a-53748046087f"),
-            Name = "TestTrend",
-            Description = "TestTrendDescription",
-            ImageUrl = "TestTrendImageUrl"  
-        };
-
-        private readonly TrendGetByIdDto testTrendGetByIdDto = new TrendGetByIdDto()
-        {
-            Id = Guid.Parse("fdc94950-cf1a-4eee-ad9a-53748046087f"),
-            Name = "TestTrend",
-            Description = "TestTrendDescription",
-            ImageUrl = "TestTrendImageUrl"
-        };
-
-        private readonly TrendCreateDto testTrendCreateDto = new TrendCreateDto()
-        { 
-            Name = "TestTrend",
-            Description = "TestTrendDescription",
-            ImageUrl = "TestTrendImageUrl"
-        };
-
-        public TrendBusinessLogicTests(): base()
+        public TrendBusinessLogicTests() : base()
         {
             trendRepositoryMock = new Mock<IRepository<Trend>>();
-            systemUnderTest = new TrendBusinessLogic(trendRepositoryMock.Object, mapper);
+            trendFollowRepositoryMock = new Mock<IRepository<TrendFollow>>();
+            systemUnderTest = new TrendBusinessLogic(trendRepositoryMock.Object, trendFollowRepositoryMock.Object, mapper);
         }
 
-        [TestMethod]
-        public void GetAll_ReturnsAllTheInstances()
+        [Fact]
+        public void GetById_ReturnsTrendById()
         {
-            // Arrange
-            ICollection<Trend> trends = new List<Trend> { testTrend };
-            trendRepositoryMock.Setup(x => x.GetAll()).Returns(trends);
-            ICollection<TrendGetAllDto> expectedTrends = new List<TrendGetAllDto> { testTrendGetAllDto };
+            //Arrange
+            Trend trend = new Trend
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            };
+            trendRepositoryMock.Setup(x => x.GetById(Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).Returns(trend);
 
-            // Act
-            ICollection<TrendGetAllDto> returnedTrends = systemUnderTest.GetAll();
+            //Act
+            TrendGetByIdDto trendGetByIdDto = systemUnderTest.GetById(trend.Id);
 
-            // Assert
-            CollectionAssert.AreEquivalent((System.Collections.ICollection)expectedTrends, (System.Collections.ICollection)returnedTrends);
+            //Assert
+            Assert.True(trend.Id.Equals(trendGetByIdDto.Id));
         }
 
-        [TestMethod]
-        public void GetById_ReturnsCreatedInstance()
+        [Fact]
+        public void GetById_ReturnsNullIfTrendDoesNotExist()
         {
-            // Arrange
-            trendRepositoryMock.Setup(x => x.GetById(testTrend.Id)).Returns(testTrend);
+            //Arrange
+            Trend trend = new Trend
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            };
+            trendRepositoryMock.Setup(x => x.GetById(Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).Returns(() => null);
 
-            // Act
-            TrendGetByIdDto returnedTrend = systemUnderTest.GetById(testTrend.Id);
+            //Act
+            TrendGetByIdDto trendGetByIdDto = systemUnderTest.GetById(trend.Id);
 
-            // Assert
-            Assert.AreEqual(testTrendGetByIdDto, returnedTrend);
+            //Assert
+            Assert.Null(trendGetByIdDto);
         }
 
-        [TestMethod]
-        public void Create_ReturnsCreatedInstance()
+        [Fact]
+        public void Create_InsertsTheTrendGiven()
         {
-            // Act
-            TrendGetAllDto returnedTrend = systemUnderTest.Create(testTrendCreateDto, "alex123");
+            //Arrange
+            TrendCreateDto trendCreateDto = new TrendCreateDto
+            {
+                CreatorId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            };
 
-            // Assert
-            Assert.AreEqual(testTrendGetAllDto.Name, returnedTrend.Name);
-            Assert.AreEqual(testTrendGetAllDto.ImageUrl, returnedTrend.ImageUrl);
-            Assert.AreEqual(testTrendGetAllDto.Description, returnedTrend.Description);
+            //Act
+            TrendGetAllDto trendGetAllDto = systemUnderTest.Create(trendCreateDto);
+
+            //Assert
+            Assert.True(trendGetAllDto.CreatorId.Equals(trendCreateDto.CreatorId));
+        }
+
+        [Fact]
+        public void Create_SavesChangesAfterCreate()
+        {
+            //Arrange
+            TrendCreateDto trendCreateDto = new TrendCreateDto();
+            Trend trend = mapper.Map<Trend>(trendCreateDto);
+
+            //Act
+            systemUnderTest.Create(trendCreateDto);
+
+            //Assert
+            trendRepositoryMock.Verify(m => m.SaveChanges(), Times.Once);
+        }
+
+        [Fact]
+        public void Update_UpdateCommentRepoWithThatComment()
+        {
+            TrendUpdateDto trendCUpdateDto = new TrendUpdateDto
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            };
+            Trend trend = new Trend();
+            mapper.Map<TrendUpdateDto, Trend>(trendCUpdateDto, trend);
+            trendRepositoryMock.Setup(x => x.GetById(trendCUpdateDto.Id)).Returns(trend);
+
+
+            systemUnderTest.Update(trendCUpdateDto);
+
+            trendRepositoryMock.Verify(m => m.Update(trend), Times.Once);
+        }
+
+        [Fact]
+        public void Update_SavesChangesAfterUpdate()
+        {
+            TrendUpdateDto trendCUpdateDto = new TrendUpdateDto
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            };
+            Trend trend = new Trend();
+            mapper.Map<TrendUpdateDto, Trend>(trendCUpdateDto, trend);
+            trendRepositoryMock.Setup(x => x.GetById(trendCUpdateDto.Id)).Returns(trend);
+
+
+            systemUnderTest.Update(trendCUpdateDto);
+
+            trendRepositoryMock.Verify(m => m.SaveChanges(), Times.Once);
+        }
+
+        [Fact]
+        public void Delete_CallsDeleteFromRepo()
+        {
+            Guid id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6");
+
+            systemUnderTest.Delete(id);
+
+            trendRepositoryMock.Verify(m => m.Delete(id), Times.Once);
+        }
+
+        [Fact]
+        public void Delete_SavesChangesAfterDelete()
+        {
+            Guid id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6");
+
+            systemUnderTest.Delete(id);
+
+            trendRepositoryMock.Verify(m => m.SaveChanges(), Times.Once);
+        }
+
+        [Fact]
+        public void PatchFollow_InsertsTrendFollowInRepoIfRequired()
+        {
+            TrendPatchFollowDto trendPatchFollowDto = new TrendPatchFollowDto
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                CreatorId = Guid.Parse("2fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                Type = "Follow"
+            };
+            TrendFollow trendFollow = new TrendFollow
+            {
+                TrendId = trendPatchFollowDto.Id,
+                UserId = trendPatchFollowDto.CreatorId
+            };
+            Trend trend = new Trend();
+            trend.FollowersCount = 0;
+            trendFollowRepositoryMock.Setup(x => x.GetByFilter(tf => tf.UserId == trendPatchFollowDto.CreatorId && tf.TrendId == trendPatchFollowDto.Id)).Returns(() => null);
+            trendRepositoryMock.Setup(x => x.GetById(trendPatchFollowDto.Id)).Returns(trend);
+
+            systemUnderTest.PatchFollow(trendPatchFollowDto);
+            trend.FollowersCount += 1;
+
+            trendFollowRepositoryMock.Verify(m => m.Insert(It.IsAny<TrendFollow>()), Times.Once);
+        }
+
+        [Fact]
+        public void PatchFollow_SavesChangesAfterInsert()
+        {
+            TrendPatchFollowDto trendPatchFollowDto = new TrendPatchFollowDto
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                CreatorId = Guid.Parse("2fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                Type = "Follow"
+            };
+            TrendFollow trendFollow = new TrendFollow
+            {
+                TrendId = trendPatchFollowDto.Id,
+                UserId = trendPatchFollowDto.CreatorId
+            };
+            Trend trend = new Trend();
+            trend.FollowersCount = 0;
+            trendFollowRepositoryMock.Setup(x => x.GetByFilter(tf => tf.UserId == trendPatchFollowDto.CreatorId && tf.TrendId == trendPatchFollowDto.Id)).Returns(() => null);
+            trendRepositoryMock.Setup(x => x.GetById(trendPatchFollowDto.Id)).Returns(trend);
+
+            systemUnderTest.PatchFollow(trendPatchFollowDto);
+            trend.FollowersCount += 1;
+
+            trendFollowRepositoryMock.Verify(m => m.SaveChanges(), Times.Once);
+        }
+
+        [Fact]
+        public void PatchFollow_DeletesFollowInRepoIfRequired()
+        {
+            TrendPatchFollowDto trendPatchFollowDto = new TrendPatchFollowDto
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                CreatorId = Guid.Parse("2fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                Type = "Not Follow"
+            };
+            TrendFollow trendFollow = new TrendFollow
+            {
+                TrendId = trendPatchFollowDto.Id,
+                UserId = trendPatchFollowDto.CreatorId
+            };
+            Trend trend = new Trend();
+            trend.FollowersCount = 0;
+            trendFollowRepositoryMock.Setup(x => x.GetByFilter(tf => tf.UserId == trendPatchFollowDto.CreatorId && tf.TrendId == trendPatchFollowDto.Id)).Returns(trendFollow);
+            trendRepositoryMock.Setup(x => x.GetById(trendPatchFollowDto.Id)).Returns(trend);
+
+            systemUnderTest.PatchFollow(trendPatchFollowDto);
+            trend.FollowersCount += 1;
+
+            trendFollowRepositoryMock.Verify(m => m.Delete(trendFollow.Id), Times.Once);
+        }
+
+        [Fact]
+        public void PatchFollow_TrendFollowCountIncreasesAfterInsert()
+        {
+            TrendPatchFollowDto trendPatchFollowDto = new TrendPatchFollowDto
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                CreatorId = Guid.Parse("2fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                Type = "Follow"
+            };
+            TrendFollow trendFollow = new TrendFollow
+            {
+                TrendId = trendPatchFollowDto.Id,
+                UserId = trendPatchFollowDto.CreatorId
+            };
+            Trend trend = new Trend();
+            trend.FollowersCount = 0;
+            trendFollowRepositoryMock.Setup(x => x.GetByFilter(tf => tf.UserId == trendPatchFollowDto.CreatorId && tf.TrendId == trendPatchFollowDto.Id)).Returns(() => null);
+            trendRepositoryMock.Setup(x => x.GetById(trendPatchFollowDto.Id)).Returns(trend);
+
+            systemUnderTest.PatchFollow(trendPatchFollowDto);
+            trend.FollowersCount += 1;
+
+            trendRepositoryMock.Verify(m => m.Update(trend), Times.Once);
+        }
+
+        [Fact]
+        public void PatchFollow_TrendFollowCountDecreasesAfterFollowDelete()
+        {
+            TrendPatchFollowDto trendPatchFollowDto = new TrendPatchFollowDto
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                CreatorId = Guid.Parse("2fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                Type = "Not Follow"
+            };
+            TrendFollow trendFollow = new TrendFollow
+            {
+                TrendId = trendPatchFollowDto.Id,
+                UserId = trendPatchFollowDto.CreatorId
+            };
+            Trend trend = new Trend();
+            trend.FollowersCount = 10;
+            trendFollowRepositoryMock.Setup(x => x.GetByFilter(tf => tf.UserId == trendPatchFollowDto.CreatorId && tf.TrendId == trendPatchFollowDto.Id)).Returns(trendFollow);
+            trendRepositoryMock.Setup(x => x.GetById(trendPatchFollowDto.Id)).Returns(trend);
+
+            systemUnderTest.PatchFollow(trendPatchFollowDto);
+            trend.FollowersCount -= 1;
+
+            trendRepositoryMock.Verify(m => m.Update(trend), Times.Once);
+        }
+
+        [Fact]
+        public void PatchFollow_SavesChangesInTrend()
+        {
+            TrendPatchFollowDto trendPatchFollowDto = new TrendPatchFollowDto
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                CreatorId = Guid.Parse("2fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                Type = "Not Follow"
+            };
+            TrendFollow trendFollow = new TrendFollow
+            {
+                TrendId = trendPatchFollowDto.Id,
+                UserId = trendPatchFollowDto.CreatorId
+            };
+            Trend trend = new Trend();
+            trend.FollowersCount = 10;
+            trendFollowRepositoryMock.Setup(x => x.GetByFilter(tf => tf.UserId == trendPatchFollowDto.CreatorId && tf.TrendId == trendPatchFollowDto.Id)).Returns(trendFollow);
+            trendRepositoryMock.Setup(x => x.GetById(trendPatchFollowDto.Id)).Returns(trend);
+
+            systemUnderTest.PatchFollow(trendPatchFollowDto);
+            trend.FollowersCount -= 1;
+
+            trendRepositoryMock.Verify(m => m.SaveChanges(), Times.Once);
         }
     }
 }

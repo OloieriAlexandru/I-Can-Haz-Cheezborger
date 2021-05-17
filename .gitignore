@@ -3,3 +3,10 @@
 **/*.zip
 **/obj
 **/bin
+**/coverage.json
+
+key.json
+olo-key.json
+passwords.md
+cloud_sql_proxy.exe
+key.json

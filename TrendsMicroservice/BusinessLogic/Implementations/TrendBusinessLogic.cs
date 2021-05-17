@@ -3,9 +3,11 @@ using BusinessLogic.Abstractions;
 using DataAccess.Abstractions;
 using DataAccess.Seed;
 using Entities;
+using Models;
 using Models.Trends;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 
 
@@ -31,10 +33,26 @@ namespace BusinessLogic.Implementations
             this.contentScanService = contentScanService;
         }
 
-        ICollection<TrendGetAllDto> ITrendBusinessLogic.GetAll()
+        ICollection<TrendGetAllDto> ITrendBusinessLogic.GetAll(UserInfoModel userInfo)
         {
-            ICollection<Trend> trends = trendRepository.GetAll();
-            return mapper.Map<ICollection<TrendGetAllDto>>(trends);
+            ICollection<Trend> trends = trendRepository.GetAll("Follows");
+            ICollection<TrendGetAllDto> returnedTrends = new List<TrendGetAllDto>();
+
+            foreach (Trend trend in trends)
+            {
+                TrendGetAllDto trendGetAllDto = mapper.Map<TrendGetAllDto>(trend);
+                if (userInfo != null && trend.Follows != null)
+                {
+                    TrendFollow follow = trend.Follows.FirstOrDefault(f => f.UserId == userInfo.CreatorId);
+                    if (follow != null)
+                    {
+                        trendGetAllDto.Followed = true;
+                    }
+                }
+                returnedTrends.Add(trendGetAllDto);
+            }
+
+            return returnedTrends;
         }
 
         TrendGetByIdDto ITrendBusinessLogic.GetById(Guid id)
@@ -83,8 +101,9 @@ namespace BusinessLogic.Implementations
         {
             TrendFollow trendFollow = trendFollowRepository.GetByFilter(
                 tf => tf.UserId == trendPatchFollowDto.CreatorId && tf.TrendId == trendPatchFollowDto.Id);
-            bool doFollow = trendPatchFollowDto.Type == "Follow" ? true : false;
+            bool doFollow = trendPatchFollowDto.Type == "Follow";
 
+            int followsDelta = 0;
             if (trendFollow == null && doFollow)
             {
                 trendFollow = new TrendFollow
@@ -94,11 +113,20 @@ namespace BusinessLogic.Implementations
                 };
                 trendFollowRepository.Insert(trendFollow);
                 trendFollowRepository.SaveChanges();
+                ++followsDelta;
             }
             else if (trendFollow != null && !doFollow)
             {
                 trendFollowRepository.Delete(trendFollow.Id);
                 trendFollowRepository.SaveChanges();
+                --followsDelta;
+            }
+            if (followsDelta != 0)
+            {
+                Trend trend = trendRepository.GetById(trendPatchFollowDto.Id);
+                trend.FollowersCount += followsDelta;
+                trendRepository.Update(trend);
+                trendRepository.SaveChanges();
             }
         }
 

@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace Service.Utils
 {
-    public class UserInfoExtractor
+    public static class UserInfoExtractor
     {
         public static void Extract(ClaimsPrincipal claimsPrincipal, UserInfoModel model)
         {

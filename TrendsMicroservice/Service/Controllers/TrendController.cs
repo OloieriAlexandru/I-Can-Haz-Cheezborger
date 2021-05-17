@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Models.Trends;
 using Service.Utils;
 using System;
@@ -19,10 +20,20 @@ namespace Service.Controllers
             trendBusinessLogic = _trendBusinessLogic;
         }
 
+        [HttpGet("auth")]
+        [Authorize]
+        public ICollection<TrendGetAllDto> GetAllAuthorized([FromRoute] Guid trendId)
+        {
+            UserInfoModel userInfoModel = new UserInfoModel();
+            UserInfoExtractor.Extract(HttpContext.User, userInfoModel);
+
+            return trendBusinessLogic.GetAll(userInfoModel);
+        }
+
         [HttpGet]
         public ICollection<TrendGetAllDto> GetAll()
         {
-            return trendBusinessLogic.GetAll();
+            return trendBusinessLogic.GetAll(null);
         }
 
         [HttpGet("popular")]

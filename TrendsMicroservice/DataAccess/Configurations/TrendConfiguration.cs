@@ -16,6 +16,12 @@ namespace DataAccess.Configurations
                 .IsRequired()
                 .HasMaxLength(TrendConstraints.NameMaxLength);
 
+            builder.Property(t => t.FollowersCount)
+                .IsRequired();
+
+            builder.Property(t => t.PostsCount)
+                .IsRequired();
+
             builder.HasData(TrendsSeed.Seed());
         }
     }

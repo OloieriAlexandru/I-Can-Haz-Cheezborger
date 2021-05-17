@@ -158,6 +158,9 @@ namespace DataAccess.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("FollowersCount")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -165,6 +168,9 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
+
+                    b.Property<int>("PostsCount")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -177,8 +183,10 @@ namespace DataAccess.Migrations
                             CreatorId = new Guid("e03f1453-9194-47e8-83c4-9eac442f216d"),
                             CreatorUsername = "admin",
                             Description = "Why so serious",
+                            FollowersCount = 0,
                             ImageUrl = "https://miscmedia-9gag-fun.9cache.com/images/thumbnail-facebook/1557376304.186_U5U7u5_100x100wp.webp",
-                            Name = "Funny"
+                            Name = "Funny",
+                            PostsCount = 0
                         },
                         new
                         {
@@ -186,8 +194,10 @@ namespace DataAccess.Migrations
                             CreatorId = new Guid("e03f1453-9194-47e8-83c4-9eac442f216d"),
                             CreatorUsername = "admin",
                             Description = "Just random things. Be nice.",
+                            FollowersCount = 0,
                             ImageUrl = "https://miscmedia-9gag-fun.9cache.com/images/thumbnail-facebook/1481541784.8502_e8ARAR_100x100wp.webp",
-                            Name = "Random"
+                            Name = "Random",
+                            PostsCount = 0
                         },
                         new
                         {
@@ -195,8 +205,10 @@ namespace DataAccess.Migrations
                             CreatorId = new Guid("e03f1453-9194-47e8-83c4-9eac442f216d"),
                             CreatorUsername = "admin",
                             Description = "We don't die, we respawn!",
+                            FollowersCount = 0,
                             ImageUrl = "https://miscmedia-9gag-fun.9cache.com/images/thumbnail-facebook/1557286928.6604_uTYgug_100x100wp.webp",
-                            Name = "Gaming"
+                            Name = "Gaming",
+                            PostsCount = 0
                         },
                         new
                         {
@@ -204,8 +216,10 @@ namespace DataAccess.Migrations
                             CreatorId = new Guid("e03f1453-9194-47e8-83c4-9eac442f216d"),
                             CreatorUsername = "admin",
                             Description = "It's so fluffy I'm gonna die!",
+                            FollowersCount = 0,
                             ImageUrl = "https://miscmedia-9gag-fun.9cache.com/images/thumbnail-facebook/1557391851.3248_Za4UdA_100x100wp.webp",
-                            Name = "Animals"
+                            Name = "Animals",
+                            PostsCount = 0
                         },
                         new
                         {
@@ -213,8 +227,10 @@ namespace DataAccess.Migrations
                             CreatorId = new Guid("e03f1453-9194-47e8-83c4-9eac442f216d"),
                             CreatorUsername = "admin",
                             Description = "Vroom vroom!",
+                            FollowersCount = 0,
                             ImageUrl = "https://miscmedia-9gag-fun.9cache.com/images/thumbnail-facebook/1557311278.4297_UNEHy6_100x100wp.webp",
-                            Name = "Car"
+                            Name = "Car",
+                            PostsCount = 0
                         },
                         new
                         {
@@ -222,8 +238,10 @@ namespace DataAccess.Migrations
                             CreatorId = new Guid("e03f1453-9194-47e8-83c4-9eac442f216d"),
                             CreatorUsername = "admin",
                             Description = "The sports fanatics hub",
+                            FollowersCount = 0,
                             ImageUrl = "https://miscmedia-9gag-fun.9cache.com/images/thumbnail-facebook/1557286774.0983_eGARyH_100x100wp.webp",
-                            Name = "Sport"
+                            Name = "Sport",
+                            PostsCount = 0
                         },
                         new
                         {
@@ -231,8 +249,10 @@ namespace DataAccess.Migrations
                             CreatorId = new Guid("e03f1453-9194-47e8-83c4-9eac442f216d"),
                             CreatorUsername = "admin",
                             Description = "Jaw-dropping moments",
+                            FollowersCount = 0,
                             ImageUrl = "https://miscmedia-9gag-fun.9cache.com/images/thumbnail-facebook/1557310702.1267_UgysAp_100x100wp.webp",
-                            Name = "WTF"
+                            Name = "WTF",
+                            PostsCount = 0
                         });
                 });
 

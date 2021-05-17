@@ -11,9 +11,13 @@ namespace TrendsViewer.Services.Implementations
     {
         private readonly IHttpService httpService;
 
-        public TrendService(HttpServiceResolver httpServiceResolver)
+        private readonly IAuthService authService;
+
+        public TrendService(HttpServiceResolver httpServiceResolver, IAuthService authService)
         {
             httpService = httpServiceResolver("trends");
+
+            this.authService = authService;
         }
 
         async Task<TrendGetAllDto> ITrendService.CreateTrend(TrendCreateDto newTrend)
@@ -33,7 +37,13 @@ namespace TrendsViewer.Services.Implementations
 
         async Task<IEnumerable<TrendGetAllDto>> ITrendService.GetAll()
         {
-            return await httpService.Get<TrendGetAllDto[]>("api/v1/trends");
+            string url = "api/v1/trends";
+            await authService.Initialize();
+            if (authService.IsLoggedIn())
+            {
+                url += "/auth";
+            }
+            return await httpService.Get<TrendGetAllDto[]>(url);
         }
 
         async Task ITrendService.UpdateTrend(Guid id, TrendUpdateDto updatedTrend)
@@ -46,10 +56,9 @@ namespace TrendsViewer.Services.Implementations
             return await httpService.Get<TrendGetAllDto[]>("/api/v1/trends/popular");
         }
 
-        async Task ITrendService.UpdateTrendReact(Guid id, TrendPatchFollowDto trendPatchFollowDto)
+        async Task ITrendService.PatchTrendFollow(Guid id, TrendPatchFollowDto trendPatchFollowDto)
         {
-            await Task.CompletedTask;
-            throw new NotImplementedException();
+            await httpService.Patch<ValueTask>($"/api/v1/trends/{id}/follow", trendPatchFollowDto);
         }
     }
 }

@@ -1,0 +1,7 @@
+
+**/bin
+**/obj
+**/.sonarqube
+**/.vs
+**/TestResults
+**/coverage.opencover.xml
