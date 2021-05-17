@@ -15,5 +15,9 @@ namespace Models.Comments
         public string CreatedBy { get; set; }
 
         public Guid PostId { get; set; }
+
+        public bool ApprovedImage { get; set; }
+
+        public bool ApprovedText { get; set; }
     }
 }

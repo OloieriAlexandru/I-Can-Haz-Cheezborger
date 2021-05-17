@@ -9,5 +9,7 @@ namespace Models.Posts
         public string MediaPath { get; set; }
 
         public Guid TrendId { get; set; }
+
+        public bool Approved { get; set; }
     }
 }

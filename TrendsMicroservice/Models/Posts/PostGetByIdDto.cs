@@ -25,5 +25,9 @@ namespace Models.Posts
         public int CommentsCount { get; set; }
 
         public ICollection<CommentGetDto> Comments { get; set; }
+
+        public bool ApprovedImage { get; set; }
+
+        public bool ApprovedText { get; set; }
     }
 }

@@ -15,6 +15,10 @@ namespace Entities
 
         public Post Post { get; set; }
 
+        public bool ApprovedImage { get; set; }
+
+        public bool ApprovedText { get; set; }
+
         public ICollection<CommentReact> Reacts { get; set; }
     }
 }

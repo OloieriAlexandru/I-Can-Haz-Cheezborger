@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace BusinessLogic.Implementations
 {
     public class PostBusinessLogic : IPostBusinessLogic
@@ -17,14 +18,18 @@ namespace BusinessLogic.Implementations
         private readonly IRepository<PostReact> postReactRepository;
 
         private readonly IMapper mapper;
+        
+        private readonly IContentScanTaskService contentScanService;
 
         public PostBusinessLogic(IRepository<Post> postRepository, IRepository<PostReact> postReactRepository,
-            IMapper mapper)
+            IMapper mapper, IContentScanTaskService contentScanService)
         {
             this.postRepository = postRepository;
             this.postReactRepository = postReactRepository;
             this.mapper = mapper;
+            this.contentScanService = contentScanService;
         }
+
 
         ICollection<PostGetAllDto> IPostBusinessLogic.GetAll(Guid trendId, UserInfoModel userInfo)
         {
@@ -84,10 +89,11 @@ namespace BusinessLogic.Implementations
         PostGetAllDto IPostBusinessLogic.Create(PostCreateDto post)
         {
             Post createdPost = mapper.Map<Post>(post);
-
+            createdPost.ApprovedImage = false;
+            createdPost.ApprovedText = false;
             postRepository.Insert(createdPost);
             postRepository.SaveChanges();
-
+            contentScanService.CreateTask(post.MediaPath, post.Title, $"/api/v1/trends/{post.TrendId}/posts/{createdPost.Id}");
             return mapper.Map<PostGetAllDto>(createdPost);
         }
 
@@ -114,7 +120,7 @@ namespace BusinessLogic.Implementations
         {
             PostReact postReact = postReactRepository.GetByFilter(
                 pr => pr.UserId == postPatchReact.CreatorId && pr.PostId == postPatchReact.Id);
-            ReactType type = (ReactType)Enum.Parse(typeof(ReactType), postPatchReact.Type);
+            ReactType type = (ReactType)System.Enum.Parse(typeof(ReactType), postPatchReact.Type);
 
             int deltaUpvotes = 0;
             int deltaDownvotes = 0;

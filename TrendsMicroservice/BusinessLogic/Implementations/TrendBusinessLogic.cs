@@ -7,6 +7,9 @@ using Models.Trends;
 using System;
 using System.Collections.Generic;
 
+
+
+
 namespace BusinessLogic.Implementations
 {
     public class TrendBusinessLogic : ITrendBusinessLogic
@@ -17,12 +20,15 @@ namespace BusinessLogic.Implementations
 
         private readonly IMapper mapper;
 
+        private readonly IContentScanTaskService contentScanService;
+
         public TrendBusinessLogic(IRepository<Trend> trendRepository, IRepository<TrendFollow> trendFollowRepository,
             IMapper mapper)
         {
             this.trendRepository = trendRepository;
             this.trendFollowRepository = trendFollowRepository;
             this.mapper = mapper;
+            this.contentScanService = contentScanService;
         }
 
         ICollection<TrendGetAllDto> ITrendBusinessLogic.GetAll()
@@ -44,9 +50,12 @@ namespace BusinessLogic.Implementations
         TrendGetAllDto ITrendBusinessLogic.Create(TrendCreateDto trend)
         {
             Trend createdTrend = mapper.Map<Trend>(trend);
+            createdTrend.ApprovedImage = false;
+            createdTrend.ApprovedText = false;
 
             trendRepository.Insert(createdTrend);
             trendRepository.SaveChanges();
+            contentScanService.CreateTask(trend.ImageUrl, trend.Description, $"/api/v1/trends/{createdTrend.Id}");
 
             return mapper.Map<TrendGetAllDto>(createdTrend);
         }

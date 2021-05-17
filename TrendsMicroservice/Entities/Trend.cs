@@ -11,6 +11,10 @@ namespace Entities
 
         public string ImageUrl { get; set; }
 
+        public bool ApprovedImage { get; set; }
+
+        public bool ApprovedText { get; set; }
+
         public ICollection<Post> Posts { get; set; }
 
         public ICollection<TrendFollow> Follows { get; set; }

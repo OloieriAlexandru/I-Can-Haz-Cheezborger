@@ -19,6 +19,10 @@ namespace Entities
 
         public int CommentsCount { get; set; }
 
+        public bool ApprovedImage { get; set; }
+
+        public bool ApprovedText { get; set; }
+
         public ICollection<Comment> Comments { get; set; }
 
         public ICollection<PostReact> Reacts { get; set; }

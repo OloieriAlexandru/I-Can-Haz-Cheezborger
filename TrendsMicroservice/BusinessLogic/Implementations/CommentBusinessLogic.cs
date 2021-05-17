@@ -18,6 +18,8 @@ namespace BusinessLogic.Implementations
 
         private readonly IMapper mapper;
 
+        private readonly IContentScanTaskService contentScanService;
+
         public CommentBusinessLogic(IRepository<Post> postRepository, IRepository<Comment> commentRepository,
             IRepository<CommentReact> commentReactRepository, IMapper mapper)
         {
@@ -25,6 +27,7 @@ namespace BusinessLogic.Implementations
             this.commentRepository = commentRepository;
             this.commentReactRepository = commentReactRepository;
             this.mapper = mapper;
+            this.contentScanService = contentScanService;
         }
 
         ICollection<CommentGetDto> ICommentBusinessLogic.GetAll(Guid postId)
@@ -46,12 +49,15 @@ namespace BusinessLogic.Implementations
         CommentGetDto ICommentBusinessLogic.Create(CommentCreateDto comment)
         {
             Comment newComment = mapper.Map<Comment>(comment);
+            newComment.ApprovedImage = false;
+            newComment.ApprovedText = false;
             commentRepository.Insert(newComment);
 
             Post post = postRepository.GetById(comment.PostId);
             ++post.CommentsCount;
             postRepository.Update(post);
             postRepository.SaveChanges();
+            contentScanService.CreateTask(post.MediaPath, post.Title, $"/api/v1/trends/{post.TrendId}/posts/{post.Id}/comments/{newComment.Id}");
 
             return mapper.Map<CommentGetDto>(newComment);
         }
