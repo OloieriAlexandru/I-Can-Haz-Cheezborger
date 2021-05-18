@@ -26,6 +26,7 @@
     <div class="right-items">
         @if (AuthService.IsLoggedIn())
         {
+            <a style="margin-right:10px; color:navy;" @onclick="GoToUserProfile">@AuthService.GetUsername()</a>
             <a type="button" href="#" class="btn btn-light" @onclick="Logout"> Logout </a>
         }
         else

@@ -40,6 +40,8 @@ namespace TrendsViewer.Services.Implementations
             return jwt.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Sub).Value;
         }
 
+
+
         async Task IAuthService.Initialize()
         {
             AuthenticationResponse = await localStorageService.GetItem<AuthenticationResponse>("token");

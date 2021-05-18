@@ -26,5 +26,10 @@ namespace TrendsViewer.Pages
             await AuthService.Logout();
             NavigationManager.NavigateTo("/", true);
         }
+
+        protected async Task GoToUserProfile()
+        {
+            NavigationManager.NavigateTo("/user");
+        }
     }
 }

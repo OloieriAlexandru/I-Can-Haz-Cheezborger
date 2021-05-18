@@ -48,5 +48,10 @@ namespace TrendsViewer.Pages
                 Console.WriteLine(e);
             }
         }
+
+        protected async Task HandleProceedAsGuest()
+        {
+            NavigationManager.NavigateTo("/");
+        }
     }
 }

@@ -20,15 +20,15 @@ namespace BusinessLogic.Implementations
 
         private readonly IMapper mapper;
         
-        private readonly IContentScanTaskService contentScanService;
+        //private readonly IContentScanTaskService contentScanService;
 
         public PostBusinessLogic(IRepository<Post> postRepository, IRepository<PostReact> postReactRepository,
-            IMapper mapper, IContentScanTaskService contentScanService)
+            IMapper mapper/*, IContentScanTaskService contentScanService*/)
         {
             this.postRepository = postRepository;
             this.postReactRepository = postReactRepository;
             this.mapper = mapper;
-            this.contentScanService = contentScanService;
+            //this.contentScanService = contentScanService;
         }
 
 
@@ -94,7 +94,7 @@ namespace BusinessLogic.Implementations
             createdPost.ApprovedText = false;
             postRepository.Insert(createdPost);
             postRepository.SaveChanges();
-            contentScanService.CreateTask(post.MediaPath, post.Title, $"/api/v1/trends/{post.TrendId}/posts/{createdPost.Id}");
+            //contentScanService.CreateTask(post.MediaPath, post.Title, $"/api/v1/trends/{post.TrendId}/posts/{createdPost.Id}");
             return mapper.Map<PostGetAllDto>(createdPost);
         }
 
