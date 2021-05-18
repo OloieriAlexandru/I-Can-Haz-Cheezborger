@@ -28,7 +28,7 @@ namespace BusinessLogic.ExtensionMethods
 
         public static void AddGCloudServices(this IServiceCollection services, GoogleTasksConfiguration configuration)
         {
-            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", configuration.KeyPath);
+            Environment.SetEnvironmentVariable(configuration.KeyEnvironmentVariableName, configuration.KeyPath);
 
             services.AddScoped(s => CloudTasksClient.Create());
         }

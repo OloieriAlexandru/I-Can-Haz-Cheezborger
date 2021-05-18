@@ -14,7 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       working-directory: ./UsersAuthMicroservice
-    
+      working-directory-service: ./UsersAuthMicroservice/Service
+
     steps:
 
     - name: Checkout repository
@@ -32,6 +33,10 @@ jobs:
     - name: Build
       working-directory: ${{ env.working-directory }}
       run: dotnet build --configuration Release --no-restore
+
+    - name: Run Migrations
+      working-directory: ${{ env.working-directory-service }}
+      run: bash apply-migration.sh
 
     - name: Test
       working-directory: ${{ env.working-directory }}
@@ -56,16 +61,16 @@ jobs:
 
     - name: Configure Docker
       run: gcloud auth configure-docker --quiet
-    
+
     - name: Checkout repository
       uses: actions/checkout@v2
-    
+
     - name: Build Docker image
       working-directory: ${{ env.working-directory }}
       run: docker build . -t $IMAGE_NAME
-    
+
     - name: Push Docker image
       run: docker push $IMAGE_NAME
-    
+
     - name: Deploy Docker image
       run: gcloud run deploy ${{ secrets.GCP_PROJECT_ID }}-users-microservice --image $IMAGE_NAME --region europe-west2 --platform managed

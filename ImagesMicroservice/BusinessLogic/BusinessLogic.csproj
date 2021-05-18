@@ -1,16 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common.csproj" />
-    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj" />
+    <ProjectReference Include="..\..\Entities\Entities.csproj" />
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\Models\ImagesModels.csproj" />
   </ItemGroup>
 

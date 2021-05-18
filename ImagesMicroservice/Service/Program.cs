@@ -1,11 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Net;
 
 namespace Service
 {
@@ -20,7 +16,19 @@ namespace Service
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    string port = Environment.GetEnvironmentVariable("PORT");
+                    if (port == null)
+                    {
+                        webBuilder.UseStartup<Startup>();
+                    }
+                    else
+                    {
+                        webBuilder.UseStartup<Startup>()
+                            .ConfigureKestrel(options =>
+                            {
+                                options.Listen(IPAddress.Any, Convert.ToInt32(port));
+                            });
+                    }
                 });
     }
 }
