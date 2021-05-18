@@ -33,6 +33,10 @@ jobs:
       working-directory: ${{ env.working-directory }}
       run: dotnet build --configuration Release --no-restore
 
+    - name: Run Migrations
+      working-directory: ${{ env.working-directory }}
+      run: apply-migration.sh
+
     - name: Test
       working-directory: ${{ env.working-directory }}
       run: dotnet test --no-restore /p:CollectCoverage=true
