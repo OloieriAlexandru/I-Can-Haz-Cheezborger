@@ -35,7 +35,7 @@ jobs:
 
     - name: Run Migrations
       working-directory: ${{ env.working-directory }}
-      run: apply-migration.sh
+      run: Service/apply-migration.sh
 
     - name: Test
       working-directory: ${{ env.working-directory }}
