@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Models.Common;
 using Models.Trends;
 using Service.Utils;
 using System;
@@ -22,7 +23,7 @@ namespace Service.Controllers
 
         [HttpGet("auth")]
         [Authorize]
-        public ICollection<TrendGetAllDto> GetAllAuthorized([FromRoute] Guid trendId)
+        public ICollection<TrendGetAllDto> GetAllAuthorized()
         {
             UserInfoModel userInfoModel = new UserInfoModel();
             UserInfoExtractor.Extract(HttpContext.User, userInfoModel);
@@ -86,6 +87,17 @@ namespace Service.Controllers
             }
             UserInfoExtractor.Extract(HttpContext.User, trendPatchFollowDto);
             trendBusinessLogic.PatchFollow(trendPatchFollowDto);
+            return NoContent();
+        }
+
+        [HttpPatch("{id:guid}/content-scan-result")]
+        public IActionResult PatchContentScanTaskApprovals([FromRoute] Guid id, [FromBody] PatchContentScanTaskApprovalsDto contentScanTaskApprovalsDto)
+        {
+            if (id != contentScanTaskApprovalsDto.ObjectId)
+            {
+                return BadRequest();
+            }
+            trendBusinessLogic.PatchContentScanTaskApprovals(id, contentScanTaskApprovalsDto);
             return NoContent();
         }
 

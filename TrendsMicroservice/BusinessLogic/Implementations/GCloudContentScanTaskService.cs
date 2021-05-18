@@ -1,23 +1,31 @@
 ﻿using BusinessLogic.Abstractions;
-using Common.Constraints;
+using Common.Utils;
 using Google.Cloud.Tasks.V2;
 using Google.Protobuf;
-using System;
-using System.Collections.Generic;
+using Microsoft.Extensions.Options;
+using Models.Models;
+using System.Text.Json;
 
 namespace BusinessLogic.Implementations
 {
     public class GCloudContentScanTaskService : IContentScanTaskService
     {
-        async public void CreateTask(string urlImageForScan, string textForScan, string callbackUrl)
+        private readonly GoogleTasksConfiguration googleTasksConfiguration;
+
+        private readonly CloudTasksClient cloudTasksClient;
+
+        public GCloudContentScanTaskService(IOptionsMonitor<GoogleTasksConfiguration> optionsMonitor, CloudTasksClient cloudTasksClient)
         {
-            string payload = ConstructPayload(urlImageForScan, textForScan, callbackUrl);
+            this.googleTasksConfiguration = optionsMonitor.CurrentValue;
+            this.cloudTasksClient = cloudTasksClient;
+        }
 
-            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", ContentScanConstraints.keyPath);
-            CloudTasksClient client = CloudTasksClient.Create();
-            QueueName parent = new QueueName(ContentScanConstraints.projectId, ContentScanConstraints.location, ContentScanConstraints.queue);
+        async public void CreateTask(CreateContentScanTaskDto scanTaskDto)
+        {
+            QueueName parent = new QueueName(googleTasksConfiguration.ProjectId, googleTasksConfiguration.Location, googleTasksConfiguration.QueueName);
+            string payload = JsonSerializer.Serialize(scanTaskDto);
 
-            var response = client.CreateTask(new CreateTaskRequest
+            await cloudTasksClient.CreateTaskAsync(new CreateTaskRequest
             {
                 Parent = parent.ToString(),
                 Task = new Task
@@ -25,31 +33,11 @@ namespace BusinessLogic.Implementations
                     HttpRequest = new HttpRequest
                     {
                         HttpMethod = HttpMethod.Post,
-                        Url = ContentScanConstraints.url,
+                        Url = googleTasksConfiguration.GoogleFunctionUrl,
                         Body = ByteString.CopyFromUtf8(payload)
-
                     }
                 }
             });
-            Console.WriteLine($"Created Task {response.Name}");
-        }
-
-        private string ConstructPayload(string urlImageForScan, string textForScan, string callbackUrl)
-        {
-            string payload = "";
-
-            if (urlImageForScan != null && urlImageForScan != "")
-                payload += urlImageForScan;
-            payload += ",";
-
-            if (textForScan != null && textForScan != "")
-                payload += textForScan;
-            payload += ",";
-
-            if (callbackUrl != null && callbackUrl != "")
-                payload += callbackUrl;
-
-            return payload;
         }
     }
 }

@@ -4,11 +4,12 @@ using BusinessLogic.Utils;
 using DataAccess.Abstractions;
 using Entities;
 using Models;
+using Models.Common;
+using Models.Models;
 using Models.Posts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 
 namespace BusinessLogic.Implementations
 {
@@ -20,17 +21,16 @@ namespace BusinessLogic.Implementations
 
         private readonly IMapper mapper;
         
-        //private readonly IContentScanTaskService contentScanService;
+        private readonly IContentScanTaskService contentScanTaskService;
 
         public PostBusinessLogic(IRepository<Post> postRepository, IRepository<PostReact> postReactRepository,
-            IMapper mapper/*, IContentScanTaskService contentScanService*/)
+            IMapper mapper, IContentScanTaskService contentScanTaskService)
         {
             this.postRepository = postRepository;
             this.postReactRepository = postReactRepository;
             this.mapper = mapper;
-            //this.contentScanService = contentScanService;
+            this.contentScanTaskService = contentScanTaskService;
         }
-
 
         ICollection<PostGetAllDto> IPostBusinessLogic.GetAll(Guid trendId, UserInfoModel userInfo)
         {
@@ -94,7 +94,15 @@ namespace BusinessLogic.Implementations
             createdPost.ApprovedText = false;
             postRepository.Insert(createdPost);
             postRepository.SaveChanges();
-            //contentScanService.CreateTask(post.MediaPath, post.Title, $"/api/v1/trends/{post.TrendId}/posts/{createdPost.Id}");
+
+            CreateContentScanTaskDto createContentScanTaskDto = new CreateContentScanTaskDto()
+            {
+                ImageUrl = post.MediaPath,
+                Text = post.Title,
+                CallbackUrl = $"/api/v1/trends/{post.TrendId}/posts/{createdPost.Id}/content-scan-result"
+            };
+            contentScanTaskService.CreateTask(createContentScanTaskDto);
+
             return mapper.Map<PostGetAllDto>(createdPost);
         }
 
@@ -108,12 +116,6 @@ namespace BusinessLogic.Implementations
             mapper.Map<PostPatchDto, Post>(post, updatedPost);
 
             postRepository.Update(updatedPost);
-            postRepository.SaveChanges();
-        }
-
-        public void Delete(Guid id)
-        {
-            postRepository.Delete(id);
             postRepository.SaveChanges();
         }
 
@@ -160,6 +162,21 @@ namespace BusinessLogic.Implementations
                 postRepository.Update(post);
                 postRepository.SaveChanges();
             }
+        }
+
+        void IPostBusinessLogic.PatchContentScanTaskApprovals(Guid id, PatchContentScanTaskApprovalsDto taskApprovalsDto)
+        {
+            Post post = postRepository.GetById(id);
+            post.ApprovedText = taskApprovalsDto.ApprovedText;
+            post.ApprovedImage = taskApprovalsDto.ApprovedImage;
+            postRepository.Update(post);
+            postRepository.SaveChanges();
+        }
+
+        void IPostBusinessLogic.Delete(Guid id)
+        {
+            postRepository.Delete(id);
+            postRepository.SaveChanges();
         }
     }
 }

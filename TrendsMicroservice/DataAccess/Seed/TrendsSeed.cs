@@ -28,7 +28,9 @@ namespace DataAccess.Seed
                 Description = description,
                 CreatorUsername = "admin",
                 CreatorId = new Guid("e03f1453-9194-47e8-83c4-9eac442f216d"),
-                ImageUrl = "https://miscmedia-9gag-fun.9cache.com/images/thumbnail-facebook/" + imageName
+                ImageUrl = "https://miscmedia-9gag-fun.9cache.com/images/thumbnail-facebook/" + imageName,
+                ApprovedImage = true,
+                ApprovedText = true
             });
         }
     }

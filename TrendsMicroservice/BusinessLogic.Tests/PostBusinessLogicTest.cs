@@ -13,7 +13,10 @@ namespace BusinessLogic.Tests
     public class PostBusinessLogicTest : BaseBusinessLogicTests
     {
         private readonly Mock<IRepository<Post>> postRepositoryMock;
+     
         private readonly Mock<IRepository<PostReact>> postReactRepositoryMock;
+
+        private readonly Mock<IContentScanTaskService> contentScanTaskServiceMock;
 
         private readonly IPostBusinessLogic systemUnderTest;
 
@@ -21,7 +24,9 @@ namespace BusinessLogic.Tests
         {
             postRepositoryMock = new Mock<IRepository<Post>>();
             postReactRepositoryMock = new Mock<IRepository<PostReact>>();
-            systemUnderTest = new PostBusinessLogic(postRepositoryMock.Object, postReactRepositoryMock.Object, mapper);
+            contentScanTaskServiceMock = new Mock<IContentScanTaskService>();
+            systemUnderTest = new PostBusinessLogic(postRepositoryMock.Object, postReactRepositoryMock.Object,
+                mapper, contentScanTaskServiceMock.Object);
         }
 
         [Fact]

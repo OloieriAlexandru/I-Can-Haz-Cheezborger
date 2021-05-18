@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Models.Common;
 using Models.Posts;
 using Service.Utils;
 using System;
@@ -96,6 +97,17 @@ namespace Service.Controllers
             }
             UserInfoExtractor.Extract(HttpContext.User, postPatchReactDto);
             postBusinessLogic.PatchReact(postPatchReactDto);
+            return NoContent();
+        }
+
+        [HttpPatch("{id:guid}/content-scan-result")]
+        public IActionResult PatchContentScanTaskApprovals([FromRoute] Guid id, [FromBody] PatchContentScanTaskApprovalsDto contentScanTaskApprovalsDto)
+        {
+            if (id != contentScanTaskApprovalsDto.ObjectId)
+            {
+                return BadRequest();
+            }
+            postBusinessLogic.PatchContentScanTaskApprovals(id, contentScanTaskApprovalsDto);
             return NoContent();
         }
 

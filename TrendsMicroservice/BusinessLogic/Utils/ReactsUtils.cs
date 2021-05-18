@@ -6,7 +6,7 @@ namespace BusinessLogic.Utils
     {
         public static void UpdateDeltas(ref int deltaUpvotes, ref int deltaDownvotes, ReactType type, ReactType oldReactType)
         {
-            switch (oldReactType)
+            switch (type)
             {
                 case ReactType.Like:
                     ++deltaUpvotes;

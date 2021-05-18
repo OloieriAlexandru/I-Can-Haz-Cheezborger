@@ -9,9 +9,5 @@ namespace Models.Posts
         public string Title { get; set; }
 
         public string MediaPath { get; set; }
-
-        public bool ApprovedImage { get; set; }
-
-        public bool ApprovedText { get; set; }
     }
 }

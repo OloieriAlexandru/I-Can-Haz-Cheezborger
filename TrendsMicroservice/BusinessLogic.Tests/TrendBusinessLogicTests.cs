@@ -15,13 +15,17 @@ namespace BusinessLogic.Tests
 
         private readonly Mock<IRepository<TrendFollow>> trendFollowRepositoryMock;
 
+        private readonly Mock<IContentScanTaskService> contentScanTaskServiceMock;
+
         private readonly ITrendBusinessLogic systemUnderTest;
 
         public TrendBusinessLogicTests() : base()
         {
             trendRepositoryMock = new Mock<IRepository<Trend>>();
             trendFollowRepositoryMock = new Mock<IRepository<TrendFollow>>();
-            systemUnderTest = new TrendBusinessLogic(trendRepositoryMock.Object, trendFollowRepositoryMock.Object, mapper);
+            contentScanTaskServiceMock = new Mock<IContentScanTaskService>();
+            systemUnderTest = new TrendBusinessLogic(trendRepositoryMock.Object, trendFollowRepositoryMock.Object,
+                mapper, contentScanTaskServiceMock.Object);
         }
 
         [Fact]
@@ -156,8 +160,10 @@ namespace BusinessLogic.Tests
                 TrendId = trendPatchFollowDto.Id,
                 UserId = trendPatchFollowDto.CreatorId
             };
-            Trend trend = new Trend();
-            trend.FollowersCount = 0;
+            Trend trend = new Trend
+            {
+                FollowersCount = 0
+            };
             trendFollowRepositoryMock.Setup(x => x.GetByFilter(tf => tf.UserId == trendPatchFollowDto.CreatorId && tf.TrendId == trendPatchFollowDto.Id)).Returns(() => null);
             trendRepositoryMock.Setup(x => x.GetById(trendPatchFollowDto.Id)).Returns(trend);
 
@@ -181,8 +187,10 @@ namespace BusinessLogic.Tests
                 TrendId = trendPatchFollowDto.Id,
                 UserId = trendPatchFollowDto.CreatorId
             };
-            Trend trend = new Trend();
-            trend.FollowersCount = 0;
+            Trend trend = new Trend
+            {
+                FollowersCount = 0
+            };
             trendFollowRepositoryMock.Setup(x => x.GetByFilter(tf => tf.UserId == trendPatchFollowDto.CreatorId && tf.TrendId == trendPatchFollowDto.Id)).Returns(() => null);
             trendRepositoryMock.Setup(x => x.GetById(trendPatchFollowDto.Id)).Returns(trend);
 
@@ -206,8 +214,10 @@ namespace BusinessLogic.Tests
                 TrendId = trendPatchFollowDto.Id,
                 UserId = trendPatchFollowDto.CreatorId
             };
-            Trend trend = new Trend();
-            trend.FollowersCount = 0;
+            Trend trend = new Trend
+            {
+                FollowersCount = 0
+            };
             trendFollowRepositoryMock.Setup(x => x.GetByFilter(tf => tf.UserId == trendPatchFollowDto.CreatorId && tf.TrendId == trendPatchFollowDto.Id)).Returns(trendFollow);
             trendRepositoryMock.Setup(x => x.GetById(trendPatchFollowDto.Id)).Returns(trend);
 
@@ -231,8 +241,10 @@ namespace BusinessLogic.Tests
                 TrendId = trendPatchFollowDto.Id,
                 UserId = trendPatchFollowDto.CreatorId
             };
-            Trend trend = new Trend();
-            trend.FollowersCount = 0;
+            Trend trend = new Trend
+            {
+                FollowersCount = 0
+            };
             trendFollowRepositoryMock.Setup(x => x.GetByFilter(tf => tf.UserId == trendPatchFollowDto.CreatorId && tf.TrendId == trendPatchFollowDto.Id)).Returns(() => null);
             trendRepositoryMock.Setup(x => x.GetById(trendPatchFollowDto.Id)).Returns(trend);
 
@@ -256,8 +268,10 @@ namespace BusinessLogic.Tests
                 TrendId = trendPatchFollowDto.Id,
                 UserId = trendPatchFollowDto.CreatorId
             };
-            Trend trend = new Trend();
-            trend.FollowersCount = 10;
+            Trend trend = new Trend
+            {
+                FollowersCount = 10
+            };
             trendFollowRepositoryMock.Setup(x => x.GetByFilter(tf => tf.UserId == trendPatchFollowDto.CreatorId && tf.TrendId == trendPatchFollowDto.Id)).Returns(trendFollow);
             trendRepositoryMock.Setup(x => x.GetById(trendPatchFollowDto.Id)).Returns(trend);
 
@@ -281,8 +295,10 @@ namespace BusinessLogic.Tests
                 TrendId = trendPatchFollowDto.Id,
                 UserId = trendPatchFollowDto.CreatorId
             };
-            Trend trend = new Trend();
-            trend.FollowersCount = 10;
+            Trend trend = new Trend
+            {
+                FollowersCount = 10
+            };
             trendFollowRepositoryMock.Setup(x => x.GetByFilter(tf => tf.UserId == trendPatchFollowDto.CreatorId && tf.TrendId == trendPatchFollowDto.Id)).Returns(trendFollow);
             trendRepositoryMock.Setup(x => x.GetById(trendPatchFollowDto.Id)).Returns(trend);
 

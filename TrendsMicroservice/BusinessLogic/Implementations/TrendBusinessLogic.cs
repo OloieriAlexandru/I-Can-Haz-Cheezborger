@@ -4,13 +4,12 @@ using DataAccess.Abstractions;
 using DataAccess.Seed;
 using Entities;
 using Models;
+using Models.Common;
+using Models.Models;
 using Models.Trends;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-
-
 
 namespace BusinessLogic.Implementations
 {
@@ -22,15 +21,15 @@ namespace BusinessLogic.Implementations
 
         private readonly IMapper mapper;
 
-        private readonly IContentScanTaskService contentScanService;
+        private readonly IContentScanTaskService contentScanTaskService;
 
         public TrendBusinessLogic(IRepository<Trend> trendRepository, IRepository<TrendFollow> trendFollowRepository,
-            IMapper mapper)
+            IMapper mapper, IContentScanTaskService contentScanTaskService)
         {
             this.trendRepository = trendRepository;
             this.trendFollowRepository = trendFollowRepository;
             this.mapper = mapper;
-            this.contentScanService = contentScanService;
+            this.contentScanTaskService = contentScanTaskService;
         }
 
         ICollection<TrendGetAllDto> ITrendBusinessLogic.GetAll(UserInfoModel userInfo)
@@ -73,7 +72,14 @@ namespace BusinessLogic.Implementations
 
             trendRepository.Insert(createdTrend);
             trendRepository.SaveChanges();
-            contentScanService.CreateTask(trend.ImageUrl, trend.Description, $"/api/v1/trends/{createdTrend.Id}");
+
+            CreateContentScanTaskDto createContentScanTaskDto = new CreateContentScanTaskDto()
+            {
+                ImageUrl = trend.ImageUrl,
+                Text = trend.Description,
+                CallbackUrl = $"/api/v1/trends/{createdTrend.Id}/content-scan-result"
+            };
+            contentScanTaskService.CreateTask(createContentScanTaskDto);
 
             return mapper.Map<TrendGetAllDto>(createdTrend);
         }
@@ -133,6 +139,15 @@ namespace BusinessLogic.Implementations
         ICollection<TrendGetAllDto> ITrendBusinessLogic.GetPopular()
         {
             return mapper.Map<ICollection<TrendGetAllDto>>(TrendsSeed.Seed());
+        }
+
+        void ITrendBusinessLogic.PatchContentScanTaskApprovals(Guid id, PatchContentScanTaskApprovalsDto taskApprovalsDto)
+        {
+            Trend trend = trendRepository.GetById(id);
+            trend.ApprovedImage = taskApprovalsDto.ApprovedImage;
+            trend.ApprovedText = taskApprovalsDto.ApprovedText;
+            trendRepository.Update(trend);
+            trendRepository.SaveChanges();
         }
     }
 }

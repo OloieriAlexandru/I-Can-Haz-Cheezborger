@@ -4,6 +4,8 @@ using BusinessLogic.Utils;
 using DataAccess.Abstractions;
 using Entities;
 using Models.Comments;
+using Models.Common;
+using Models.Models;
 using System;
 using System.Collections.Generic;
 
@@ -19,16 +21,16 @@ namespace BusinessLogic.Implementations
 
         private readonly IMapper mapper;
 
-        private readonly IContentScanTaskService contentScanService;
+        private readonly IContentScanTaskService contentScanTaskService;
 
         public CommentBusinessLogic(IRepository<Post> postRepository, IRepository<Comment> commentRepository,
-            IRepository<CommentReact> commentReactRepository, IMapper mapper)
+            IRepository<CommentReact> commentReactRepository, IMapper mapper, IContentScanTaskService contentScanTaskService)
         {
             this.postRepository = postRepository;
             this.commentRepository = commentRepository;
             this.commentReactRepository = commentReactRepository;
             this.mapper = mapper;
-            this.contentScanService = contentScanService;
+            this.contentScanTaskService = contentScanTaskService;
         }
 
         ICollection<CommentGetDto> ICommentBusinessLogic.GetAll(Guid postId)
@@ -58,7 +60,14 @@ namespace BusinessLogic.Implementations
             ++post.CommentsCount;
             postRepository.Update(post);
             postRepository.SaveChanges();
-            contentScanService.CreateTask(post.MediaPath, post.Title, $"/api/v1/trends/{post.TrendId}/posts/{post.Id}/comments/{newComment.Id}");
+
+            CreateContentScanTaskDto createContentScanTaskDto = new CreateContentScanTaskDto()
+            {
+                ImageUrl = null,
+                Text = newComment.Text,
+                CallbackUrl = $"/api/v1/trends/{post.TrendId}/posts/{post.Id}/comments/{newComment.Id}/content-scan-result"
+            };
+            contentScanTaskService.CreateTask(createContentScanTaskDto);
 
             return mapper.Map<CommentGetDto>(newComment);
         }
@@ -131,6 +140,15 @@ namespace BusinessLogic.Implementations
                 commentRepository.Update(comment);
                 commentRepository.SaveChanges();
             }
+        }
+
+        void ICommentBusinessLogic.PatchContentScanTaskApprovals(Guid id, PatchContentScanTaskApprovalsDto taskApprovalsDto)
+        {
+            Comment comment = commentRepository.GetById(id);
+            comment.ApprovedImage = taskApprovalsDto.ApprovedImage;
+            comment.ApprovedText = taskApprovalsDto.ApprovedText;
+            commentRepository.Update(comment);
+            commentRepository.SaveChanges();
         }
     }
 }

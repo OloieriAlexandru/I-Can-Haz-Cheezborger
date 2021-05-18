@@ -12,16 +12,16 @@ namespace Entities
         public int Upvotes { get; set; }
 
         public int Downvotes { get; set; }
-        
+
+        public bool ApprovedImage { get; set; }
+
+        public bool ApprovedText { get; set; }
+
         public Guid TrendId { get; set; }
         
         public Trend Trend { get; set; }
 
         public int CommentsCount { get; set; }
-
-        public bool ApprovedImage { get; set; }
-
-        public bool ApprovedText { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
 

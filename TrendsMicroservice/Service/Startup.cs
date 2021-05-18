@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Service.ExtensionMethods;
 using Service.Filters;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -66,6 +67,7 @@ namespace Service
                 };
             });
 
+            services.AddCloudServicesConfiguration(Configuration);
             services.AddBusinessLogicServices(Configuration.GetConnectionString("TrendsDatabase"));
         }
 

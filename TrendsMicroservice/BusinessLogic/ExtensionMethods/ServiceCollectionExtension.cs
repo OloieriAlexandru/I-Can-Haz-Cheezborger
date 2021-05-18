@@ -1,8 +1,11 @@
 ﻿using BusinessLogic.Abstractions;
 using BusinessLogic.Implementations;
 using BusinessLogic.Profiles;
+using Common.Utils;
 using DataAccess.ExtensionMethods;
+using Google.Cloud.Tasks.V2;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace BusinessLogic.ExtensionMethods
 {
@@ -18,7 +21,16 @@ namespace BusinessLogic.ExtensionMethods
 
             services.AddScoped<ICommentBusinessLogic, CommentBusinessLogic>();
 
+            services.AddScoped<IContentScanTaskService, GCloudContentScanTaskService>();
+
             services.AddAutoMapper(typeof(TrendProfile), typeof(PostProfile), typeof(CommentProfile));
+        }
+
+        public static void AddGCloudServices(this IServiceCollection services, GoogleTasksConfiguration configuration)
+        {
+            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", configuration.KeyPath);
+
+            services.AddScoped(s => CloudTasksClient.Create());
         }
     }
 }

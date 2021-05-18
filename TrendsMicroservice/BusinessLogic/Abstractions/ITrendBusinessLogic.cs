@@ -1,4 +1,5 @@
 ﻿using Models;
+using Models.Common;
 using Models.Trends;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace BusinessLogic.Abstractions
         void Update(TrendUpdateDto trend);
 
         void PatchFollow(TrendPatchFollowDto trendPatchFollowDto);
+
+        void PatchContentScanTaskApprovals(Guid id, PatchContentScanTaskApprovalsDto taskApprovalsDto);
 
         void Delete(Guid id);
     }

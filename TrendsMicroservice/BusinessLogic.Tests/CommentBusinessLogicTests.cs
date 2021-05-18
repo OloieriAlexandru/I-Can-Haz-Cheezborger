@@ -12,8 +12,13 @@ namespace BusinessLogic.Tests
     public class CommentBusinessLogicTests : BaseBusinessLogicTests
     {
         private readonly Mock<IRepository<Comment>> commentRepositoryMock;
+
         private readonly Mock<IRepository<Post>> postRepositoryMock;
+        
         private readonly Mock<IRepository<CommentReact>> commentReactRepositoryMock;
+        
+        private readonly Mock<IContentScanTaskService> contentScanTaskServiceMock;
+        
         private readonly ICommentBusinessLogic systemUnderTest;
 
         private readonly Comment testComment = new Comment()
@@ -47,7 +52,9 @@ namespace BusinessLogic.Tests
             commentRepositoryMock = new Mock<IRepository<Comment>>();
             postRepositoryMock = new Mock<IRepository<Post>>();
             commentReactRepositoryMock = new Mock<IRepository<CommentReact>>();
-            systemUnderTest = new CommentBusinessLogic(postRepositoryMock.Object, commentRepositoryMock.Object, commentReactRepositoryMock.Object, mapper);
+            contentScanTaskServiceMock = new Mock<IContentScanTaskService>();
+            systemUnderTest = new CommentBusinessLogic(postRepositoryMock.Object, commentRepositoryMock.Object,
+                commentReactRepositoryMock.Object, mapper, contentScanTaskServiceMock.Object);
         }
 
         [Fact]
@@ -72,7 +79,6 @@ namespace BusinessLogic.Tests
             Comment updatedComment = new Comment();
             mapper.Map<CommentPatchDto, Comment>(testCommentPatchDto, updatedComment);
             commentRepositoryMock.Setup(x => x.GetById(testCommentPatchDto.Id)).Returns(updatedComment);
-
 
             //Act
             systemUnderTest.Patch(testCommentPatchDto);

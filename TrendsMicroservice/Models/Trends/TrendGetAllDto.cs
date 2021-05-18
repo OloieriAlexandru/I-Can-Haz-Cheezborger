@@ -17,5 +17,9 @@ namespace Models.Trends
         public int PostsCount { get; set; }
 
         public bool Followed { get; set; }
+
+        public bool ApprovedImage { get; set; }
+
+        public bool ApprovedText { get; set; }
     }
 }

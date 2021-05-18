@@ -14,10 +14,10 @@ namespace Models.Trends
 
         public string ImageUrl { get; set; }
 
-        public ICollection<PostGetAllDto> Posts { get; set; }
-
         public bool ApprovedImage { get; set; }
 
         public bool ApprovedText { get; set; }
+
+        public ICollection<PostGetAllDto> Posts { get; set; }
     }
 }

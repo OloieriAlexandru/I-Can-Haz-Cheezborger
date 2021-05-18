@@ -1,4 +1,5 @@
 ﻿using Models;
+using Models.Common;
 using Models.Posts;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace BusinessLogic.Abstractions
         void Patch(PostPatchDto post);
 
         void PatchReact(PostPatchReactDto postPatchReact);
+
+        void PatchContentScanTaskApprovals(Guid id, PatchContentScanTaskApprovalsDto taskApprovalsDto);
 
         void Delete(Guid id);
     }

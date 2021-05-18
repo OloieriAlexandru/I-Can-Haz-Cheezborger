@@ -32,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 - Common", "00 - Common", "{6E5E6475-1EB0-4AA6-A914-3C6E44661CD3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Constraints", "Common.Constraints\Common.Constraints.csproj", "{8EF009F3-153C-4E98-A78C-EF776802BDD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common.Constraints\Common.csproj", "{8EF009F3-153C-4E98-A78C-EF776802BDD1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrendsMicroservice.IntegrationTests", "TrendsMicroservice.IntegrationTests\TrendsMicroservice.IntegrationTests.csproj", "{51D54F50-EF3D-4FDF-84A0-60506DD71434}"
 EndProject

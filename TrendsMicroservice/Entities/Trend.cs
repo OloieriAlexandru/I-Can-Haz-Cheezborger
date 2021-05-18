@@ -13,6 +13,7 @@ namespace Entities
         public bool ApprovedImage { get; set; }
 
         public bool ApprovedText { get; set; }
+
         public int FollowersCount { get; set; }
 
         public int PostsCount { get; set; }
