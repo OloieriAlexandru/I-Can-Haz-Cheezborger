@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       working-directory: ./TrendsMicroservice
+      working-directory-service: ./TrendsMicroservice/Service
     
     steps:
 
@@ -34,8 +35,8 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Run Migrations
-      working-directory: ${{ env.working-directory }}
-      run: Service/apply-migration.sh
+      working-directory: ${{ env.working-directory-service }}
+      run: apply-migration.sh
 
     - name: Test
       working-directory: ${{ env.working-directory }}
