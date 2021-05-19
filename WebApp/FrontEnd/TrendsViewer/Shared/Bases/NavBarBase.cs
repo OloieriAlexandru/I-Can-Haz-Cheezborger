@@ -29,7 +29,12 @@ namespace TrendsViewer.Pages
 
         protected async Task GoToUserProfile()
         {
-            NavigationManager.NavigateTo("/user");
+            NavigationManager.NavigateTo("/users/" + AuthService.GetId());
+        }
+
+        protected async Task GoToOurMembers()
+        {
+            NavigationManager.NavigateTo("/members");
         }
     }
 }
