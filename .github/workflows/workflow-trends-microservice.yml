@@ -15,7 +15,8 @@ jobs:
     env:
       working-directory: ./TrendsMicroservice
       working-directory-service: ./TrendsMicroservice/Service
-    
+      working-directory-business-logic-tests: ./TrendsMicroservice/BusinessLogic.Tests
+
     steps:
 
     - name: Checkout repository
@@ -39,7 +40,7 @@ jobs:
       run: bash apply-migration.sh
 
     - name: Test
-      working-directory: ${{ env.working-directory }}
+      working-directory: ${{ env.working-directory-business-logic-tests }}
       run: dotnet test --no-restore /p:CollectCoverage=true
 
   deploy:
