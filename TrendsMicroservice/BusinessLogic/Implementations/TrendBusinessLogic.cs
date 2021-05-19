@@ -141,6 +141,11 @@ namespace BusinessLogic.Implementations
             return mapper.Map<ICollection<TrendGetAllDto>>(TrendsSeed.Seed());
         }
 
+        ICollection<TrendGetAllDto> ITrendBusinessLogic.GetRecomended(Guid UserId)
+        {
+            return mapper.Map<ICollection<TrendGetAllDto>>(TrendsSeed.Seed());
+        }
+
         void ITrendBusinessLogic.PatchContentScanTaskApprovals(Guid id, PatchContentScanTaskApprovalsDto taskApprovalsDto)
         {
             Trend trend = trendRepository.GetById(id);

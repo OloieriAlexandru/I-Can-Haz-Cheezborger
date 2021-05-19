@@ -17,3 +17,46 @@
         </a>
     </div>
 </span>
+@if (Posts != null)
+{
+    @foreach (var post in Posts)
+    {
+            <div>
+                <div class="post">
+                    <div class="post-title">
+                        <a style="text-decoration:none;color:black;" href="@($"trends/{TrendId}/posts/{post.Id}")">
+                            <h4>@post.Title</h4>
+                        </a>
+                    </div>
+
+                    <div class="post-subtitle">
+                        <h6 class="post-time">12m ago</h6>
+                    </div>
+
+                    <div class="post-body">
+                        <div class="post-resource">
+                            <img class="post-image" src=@post.MediaPath />
+                        </div>
+
+                    </div>
+                    <div class="post-description">
+                        <div class="post-op">
+                            <span><img class="user-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
+                            <span class="user-name"> @post.CreatorUsername </span>
+                        </div>
+                        <div class="post-text">
+                            <p>Description</p>
+                        </div>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-information">
+                            <span>@post.Upvotes upvotes</span>
+                            <span>@post.Downvotes downvotes</span>
+                            <span>@post.CommentsCount comments</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+    }
+}

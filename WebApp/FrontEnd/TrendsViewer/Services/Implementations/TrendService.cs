@@ -1,4 +1,5 @@
-﻿using Models.Trends;
+﻿using Models.Posts;
+using Models.Trends;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -54,6 +55,11 @@ namespace TrendsViewer.Services.Implementations
         async Task<IEnumerable<TrendGetAllDto>> ITrendService.GetPopular()
         {
             return await httpService.Get<TrendGetAllDto[]>("/api/v1/trends/popular");
+        }
+
+        async Task<IEnumerable<PostGetAllDto>> ITrendService.GetRecomended(string UserId)
+        {
+            return await httpService.Get<PostGetAllDto[]>("/api/v1/trends/" + UserId + "/recomended");
         }
 
         async Task ITrendService.PatchTrendFollow(Guid id, TrendPatchFollowDto trendPatchFollowDto)

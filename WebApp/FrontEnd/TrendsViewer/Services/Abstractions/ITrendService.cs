@@ -1,4 +1,5 @@
-﻿using Models.Trends;
+﻿using Models.Posts;
+using Models.Trends;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace TrendsViewer.Services.Abstractions
         Task<IEnumerable<TrendGetAllDto>> GetAll();
 
         Task<IEnumerable<TrendGetAllDto>> GetPopular();
+
+        Task<IEnumerable<PostGetAllDto>> GetRecomended(string UserId);
 
         Task<TrendGetByIdDto> GetById(Guid id);
         

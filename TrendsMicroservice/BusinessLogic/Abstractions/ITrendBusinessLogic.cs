@@ -12,6 +12,8 @@ namespace BusinessLogic.Abstractions
 
         ICollection<TrendGetAllDto> GetPopular();
 
+        ICollection<TrendGetAllDto> GetRecomended(Guid UserId);
+
         TrendGetByIdDto GetById(Guid id);
 
         TrendGetAllDto Create(TrendCreateDto trend);
