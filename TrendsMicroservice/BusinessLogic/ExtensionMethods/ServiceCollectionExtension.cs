@@ -30,7 +30,10 @@ namespace BusinessLogic.ExtensionMethods
         {
             Environment.SetEnvironmentVariable(configuration.KeyEnvironmentVariableName, configuration.KeyPath);
 
-            services.AddScoped(s => CloudTasksClient.Create());
+            CloudTasksClientBuilder cloudTasksClientBuilder = new CloudTasksClientBuilder();
+            cloudTasksClientBuilder.CredentialsPath = configuration.KeyPath;
+
+            services.AddScoped(s =>cloudTasksClientBuilder.Build());
         }
     }
 }
