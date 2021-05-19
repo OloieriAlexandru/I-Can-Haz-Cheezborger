@@ -33,7 +33,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
 
 WORKDIR /app
 
-RUN sudo apt update && sudo apt install -y libc-dev
+RUN apt update && apt install -y libc-dev
 ENV ASPNETCORE_URLS=http://*:${PORT}
 ENV ASPNETCORE_ENVIRONMENT=Production
 ENV TAPTAKE_SEED=False
