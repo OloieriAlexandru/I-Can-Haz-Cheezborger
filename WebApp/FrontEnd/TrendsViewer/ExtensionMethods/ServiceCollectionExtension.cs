@@ -6,6 +6,7 @@ using TrendsViewer.Services.Abstractions;
 using TrendsViewer.Profiles;
 using TrendsViewer.Services.Resolvers;
 using System.Collections.Generic;
+using TrendsViewer.Utils;
 
 namespace TrendsViewer.ExtensionMethods
 {
@@ -33,6 +34,9 @@ namespace TrendsViewer.ExtensionMethods
                 };
             });
 
+            services.AddScoped<MicroservicesUrls>(serviceProvider => new MicroservicesUrls(configuration.GetValue<string>("TrendsMicroserviceApiUrl"),
+                configuration.GetValue<string>("UsersMicroserviceApiUrl"), configuration.GetValue<string>("ImagesMicroserviceApiUrl")));
+
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ILocalStorageService, LocalStorageService>();
 
@@ -40,6 +44,7 @@ namespace TrendsViewer.ExtensionMethods
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<ITrendService, TrendService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IImageService, ImageService>();
         }
 
         public static void AddAutoMapperProfiles(this IServiceCollection services)

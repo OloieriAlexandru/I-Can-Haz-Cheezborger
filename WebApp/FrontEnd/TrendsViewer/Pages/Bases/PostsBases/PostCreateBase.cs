@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Models.Posts;
 using System;
 using System.Threading.Tasks;
-using TrendsViewer.Models;
+using TrendsViewer.FormModels;
 using TrendsViewer.Services.Abstractions;
 
 namespace TrendsViewer.Pages
@@ -20,6 +20,8 @@ namespace TrendsViewer.Pages
         [Parameter]
         public string TrendId { get; set; }
 
+        public string MediaPath { get; set; }
+
         public CreatePostModel CreatePostModel { get; set; }
 
         private PostCreateDto Post { get; set; }
@@ -34,6 +36,11 @@ namespace TrendsViewer.Pages
         {
             await Task.CompletedTask;
             CreatePostModel.TrendId = TrendId;
+        }
+
+        protected void ImageSelected(string mediaPath)
+        {
+            MediaPath = mediaPath;
         }
 
         protected async Task HandleValidSubmit()

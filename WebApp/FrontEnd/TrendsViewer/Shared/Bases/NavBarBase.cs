@@ -27,12 +27,12 @@ namespace TrendsViewer.Pages
             NavigationManager.NavigateTo("/", true);
         }
 
-        protected async Task GoToUserProfile()
+        protected void GoToUserProfile()
         {
             NavigationManager.NavigateTo("/users/" + AuthService.GetId());
         }
 
-        protected async Task GoToOurMembers()
+        protected void GoToOurMembers()
         {
             NavigationManager.NavigateTo("/members");
         }

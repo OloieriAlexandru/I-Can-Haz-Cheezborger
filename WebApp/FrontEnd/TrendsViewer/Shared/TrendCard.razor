@@ -1,0 +1,80 @@
+﻿@inherits TrendCardBase
+
+<div class="post">
+    <div class="post-title">
+        <a style="text-decoration:none;color:black;" @onclick="(() => NavigateToTrendPage())">
+            @if(InList)
+            {
+                <h4>@Trend.Name</h4>
+            }
+            else
+            {
+                @TrendName
+            }
+        </a>
+                            
+    </div>
+    <div class="post-subtitle">
+        <h6 class="post-time">12m ago</h6>
+    </div>
+
+    <div class="post-body">
+        <div class="post-resource">
+            <img class="post-image" src=@ImageUrl />
+        </div>
+
+    </div>
+    <div class="post-description">
+        <div class="post-op">
+            <span><img class="user-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
+            <span class="user-name"> @Trend.CreatorUsername </span>
+        </div>
+        <div class="post-text">
+            @if(InList)
+            {
+                <h4>@Trend.Description</h4>
+            }
+            else
+            {
+                @TrendDescription
+            }
+        </div>
+    </div>
+    <div class="post-footer">
+        <div class="post-information">
+            <span>@Trend.FollowersCount followers</span>
+            <span>@Trend.PostsCount posts</span>
+        </div>
+        @if (Authenticated || ActivateButtons)
+        {
+            <div class="post-buttons">
+
+                <div class="upvote-button" @onclick="(() => FollowTrend())">
+                    <button class="icon-button">
+                        @if (Trend.Followed == true)
+                        {
+                            <i class="fas fa-heart"></i>
+                        }
+                        else
+                        {
+                            <i class="far fa-heart"></i>
+                        }
+
+                    </button>
+                </div>
+                <div class="downvote-button">
+                    <button class="icon-button">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+
+                <div class="others-button">
+                    <button class="icon-button">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>

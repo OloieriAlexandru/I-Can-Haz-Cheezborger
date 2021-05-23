@@ -16,9 +16,11 @@ namespace BusinessLogic.ExtensionMethods
             services.AddScoped<IImageBusinessLogic, ImageBusinessLogic>();
         }
 
-        public static void AddGCloudServices(this IServiceCollection services, GoogleCloudConfig configuration)
+        public static void AddCloudServices(this IServiceCollection services, GoogleCloudConfig googleCloudConfig, MongoDbConfig mongoDbConfig)
         {
-            Environment.SetEnvironmentVariable(configuration.KeyEnvironmentVariableName, configuration.KeyPath);
+            Environment.SetEnvironmentVariable(googleCloudConfig.KeyEnvironmentVariableName, googleCloudConfig.KeyPath);
+
+            services.AddCloudServicesDb(googleCloudConfig, mongoDbConfig);
         }
     }
 }

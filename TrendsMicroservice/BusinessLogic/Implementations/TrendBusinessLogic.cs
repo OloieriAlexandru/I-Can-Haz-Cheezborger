@@ -5,6 +5,7 @@ using DataAccess.Seed;
 using Entities;
 using Models;
 using Models.Common;
+using Models.Images;
 using Models.Models;
 using Models.Trends;
 using System;
@@ -23,13 +24,16 @@ namespace BusinessLogic.Implementations
 
         private readonly IContentScanTaskService contentScanTaskService;
 
+        private readonly IImageService imageService;
+
         public TrendBusinessLogic(IRepository<Trend> trendRepository, IRepository<TrendFollow> trendFollowRepository,
-            IMapper mapper, IContentScanTaskService contentScanTaskService)
+            IMapper mapper, IContentScanTaskService contentScanTaskService, IImageService imageService)
         {
             this.trendRepository = trendRepository;
             this.trendFollowRepository = trendFollowRepository;
             this.mapper = mapper;
             this.contentScanTaskService = contentScanTaskService;
+            this.imageService = imageService;
         }
 
         ICollection<TrendGetAllDto> ITrendBusinessLogic.GetAll(UserInfoModel userInfo)
@@ -67,19 +71,24 @@ namespace BusinessLogic.Implementations
         TrendGetAllDto ITrendBusinessLogic.Create(TrendCreateDto trend)
         {
             Trend createdTrend = mapper.Map<Trend>(trend);
-            createdTrend.ApprovedImage = false;
-            createdTrend.ApprovedText = false;
 
-            trendRepository.Insert(createdTrend);
-            trendRepository.SaveChanges();
+            ImageGetDto image = imageService.Create(new ImageCreateDto()
+            {
+                Image = trend.Image,
+                Prefix = "trends"
+            });
 
             CreateContentScanTaskDto createContentScanTaskDto = new CreateContentScanTaskDto()
             {
-                ImageUrl = trend.ImageUrl,
+                ImageUrl = imageService.GetFullImageUrl(image.Url),
                 Text = trend.Description,
                 CallbackUrl = $"/api/v1/trends/{createdTrend.Id}/content-scan-result"
             };
             contentScanTaskService.CreateTask(createContentScanTaskDto);
+
+            createdTrend.ImageUrl = image.Url;
+            trendRepository.Insert(createdTrend);
+            trendRepository.SaveChanges();
 
             return mapper.Map<TrendGetAllDto>(createdTrend);
         }
@@ -137,11 +146,6 @@ namespace BusinessLogic.Implementations
         }
 
         ICollection<TrendGetAllDto> ITrendBusinessLogic.GetPopular()
-        {
-            return mapper.Map<ICollection<TrendGetAllDto>>(TrendsSeed.Seed());
-        }
-
-        ICollection<TrendGetAllDto> ITrendBusinessLogic.GetRecomended(Guid UserId)
         {
             return mapper.Map<ICollection<TrendGetAllDto>>(TrendsSeed.Seed());
         }

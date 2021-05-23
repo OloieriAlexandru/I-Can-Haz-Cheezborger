@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Models.Trends;
 using System;
 using System.Threading.Tasks;
-using TrendsViewer.Models;
+using TrendsViewer.FormModels;
 using TrendsViewer.Services.Abstractions;
 
 namespace TrendsViewer.Pages

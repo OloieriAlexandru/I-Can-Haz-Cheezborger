@@ -54,7 +54,7 @@ a, .btn-link {
     top: 0.5rem;
 }
 
-/*RAMONA*/
+/* RAMONA */
 
 label{
     display:block;
@@ -72,8 +72,9 @@ h3{
     margin-bottom:15px;
 }
 
-.create-trend-button-container {
-    display: block;
-    text-align: right;
-}
+.demo-card {
+    margin-top: 32px;
 
+    border: 1px solid #00ffff;
+    padding: 8px;
+}

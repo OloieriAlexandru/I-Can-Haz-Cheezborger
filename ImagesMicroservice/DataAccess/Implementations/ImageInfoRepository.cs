@@ -1,8 +1,36 @@
-﻿using DataAccess.Abstractions;
+﻿using Common.Utils;
+using DataAccess.Abstractions;
+using Entities;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 
 namespace DataAccess.Implementations
 {
     public class ImageInfoRepository : IImageInfoRepository
     {
+        private readonly IMongoCollection<ImageInfo> images;
+
+        private readonly MongoDbConfig mongoDbConfig;
+
+        public ImageInfoRepository(MongoClient mongoClient, IOptionsMonitor<MongoDbConfig> optionsMonitor)
+        {
+            this.mongoDbConfig = optionsMonitor.CurrentValue;
+            this.images = mongoClient.GetDatabase(this.mongoDbConfig.DatabaseName).GetCollection<ImageInfo>(this.mongoDbConfig.CollectionName);
+        }
+
+        void IImageInfoRepository.Create(ImageInfo imageInfo)
+        {
+            images.InsertOne(imageInfo);
+        }
+
+        ImageInfo IImageInfoRepository.Get(string id)
+        {
+            return images.Find<ImageInfo>(i => i.Id == id).FirstOrDefault();
+        }
+
+        void IImageInfoRepository.Update(string id, ImageInfo imageInfo)
+        {
+            images.ReplaceOne(i => i.Id == id, imageInfo);
+        }
     }
 }

@@ -23,24 +23,8 @@
                         </div>
 
                         <div class="create-trend-image">
-                            <label for="ImageUrl">
-                                ImageURL
-                            </label>
-                            <div>
-                                <InputText class="form-control"
-                                            @bind-Value="CreatePostModel.MediaPath" />
-                                <ValidationMessage For="@(()=> CreatePostModel.MediaPath)" />
-
-                            </div>
-
-                            @if (CreatePostModel.MediaPath != null)
-                            { 
-                                <div class="post-resource">
-                                    <img class="post-image" src=@CreatePostModel.MediaPath />
-                                </div>
-                            }
+                            <FileUploader OnImageSelected="ImageSelected"/>
                         </div>
-
 
                         <div class="create-trend-description">
                             <label for="Description">
@@ -55,7 +39,7 @@
                     </div>
                     <div class="create-trend-button-container">
                         <button class="btn btn-primary create-trend-button" type="submit">
-                            <i class="fas fa-arrow-circle-right"></i>
+                            Create
                         </button>
                     </div>
 
@@ -63,5 +47,4 @@
             </div>
         </div>
     </div>
-
 </div>

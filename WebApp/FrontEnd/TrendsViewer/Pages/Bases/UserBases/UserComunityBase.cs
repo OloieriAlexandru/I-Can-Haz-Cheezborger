@@ -24,7 +24,7 @@ namespace TrendsViewer.Pages
             }
         }
 
-        protected async Task GoToUserPage(Guid userId)
+        protected void GoToUserPage(Guid userId)
         {
             NavigationManager.NavigateTo("/users/" + userId);
         }

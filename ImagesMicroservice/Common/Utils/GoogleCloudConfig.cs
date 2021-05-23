@@ -7,5 +7,7 @@
         public string KeyPath { get; set; }
 
         public string KeyEnvironmentVariableName { get; set; }
+
+        public string BucketName { get; set; }
     }
 }

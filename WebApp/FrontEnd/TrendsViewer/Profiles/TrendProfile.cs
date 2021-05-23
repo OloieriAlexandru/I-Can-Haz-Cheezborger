@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Models.Trends;
-using TrendsViewer.Models;
+using TrendsViewer.FormModels;
 
 namespace TrendsViewer.Profiles
 {

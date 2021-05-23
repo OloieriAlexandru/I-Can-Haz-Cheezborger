@@ -5,7 +5,7 @@ using Models.Trends;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TrendsViewer.Models;
+using TrendsViewer.FormModels;
 using TrendsViewer.Services.Abstractions;
 
 namespace TrendsViewer.Pages

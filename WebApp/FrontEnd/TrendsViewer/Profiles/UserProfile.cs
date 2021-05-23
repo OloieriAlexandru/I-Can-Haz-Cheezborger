@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Models.Auth;
 using Models.Users;
-using TrendsViewer.Models;
+using TrendsViewer.FormModels;
 
 namespace TrendsViewer.Profiles
 {

@@ -10,6 +10,8 @@ namespace BusinessLogic.Abstractions
     {
         ICollection<PostGetAllDto> GetAll(Guid trendId, UserInfoModel userInfo);
 
+        ICollection<PostGetAllDto> GetRecommended(UserInfoModel userInfo);
+
         PostGetByIdDto GetById(Guid id, UserInfoModel userInfo);
 
         PostGetAllDto Create(PostCreateDto post);

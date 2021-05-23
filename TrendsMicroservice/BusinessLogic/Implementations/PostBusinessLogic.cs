@@ -178,5 +178,10 @@ namespace BusinessLogic.Implementations
             postRepository.Delete(id);
             postRepository.SaveChanges();
         }
+
+        ICollection<PostGetAllDto> IPostBusinessLogic.GetRecommended(UserInfoModel userInfo)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

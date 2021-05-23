@@ -22,7 +22,6 @@ namespace Service.Controllers
         }
 
         [HttpGet("auth")]
-        [Authorize]
         public ICollection<PostGetAllDto> GetAllAuthorized([FromRoute] Guid trendId)
         {
             UserInfoModel userInfoModel = new UserInfoModel();
@@ -35,6 +34,12 @@ namespace Service.Controllers
         public ICollection<PostGetAllDto> GetAllUnauthorized([FromRoute] Guid trendId)
         {
             return postBusinessLogic.GetAll(trendId, null);
+        }
+
+        [HttpGet("~/api/v1/trends/posts")]
+        public ICollection<PostGetAllDto> GetRecommended()
+        {
+            return new List<PostGetAllDto>();
         }
 
         [HttpGet("{id:guid}/auth")]

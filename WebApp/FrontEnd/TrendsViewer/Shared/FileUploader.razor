@@ -1,0 +1,18 @@
+﻿@inherits FileUploaderBase
+
+<div class="file-uploader-wrapper">
+
+    <div class="drop-area @DropClass">
+        <InputFile id="inputDrop"
+                    OnChange="OnInputFileChange"
+                    @ondragenter="HandleDragEnter"
+                    @ondragleave="HandleDragLeave"
+                    accept="image/png,image/gif,image/jpeg"/>
+    </div>
+
+    @if (ImageType != null)
+    {
+        @ImageType
+    }
+
+</div>

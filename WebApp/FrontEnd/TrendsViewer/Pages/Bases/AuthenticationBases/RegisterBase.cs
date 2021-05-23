@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Models.Users;
 using System;
 using System.Threading.Tasks;
-using TrendsViewer.Models;
+using TrendsViewer.FormModels;
 using TrendsViewer.Services.Abstractions;
 using Syncfusion.Blazor.Notifications;
 
@@ -52,7 +52,7 @@ namespace TrendsViewer.Pages
             }
         }
 
-        protected async Task HandleProceedAsGuest()
+        protected void HandleProceedAsGuest()
         {
             NavigationManager.NavigateTo("/");
         }

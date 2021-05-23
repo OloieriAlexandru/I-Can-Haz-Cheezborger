@@ -19,12 +19,12 @@
     font-size: 30px;
 }
 
-
 .post:not(:last-of-type) {
     margin-bottom: 30px;
 }
 
 .post-image {
+    max-width: 400px;
     width: 100%;
 }
 

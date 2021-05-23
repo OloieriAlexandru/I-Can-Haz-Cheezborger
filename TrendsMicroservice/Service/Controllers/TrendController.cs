@@ -43,12 +43,6 @@ namespace Service.Controllers
             return trendBusinessLogic.GetPopular();
         }
 
-        [HttpGet("{id:guid}/recomended")]
-        public ICollection<TrendGetAllDto> GetRecomended([FromRoute] Guid id)
-        {
-            return trendBusinessLogic.GetRecomended(id);
-        }
-
         [HttpGet("{id:guid}")]
         [ProducesResponseType(200, Type = typeof(TrendGetByIdDto))]
         [ProducesResponseType(404)]

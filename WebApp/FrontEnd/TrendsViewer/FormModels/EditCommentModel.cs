@@ -1,4 +1,4 @@
-﻿namespace TrendsViewer.Models
+﻿namespace TrendsViewer.FormModels
 {
     public class EditCommentModel
     {

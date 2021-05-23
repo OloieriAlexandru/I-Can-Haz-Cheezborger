@@ -18,70 +18,8 @@
                 {
                     foreach (var trend in Trends)
                     {
-                        <div class="post">
-                            <div class="post-title">
-                                <a style="text-decoration:none;color:black;" href="@($"trends/{trend.Id}")">
-                                    <h4>@trend.Name</h4>
-                                </a>
-                            
-                            </div>
-                            <div class="post-subtitle">
-                                <h6 class="post-time">12m ago</h6>
-                            </div>
-
-                            <div class="post-body">
-                                <div class="post-resource">
-                                    <img class="post-image" src=@trend.ImageUrl />
-                                </div>
-
-                            </div>
-                            <div class="post-description">
-                                <div class="post-op">
-                                    <span><img class="user-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
-                                    <span class="user-name"> @trend.CreatorUsername </span>
-                                </div>
-                                <div class="post-text">
-                                    <p>@trend.Description</p>
-                                </div>
-                            </div>
-                            <div class="post-footer">
-                                <div class="post-information">
-                                    <span>@trend.FollowersCount followers</span>
-                                    <span>@trend.PostsCount posts</span>
-                                </div>
-                                @if (AuthService.IsLoggedIn())
-                                {
-                                    <div class="post-buttons">
-
-                                        <div class="upvote-button" @onclick="(() => FollowTrend(trend))">
-                                            <button class="icon-button">
-                                                @if (trend.Followed == true)
-                                                {
-                                                    <i class="fas fa-heart"></i>
-                                                }
-                                                else
-                                                {
-                                                    <i class="far fa-heart"></i>
-                                                }
-
-                                            </button>
-                                        </div>
-                                        <div class="downvote-button"  @onclick="(() => NavigateTrendId(trend.Id.ToString()))">
-                                            <button class="icon-button">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-
-                                        <div class="others-button">
-                                            <button class="icon-button">
-                                                <i class="fas fa-ellipsis-h"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-
-                        </div>
+                        <TrendCard Authenticated="@AuthService.IsLoggedIn()" ActivateButtons="@true"
+                            OnTrendFollowed="FollowTrend" OnNavigateToTrendPage="NavigateToTrendPage" ImageUrl="@ImageService.GetFullUrl(trend.ImageUrl)" Trend="trend" />
                     }
                 }
             </div>

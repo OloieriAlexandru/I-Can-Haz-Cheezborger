@@ -21,13 +21,13 @@ namespace TrendsMicroservice.IntegrationTests
                 {
                     Name = "FirstTestTrendName",
                     Description = "FirstTestTrendDescription",
-                    ImageUrl = "FirstTestTrendImageUrl"
+                    Image = ""
                 },
                 new TrendCreateDto()
                 {
                     Name = "SecondTestTrendName",
                     Description = "SecondTestTrendDescription",
-                    ImageUrl = "SecondTestTrendImageUrl"
+                    Image = ""
                 }
             };
         }

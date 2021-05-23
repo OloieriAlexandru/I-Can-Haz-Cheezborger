@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TrendsViewer.Models
+namespace TrendsViewer.FormModels
 {
     public class CreatePostModel
     {
@@ -8,11 +8,9 @@ namespace TrendsViewer.Models
         [MinLength(2)]
         public string Title { get; set; }
 
-        [Required]
         public string MediaPath { get; set; }
 
         public string Description { get; set; }
-
 
         public string TrendId { get; set; }
     }

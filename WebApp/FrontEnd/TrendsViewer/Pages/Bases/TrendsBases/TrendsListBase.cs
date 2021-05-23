@@ -15,6 +15,9 @@ namespace TrendsViewer.Pages
         public IAuthService AuthService { get; set; }
 
         [Inject]
+        public IImageService ImageService { get; set; }
+
+        [Inject]
         public NavigationManager NavigationManager { get; set; }
 
         public IEnumerable<TrendGetAllDto> Trends { get; set; }
@@ -28,9 +31,9 @@ namespace TrendsViewer.Pages
             }
         }
 
-        protected void NavigateTrendId(string trendId)
+        protected void NavigateToTrendPage(TrendGetAllDto trend)
         {
-            NavigationManager.NavigateTo($"/trends/{trendId}", forceLoad: true);
+            NavigationManager.NavigateTo($"/trends/{trend.Id}", forceLoad: true);
         }
 
         protected async Task FollowTrend(TrendGetAllDto trend)

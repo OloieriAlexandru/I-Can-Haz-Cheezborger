@@ -17,6 +17,8 @@ namespace BusinessLogic.Tests
 
         private readonly Mock<IContentScanTaskService> contentScanTaskServiceMock;
 
+        private readonly Mock<IImageService> imageServiceMock;
+
         private readonly ITrendBusinessLogic systemUnderTest;
 
         public TrendBusinessLogicTests() : base()
@@ -24,8 +26,9 @@ namespace BusinessLogic.Tests
             trendRepositoryMock = new Mock<IRepository<Trend>>();
             trendFollowRepositoryMock = new Mock<IRepository<TrendFollow>>();
             contentScanTaskServiceMock = new Mock<IContentScanTaskService>();
+            imageServiceMock = new Mock<IImageService>();
             systemUnderTest = new TrendBusinessLogic(trendRepositoryMock.Object, trendFollowRepositoryMock.Object,
-                mapper, contentScanTaskServiceMock.Object);
+                mapper, contentScanTaskServiceMock.Object, imageServiceMock.Object);
         }
 
         [Fact]

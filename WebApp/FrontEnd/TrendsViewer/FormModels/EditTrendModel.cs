@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TrendsViewer.Models
+namespace TrendsViewer.FormModels
 {
     public class EditTrendModel
     {

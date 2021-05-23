@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Models.Trends;
 using System.Threading.Tasks;
-using TrendsViewer.Models;
+using TrendsViewer.FormModels;
 using TrendsViewer.Services.Abstractions;
 
 namespace TrendsViewer.Pages
@@ -21,19 +21,29 @@ namespace TrendsViewer.Pages
 
         public CreateTrendModel CreateTrendModel { get; set; }
 
-        private TrendCreateDto Trend { get; set; }
+        public string Image { get; set; } = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/1200px-Question_mark_%28black%29.svg.png";
+
+        public TrendGetAllDto Trend { get; set; }
 
         public TrendCreateBase()
         {
             CreateTrendModel = new CreateTrendModel();
-            Trend = new TrendCreateDto();
+            Trend = new TrendGetAllDto();
+        }
+
+        protected void ImageSelected(string image)
+        {
+            Image = image;
+            StateHasChanged();
         }
 
         protected async Task HandleValidSubmit()
         {
-            Mapper.Map(CreateTrendModel, Trend);
+            TrendCreateDto trend = new TrendCreateDto();
+            Mapper.Map(CreateTrendModel, trend);
+            trend.Image = Image;
 
-            await TrendService.CreateTrend(Trend);
+            await TrendService.CreateTrend(trend);
             NavigationManager.NavigateTo("/trends");
         }
     }
