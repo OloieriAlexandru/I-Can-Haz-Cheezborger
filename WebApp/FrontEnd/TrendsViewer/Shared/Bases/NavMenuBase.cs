@@ -17,12 +17,14 @@ namespace TrendsViewer.Pages
         public ITrendService TrendService { get; set; }
 
         public IEnumerable<TrendGetAllDto> Trends { get; set; }
+        public IEnumerable<TrendGetAllDto> PopularTrends { get; set; }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                Trends = await TrendService.GetPopular();
+                Trends = await TrendService.GetAll();
+                PopularTrends = await TrendService.GetPopular();
                 StateHasChanged();
             }
         }
