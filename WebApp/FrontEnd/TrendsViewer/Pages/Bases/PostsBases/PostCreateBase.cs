@@ -46,6 +46,8 @@ namespace TrendsViewer.Pages
         protected async Task HandleValidSubmit()
         {
             Mapper.Map(CreatePostModel, Post);
+            String date = DateTime.Now.ToString("dd-M-yyyy HH:mm");
+            Post.DateTime = date;
 
             await PostService.CreatePost(Guid.Parse(TrendId), Post);
             NavigationManager.NavigateTo($"/trends/{TrendId}");

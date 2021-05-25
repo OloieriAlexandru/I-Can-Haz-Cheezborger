@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
 using Models.Trends;
+using System;
 using System.Threading.Tasks;
 using TrendsViewer.FormModels;
 using TrendsViewer.Services.Abstractions;
@@ -42,6 +43,8 @@ namespace TrendsViewer.Pages
             TrendCreateDto trend = new TrendCreateDto();
             Mapper.Map(CreateTrendModel, trend);
             trend.Image = Image;
+            String date = DateTime.Now.ToString("dd-M-yyyy HH:mm");
+            trend.DateTime = date;
 
             await TrendService.CreateTrend(trend);
             NavigationManager.NavigateTo("/trends");

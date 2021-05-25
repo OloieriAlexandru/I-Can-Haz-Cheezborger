@@ -42,6 +42,9 @@ namespace TrendsViewer.Pages
                 }
                 PostGetByIdDto updatedPost = await PostService.GetPost(Guid.Parse(TrendId), Guid.Parse(PostId));
                 Post = Mapper.Map<PostPatchDto>(updatedPost);
+                String date = DateTime.Now.ToString("dd-M-yyyy HH:mm");
+                Post.DateTime = date;
+
                 Mapper.Map(Post, EditPostModel);
             }
         }

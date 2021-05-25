@@ -47,6 +47,9 @@ namespace TrendsViewer.Pages
         protected async Task HandleValidSubmit()
         {
             Mapper.Map(EditTrendModel, Trend);
+            String date = DateTime.Now.ToString("dd-M-yyyy HH:mm");
+            Trend.DateTime = date;
+
             await TrendService.UpdateTrend(Trend.Id, Trend);
             NavigationManager.NavigateTo("/trends");
         }

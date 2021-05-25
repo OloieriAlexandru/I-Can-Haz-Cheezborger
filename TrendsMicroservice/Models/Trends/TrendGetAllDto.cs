@@ -21,5 +21,7 @@ namespace Models.Trends
         public bool ApprovedImage { get; set; }
 
         public bool ApprovedText { get; set; }
+
+        public string DateTime { get; set; }
     }
 }

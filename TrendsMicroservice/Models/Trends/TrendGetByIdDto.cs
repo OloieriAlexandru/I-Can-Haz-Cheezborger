@@ -19,5 +19,7 @@ namespace Models.Trends
         public bool ApprovedText { get; set; }
 
         public ICollection<PostGetAllDto> Posts { get; set; }
+
+        public string DateTime { get; set; }
     }
 }

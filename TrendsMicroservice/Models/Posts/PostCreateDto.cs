@@ -11,5 +11,7 @@ namespace Models.Posts
         public Guid TrendId { get; set; }
 
         public bool Approved { get; set; }
+        public string DateTime { get; set; }
+
     }
 }
