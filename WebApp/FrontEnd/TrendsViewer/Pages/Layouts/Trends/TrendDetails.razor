@@ -23,7 +23,7 @@
                         </div>
                     </a>
                 }
-                
+
                 @{var postIndex = 0; }
                 @if (Posts != null)
                 {
@@ -116,7 +116,53 @@
                             </div>
                         }
                     }
-                    
+                    <div>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" style="cursor:pointer"
+                                       @onclick="@(e=>NavigateTo("first"))">
+                                        @("<<")
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" style="cursor:pointer"
+                                       @onclick="@(e=>NavigateTo("prev"))">
+                                        Prev
+                                    </a>
+                                </li>
+
+                                @for (int i = 0; i < TotalPages; i++)
+                                {
+                                    var pageNumber = i;
+                                    <span>
+                                        <li class="page-item">
+                                            <a class="page-link" style="cursor:pointer"
+                                               id="@(CurrentPage==pageNumber?"page-button-current":"page-button-others")"
+                                               @onclick="@(e=>UpdateList(pageNumber))">
+                                                @(i+1)
+                                            </a>
+                                        </li>
+                                    </span>
+                                }
+
+                                <li class="page-item">
+                                    <a class="page-link" style="cursor:pointer"
+                                       @onclick="@(e=>NavigateTo("next"))">
+                                        Next
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" style="cursor:pointer"
+                                       @onclick="@(e=>NavigateTo("last"))">
+                                        @(">>")
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+
                 }
             </div>
         </div>

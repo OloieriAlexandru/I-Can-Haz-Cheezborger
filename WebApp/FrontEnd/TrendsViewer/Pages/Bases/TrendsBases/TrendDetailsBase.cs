@@ -33,8 +33,14 @@ namespace TrendsViewer.Pages
         public TrendGetByIdDto Trend { get; set; }
         public IEnumerable<TrendGetAllDto> Trends { get; set; }
         public ICollection<PostGetAllDto> Posts { get; set; }
+        public ICollection<PostGetAllDto> PostsList { get; set; }
 
         public ArrayList SeeContent = new ArrayList();
+
+        public int PAGESIZE = 5;
+        public int TotalPages { get; set; }
+        public int CurrentPage { get; set; }
+
 
         public TrendDetailsBase()
         {
@@ -50,6 +56,9 @@ namespace TrendsViewer.Pages
                 Trend = await TrendService.GetById(Guid.Parse(TrendId));
                 Trends = await TrendService.GetAll();
                 Posts = new List<PostGetAllDto>(await PostService.GetPosts(Guid.Parse(TrendId)));
+
+                PostsList = Posts.Take(PAGESIZE).ToList();
+                TotalPages = (int)Math.Ceiling(Trends.Count() / (decimal)PAGESIZE);
 
                 //Aici va veni logica se setare a unui post daca vrei sa se vada sau nu
                 for (var i=0; i<Posts.Count; i++)
@@ -170,6 +179,26 @@ namespace TrendsViewer.Pages
                 }
             } 
             StateHasChanged();
+        }
+
+        public void UpdateList(int pageNumber)
+        {
+            CurrentPage = pageNumber;
+            PostsList = Posts.Skip(pageNumber * PAGESIZE).Take(PAGESIZE).ToList();
+        }
+
+        public void NavigateTo(string direction)
+        {
+            if (direction == "prev" && CurrentPage != 0)
+                CurrentPage -= 1;
+            if (direction == "next" && CurrentPage != TotalPages - 1)
+                CurrentPage += 1;
+            if (direction == "first")
+                CurrentPage = 0;
+            if (direction == "last")
+                CurrentPage = TotalPages - 1;
+
+            UpdateList(CurrentPage);
         }
     }
 }

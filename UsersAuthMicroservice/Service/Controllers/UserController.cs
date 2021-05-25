@@ -4,6 +4,7 @@ using Models.Users;
 using System;
 using System.Threading.Tasks;
 
+
 namespace Service.Controllers
 {
     [Route("api/v1/users")]
@@ -34,7 +35,7 @@ namespace Service.Controllers
         public async Task<IActionResult> GetAll()
         {
             return Ok(await userService.GetAll());
-        }
+        } 
 
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)

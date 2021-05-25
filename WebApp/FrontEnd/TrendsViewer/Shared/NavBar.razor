@@ -24,7 +24,7 @@
     </div>
 
     <div class="right-items">
-        <a @onclick="GoToOurMembers" style="margin-right:20px;">Our comunity!</a>
+        <a @onclick="GoToOurMembers" style="margin-right:20px;cursor:pointer">Our comunity!</a>
         @if (AuthService.IsLoggedIn())
         {
             <a style="margin-right:20px; color:navy;" @onclick="GoToUserProfile">@AuthService.GetUsername()</a>

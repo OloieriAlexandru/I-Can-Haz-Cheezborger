@@ -78,3 +78,14 @@ h3{
     border: 1px solid #00ffff;
     padding: 8px;
 }
+
+ #page-button-current{
+    color: white;
+    background-color: #1861ac;
+}
+
+ #page-button-others {
+    color: #1861ac;
+    background-color: #ffffff;
+}
+

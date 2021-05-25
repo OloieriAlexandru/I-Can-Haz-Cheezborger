@@ -16,12 +16,60 @@
                 }
                 @if (Trends != null)
                 {
-                    foreach (var trend in Trends)
+                    foreach (var trend in TrendsList)
                     {
                         <TrendCard Authenticated="@AuthService.IsLoggedIn()" ActivateButtons="@true"
-                            OnTrendFollowed="FollowTrend" OnNavigateToTrendPage="NavigateToTrendPage" ImageUrl="@ImageService.GetFullUrl(trend.ImageUrl)" Trend="trend" />
+                                   OnTrendFollowed="FollowTrend" OnNavigateToTrendPage="NavigateToTrendPage" ImageUrl="@ImageService.GetFullUrl(trend.ImageUrl)" Trend="trend" />
                     }
                 }
+
+                <div>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" style="cursor:pointer"
+                                   @onclick="@(e=>NavigateTo("first"))">
+                                    @("<<")
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" style="cursor:pointer"
+                                   @onclick="@(e=>NavigateTo("prev"))">
+                                    Prev
+                                </a>
+                            </li>
+
+                            @for (int i = 0; i < TotalPages; i++)
+                            {
+                                var pageNumber = i;
+                                <span>
+                                    <li class="page-item">
+                                        <a class="page-link" style="cursor:pointer"
+                                           id="@(CurrentPage==pageNumber?"page-button-current":"page-button-others")"
+                                           @onclick="@(e=>UpdateList(pageNumber))">
+                                            @(i+1)
+                                        </a>
+                                    </li>
+                                </span>
+                            }
+
+                            <li class="page-item">
+                                <a class="page-link" style="cursor:pointer"
+                                   @onclick="@(e=>NavigateTo("next"))">
+                                    Next
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" style="cursor:pointer"
+                                   @onclick="@(e=>NavigateTo("last"))">
+                                    @(">>")
+                                </a>
+                            </li>
+
+                        </ul>
+                    </nav>
+                </div>
+
             </div>
         </div>
     </div>
