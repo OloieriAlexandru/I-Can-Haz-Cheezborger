@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210524194846_AddedLikesAndDislikesColumnsToCommentsTable2")]
-    partial class AddedLikesAndDislikesColumnsToCommentsTable2
+    [Migration("20210525200247_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -320,7 +320,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("UserId", "TrendId");
 
-                    b.ToTable("TrendFollow");
+                    b.ToTable("TrendFollows");
                 });
 
             modelBuilder.Entity("Entities.Comment", b =>

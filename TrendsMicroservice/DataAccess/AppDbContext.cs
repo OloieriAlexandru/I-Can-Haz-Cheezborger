@@ -12,6 +12,8 @@ namespace DataAccess
         
         public DbSet<Comment> Comments { get; set; }
         
+        public DbSet<TrendFollow> TrendFollows { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }

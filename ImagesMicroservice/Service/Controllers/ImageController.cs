@@ -1,7 +1,6 @@
 ﻿using BusinessLogic.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Models.Images;
-using System.IO;
 
 namespace Service.Controllers
 {

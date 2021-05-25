@@ -318,7 +318,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("UserId", "TrendId");
 
-                    b.ToTable("TrendFollow");
+                    b.ToTable("TrendFollows");
                 });
 
             modelBuilder.Entity("Entities.Comment", b =>

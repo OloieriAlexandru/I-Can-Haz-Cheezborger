@@ -1,11 +1,11 @@
 ﻿using BusinessLogic.Abstractions;
+using BusinessLogic.Utils;
 using Common.Utils;
 using DataAccess.Abstractions;
 using Entities;
 using Microsoft.Extensions.Options;
 using Models.Images;
 using System;
-using System.Text;
 
 namespace BusinessLogic.Implementations
 {
@@ -27,16 +27,11 @@ namespace BusinessLogic.Implementations
 
         ImageGetDto IImageBusinessLogic.Create(ImageCreateDto imageCreateDto)
         {
-            string[] imageSplitParts = imageCreateDto.Image.Split(';', 2);
-            if (imageSplitParts.Length < 2)
-            {
-                return null;
-            }
-            string imageType = imageSplitParts[0].Split(':')[1];
-            byte[] imageBytes = Convert.FromBase64String(imageSplitParts[1].Split(',', 2)[1]);
+            string imageType = string.Empty;
+            byte[] imageBytes = new byte[0];
+            Base64Extractor.Extract(imageCreateDto.Image, ref imageType, ref imageBytes);
 
-            Guid imageId = Guid.NewGuid();
-            string imageUrl = imageCreateDto.Prefix + "/" + imageId.ToString();
+            string imageUrl = imageCreateDto.Prefix + "/" + Guid.NewGuid().ToString();
 
             fileRepository.Create(imageUrl, imageBytes);
 

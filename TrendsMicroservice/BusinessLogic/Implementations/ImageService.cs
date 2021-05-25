@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
 
 namespace BusinessLogic.Implementations
 {
@@ -36,8 +35,7 @@ namespace BusinessLogic.Implementations
                 return null;
             }
             using var reader = new StreamReader(responseMessage.Content.ReadAsStream());
-            string response = reader.ReadToEnd();
-            ImageGetDto imageGetDto = JsonConvert.DeserializeObject<ImageGetDto>(response);
+            ImageGetDto imageGetDto = JsonConvert.DeserializeObject<ImageGetDto>(reader.ReadToEnd());
             return imageGetDto;
         }
 
