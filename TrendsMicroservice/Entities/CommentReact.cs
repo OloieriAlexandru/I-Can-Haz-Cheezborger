@@ -11,5 +11,9 @@ namespace Entities
         public Guid UserId { get; set; }
 
         public ReactType Type { get; set; }
+
+        public int Likes { get; set; }
+
+        public int Dislikes { get; set; }
     }
 }

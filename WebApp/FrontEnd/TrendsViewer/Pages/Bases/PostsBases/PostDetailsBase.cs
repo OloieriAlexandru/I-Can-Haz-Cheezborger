@@ -29,13 +29,17 @@ namespace TrendsViewer.Pages
         public string PostId { get; set; }
 
         public PostGetByIdDto Post { get; set; }
+
         public ICollection<CommentGetDto> Comments { get; set; }
 
         public CommentModel CommentModel { get; set; }
+
         public EditCommentModel EditCommentModel { get; set; }
+
         private CommentPatchDto Comment { get; set; }
 
         public Guid CommentToEdit { get; set; }
+
 
         public PostDetailsBase()
         {
@@ -77,6 +81,7 @@ namespace TrendsViewer.Pages
                     post.Disliked = !post.Disliked;
                 }
             }
+            post.Liked = !post.Liked;
             UpdatePostReact(post);
         }
 
@@ -127,6 +132,28 @@ namespace TrendsViewer.Pages
             StateHasChanged();
         }
 
+        private void UpdateCommentReact(CommentGetDto comment)
+        {
+            CommentPatchReactDto commentPatchReactDto = new CommentPatchReactDto
+            {
+                Id = comment.Id
+            };
+            if (comment.Liked)
+            {
+                commentPatchReactDto.Type = "Like";
+            }
+            else if (comment.Disliked)
+            {
+                commentPatchReactDto.Type = "Dislike";
+            }
+            else
+            {
+                commentPatchReactDto.Type = "None";
+            }
+            CommentService.PatchCommentReact(Guid.Parse(TrendId), Guid.Parse(PostId), commentPatchReactDto);
+            StateHasChanged();
+        }
+
         protected async Task DeleteComment(CommentGetDto comment2)
         {
             await CommentService.DeleteComment(Guid.Parse(TrendId), Guid.Parse(PostId), comment2.Id);
@@ -140,6 +167,44 @@ namespace TrendsViewer.Pages
                 }
             }
             NavigationManager.NavigateTo($"/trends/{TrendId}/posts/{PostId}");
+        }
+
+        protected async Task LikedComment(CommentGetDto comment)
+        {
+            if (comment.Liked)
+            {
+                comment.Upvotes--;
+            }
+            else
+            {
+                comment.Upvotes++;
+                if (comment.Disliked)
+                {
+                    comment.Downvotes--;
+                    comment.Disliked = !comment.Disliked;
+                }
+            }
+            comment.Liked = !comment.Liked;
+            UpdateCommentReact(comment);
+        }
+
+        protected async Task DislikedComment(CommentGetDto comment)
+        {
+            if (comment.Disliked)
+            {
+                comment.Downvotes--;
+            }
+            else
+            {
+                comment.Downvotes++;
+                if (comment.Liked)
+                {
+                    comment.Upvotes--;
+                    comment.Liked = !comment.Liked;
+                }
+            }
+            comment.Disliked = !comment.Disliked;
+            UpdateCommentReact(comment);
         }
 
         protected async Task HandleValidSubmitEdit()

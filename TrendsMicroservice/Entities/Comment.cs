@@ -5,7 +5,11 @@ namespace Entities
 {
     public class Comment : UserCreatedEntity
     {
-        public string Text { get; set; }
+        public string Text { get; set; 
+        }
+        public int Likes { get; set; }
+
+        public int Dislikes { get; set; }
 
         public int Upvotes { get; set; }
 

@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Components;
 using Models.Posts;
 using Models.Trends;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TrendsViewer.FormModels;
 using TrendsViewer.Services.Abstractions;
@@ -32,9 +34,13 @@ namespace TrendsViewer.Pages
         public IEnumerable<TrendGetAllDto> Trends { get; set; }
         public ICollection<PostGetAllDto> Posts { get; set; }
 
+        public ArrayList SeeContent = new ArrayList();
+
         public TrendDetailsBase()
         {
             CreatePostModel = new CreatePostModel();
+
+                   
         }
 
         protected async override Task OnAfterRenderAsync(bool firstRender)
@@ -44,6 +50,13 @@ namespace TrendsViewer.Pages
                 Trend = await TrendService.GetById(Guid.Parse(TrendId));
                 Trends = await TrendService.GetAll();
                 Posts = new List<PostGetAllDto>(await PostService.GetPosts(Guid.Parse(TrendId)));
+
+                //Aici va veni logica se setare a unui post daca vrei sa se vada sau nu
+                for (var i=0; i<Posts.Count; i++)
+                {
+                    SeeContent.Add(false);
+                }
+
                 StateHasChanged();
             }
         }
@@ -144,6 +157,18 @@ namespace TrendsViewer.Pages
                 postPatchReactDto.Type = "None";
             }
             PostService.PatchPostReact(Guid.Parse(TrendId), postPatchReactDto);
+            StateHasChanged();
+        }
+
+        protected void ViewContent(PostGetAllDto postViewed)
+        {
+            foreach(var item in Posts.Select((value, i) => new { i, value }))
+            {
+                if(item.value.Id == postViewed.Id)
+                {
+                    SeeContent[item.i] = true;
+                }
+            } 
             StateHasChanged();
         }
     }

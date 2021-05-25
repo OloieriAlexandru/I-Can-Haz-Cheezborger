@@ -136,33 +136,65 @@
                                         }
                                         else
                                         { 
-                                            <div class="create-post-comment">
-                                                
-                                                @if (AuthService.IsLoggedIn() && comment.CreatorUsername == AuthService.GetUsername())
-                                                {
-                                                    <div class="comment-options comment-edit" @onclick="(() => EditComment(comment))">
-                                                        <i class="fas fa-cogs"></i>
-                                                    </div>
-                                                    <div class="comment-options comment-delete" @onclick="(() => DeleteComment(comment))">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </div>
-                                                }
-                                                <div class="post-op">
-                                                    <span><img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
-                                                    <span class="user-name"> @comment.CreatorUsername </span>
-                                                    <span class="post-subtitle">
-                                                        <h6 class="post-time" style="display:inline">
-                                                            12m ago
-                                                        </h6>
-                                                    </span>
-                                                </div>
+                                    <div class="create-post-comment">
 
-
-                                                <div class="post-text">
-                                                    <p style="width:calc(100% - 30px);margin-top:-2px;margin-left:30px"> @comment.Text</p>
-                                                </div>
-
+                                        @if (AuthService.IsLoggedIn() && comment.CreatorUsername == AuthService.GetUsername())
+                                        {
+                                            <div class="comment-options comment-edit" @onclick="(() => EditComment(comment))">
+                                                <i class="fas fa-cogs"></i>
                                             </div>
+                                            <div class="comment-options comment-delete" @onclick="(() => DeleteComment(comment))">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </div>
+
+                                        }
+                                        @if (AuthService.IsLoggedIn())
+                                        {
+
+                                            <div class="upvote-button">
+                                                <button class="icon-button" @onclick="(() => LikedComment(comment))">
+                                                    @if (comment.Liked == true)
+                                                    {
+                                                        <i class="fas fa-thumbs-up"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="far fa-thumbs-up"></i>
+                                                    }
+                                                </button>
+                                            </div>
+                                            <div class="downvote-button">
+                                                <button class="icon-button" @onclick="(() => DislikedComment(comment))">
+                                                    @if (comment.Disliked == true)
+                                                    {
+                                                        <i class="fas fa-thumbs-down"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="far fa-thumbs-down"></i>
+                                                    }
+                                                </button>
+                                            </div>
+                                            <p>@comment.Upvotes</p>
+                                            <p>@comment.Downvotes</p>
+
+                                        }
+                                <div class="post-op">
+                                    <span><img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
+                                    <span class="user-name"> @comment.CreatorUsername </span>
+                                    <span class="post-subtitle">
+                                        <h6 class="post-time" style="display:inline">
+                                            12m ago
+                                        </h6>
+                                    </span>
+                                </div>
+
+
+                                <div class="post-text">
+                                    <p style="width:calc(100% - 30px);margin-top:-2px;margin-left:30px"> @comment.Text</p>
+                                </div>
+
+                            </div>
                                         }
                                      }
                                 }

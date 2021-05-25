@@ -40,5 +40,10 @@ namespace TrendsViewer.Services.Implementations
         {
             await httpService.Patch<ValueTask>($"api/v1/trends/{trendId}/posts/{postId}/comments/{commentPatchDto.Id}", commentPatchDto);
         }
+
+        async Task ICommentService.PatchCommentReact(Guid trendId, Guid postId, CommentPatchReactDto commentPatchReactDto)
+        {
+            await httpService.Patch<ValueTask>($"api/v1/trends/{trendId}/posts/{postId}/comments/{commentPatchReactDto.Id}/react", commentPatchReactDto);
+        }
     }
 }

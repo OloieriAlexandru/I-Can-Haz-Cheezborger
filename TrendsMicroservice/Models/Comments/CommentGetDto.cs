@@ -12,6 +12,10 @@ namespace Models.Comments
 
         public int Downvotes { get; set; }
 
+        public bool Liked { get; set; }
+
+        public bool Disliked { get; set; }
+
         public bool ApprovedImage { get; set; }
 
         public bool ApprovedText { get; set; }
