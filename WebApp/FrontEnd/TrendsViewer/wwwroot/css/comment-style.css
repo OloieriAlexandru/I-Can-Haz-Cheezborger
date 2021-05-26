@@ -2,13 +2,11 @@
     border: 1px;
     border-color: gray;
     border-radius: 10px;
-
 }
 
 .post-comments {
     font-size: 14px;
 }
-
 
 .comment-options {
     display:inline;
@@ -18,12 +16,25 @@
 }
 
 .comment-edit {
-    left: 300px;
-    top: 20px;
+    left: 360px;
+    top: 28px;
     color: #1b6ec2;
 }
 .comment-delete {
-    left: 300px;
-    top: 20px;
+    left: 360px;
+    top: 28px;
     color: red;
+}
+
+.comment-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.comment-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }

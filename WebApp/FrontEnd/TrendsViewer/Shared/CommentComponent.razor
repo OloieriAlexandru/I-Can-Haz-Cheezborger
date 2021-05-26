@@ -12,36 +12,6 @@
         </div>
     }
 
-    @if(Authenticated)
-    {
-        <div class="upvote-button">
-            <button class="icon-button" @onclick="(() => LikeComment(Comment))">
-                @if(Comment.Liked == true)
-                {
-                    <i class="fas fa-thumbs-up"></i>
-                }
-                else
-                {
-                    <i class="far fa-thumbs-up"></i>
-                }
-            </button>
-        </div>
-        <div class="downvote-button">
-            <button class="icon-button" @onclick="(() => DislikeComment(Comment))">
-                @if (Comment.Disliked == true)
-                {
-                    <i class="fas fa-thumbs-down"></i>
-                }
-                else
-                {
-                    <i class="far fa-thumbs-down"></i>
-                }
-            </button>
-        </div>
-        <p>@Comment.Upvotes</p>
-        <p>@Comment.Downvotes</p>
-    }
-
     <div class="post-op">
         <span>
             <img class="user-image" style="width:24px;height:24px;"
@@ -62,4 +32,40 @@
             @Comment.Text
         </p>
     </div>
+
+    <div class="post-information">
+        <span>@Comment.Upvotes upvotes</span>
+        <span>@Comment.Downvotes downvotes</span>
+    </div>
+
+    <div class="comment-buttons">
+        @if(Authenticated)
+        {
+            <div class="upvote-button">
+                <button class="icon-button" @onclick="(() => LikeComment(Comment))">
+                    @if(Comment.Liked == true)
+                    {
+                        <i class="fas fa-thumbs-up"></i>
+                    }
+                    else
+                    {
+                        <i class="far fa-thumbs-up"></i>
+                    }
+                </button>
+            </div>
+            <div class="downvote-button">
+                <button class="icon-button" @onclick="(() => DislikeComment(Comment))">
+                    @if (Comment.Disliked == true)
+                    {
+                        <i class="fas fa-thumbs-down"></i>
+                    }
+                    else
+                    {
+                        <i class="far fa-thumbs-down"></i>
+                    }
+                </button>
+            </div>
+        }
+    </div>
+
 </div>
