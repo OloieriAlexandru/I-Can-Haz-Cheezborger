@@ -1,4 +1,5 @@
 ﻿using Models.Users;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TrendsViewer.Services.Abstractions;
@@ -30,6 +31,18 @@ namespace TrendsViewer.Services.Implementations
         {
             string url = "api/v1/users/" + userid;
             return await httpService.Get<UserGetByIdDto>(url);
+        }
+
+        async Task<UserGetImageUrlDto> IUserService.GetImageUrl(Guid id)
+        {
+            string url = $"api/v1/users/{id.ToString()}/image";
+            return await httpService.Get<UserGetImageUrlDto>(url);
+        }
+
+        async Task<ValueTask> IUserService.Patch(UserPatchDto patchedUser)
+        {
+            string url = $"api/v1/users/{patchedUser.Id}";
+            return await httpService.Patch<ValueTask>(url, patchedUser);
         }
     }
 }

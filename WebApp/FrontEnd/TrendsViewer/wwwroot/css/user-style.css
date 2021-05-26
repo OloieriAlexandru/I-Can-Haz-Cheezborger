@@ -1,0 +1,26 @@
+﻿
+.user-profile-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 100%;
+
+    padding: 20px 0;
+}
+
+.user-photo-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    width: 200px;
+    height: 200px;
+}
+
+.user-photo-wrapper img {
+    width: 100%;
+    height: auto;
+}

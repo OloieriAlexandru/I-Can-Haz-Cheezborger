@@ -123,7 +123,7 @@ namespace BusinessLogic.Implementations
             ImageGetDto image = imageService.Create(new ImageCreateDto()
             {
                 Image = patchDto.Image,
-                Prefix = "trends"
+                Prefix = "users"
             });
 
             if (image != null)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Models.Users;
+using System;
 using System.Threading.Tasks;
 using TrendsViewer.Services.Abstractions;
 
@@ -12,10 +13,14 @@ namespace TrendsViewer.Pages
         [Inject]
         public IAuthService AuthService { get; set; }
         [Inject]
+        public IImageService ImageService { get; set; }
+        [Inject]
         public NavigationManager NavigationManager { get; set; }
 
         [Parameter]
         public string Id { get; set; }
+
+        public string Image { get; set; }
 
         public UserGetByIdDto User { get; set; }
 
@@ -26,6 +31,23 @@ namespace TrendsViewer.Pages
                 User = await UserService.GetById(Id);
                 StateHasChanged();
             }
+        }
+
+        protected void ImageSelected(string image)
+        {
+            Image = image;
+            StateHasChanged();
+        }
+
+        protected async Task UpdateUserProfile()
+        {
+            UserPatchDto userPatch = new UserPatchDto()
+            {
+                Id = Guid.Parse(Id),
+                Image = Image
+            };
+
+            await UserService.Patch(userPatch);
         }
     }
 }

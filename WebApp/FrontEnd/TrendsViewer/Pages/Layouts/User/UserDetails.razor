@@ -1,12 +1,34 @@
 ﻿@page "/users/{Id}"
 @inherits UserDetailsBase 
 
-<div>
-    <h1>User profile</h1>
+<div class="user-profile-wrapper">
+    <h2>User profile</h2>
     @if (User != null)
     {
         <br />
-        <h3>Handle: @User.Username</h3>
-        <h3>Email: @User.Email</h3>
+        
+        <div class="user-photo-wrapper">
+            @if(Image == null)
+            {
+                <img src="@ImageService.GetUserPhotoUrl(User.ImageUrl)" />        
+            }
+            else
+            {
+                <img src="@Image" />
+            }
+        </div>
+
+        <h4>Handle: @User.Username</h4>
+        <h4>Email: @User.Email</h4>
     }
+
+    <div class="image-uploader">
+        <FileUploader OnImageSelected="ImageSelected"/>
+    </div>
+
+    <div class="create-trend-button-container-flex">
+        <button class="btn btn-primary create-trend-button-flex" @onclick="(() => UpdateUserProfile())">
+            Update
+        </button>
+    </div>
 </div>

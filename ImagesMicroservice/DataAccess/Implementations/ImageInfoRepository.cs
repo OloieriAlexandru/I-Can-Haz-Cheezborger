@@ -12,7 +12,8 @@ namespace DataAccess.Implementations
 
         public ImageInfoRepository(MongoClient mongoClient, IOptionsMonitor<MongoDbConfig> optionsMonitor)
         {
-            images = mongoClient.GetDatabase(optionsMonitor.CurrentValue.DatabaseName).GetCollection<ImageInfo>(this.mongoDbConfig.CollectionName);
+            images = mongoClient.GetDatabase(optionsMonitor.CurrentValue.DatabaseName)
+                .GetCollection<ImageInfo>(optionsMonitor.CurrentValue.CollectionName);
         }
 
         void IImageInfoRepository.Create(ImageInfo imageInfo)
