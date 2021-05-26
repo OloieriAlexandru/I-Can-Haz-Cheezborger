@@ -22,7 +22,7 @@ namespace TrendsViewer.Pages
         public IEnumerable<TrendGetAllDto> Trends { get; set; }
         public IEnumerable<TrendGetAllDto> TrendsList { get; set; }
 
-        public int PAGESIZE = 5;
+        public const int PAGESIZE = 10;
         public int TotalPages { get; set; }
         public int CurrentPage { get; set; }
 

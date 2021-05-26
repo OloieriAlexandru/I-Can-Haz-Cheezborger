@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Models.Posts;
+using System.Threading.Tasks;
 
 namespace TrendsViewer.Pages
 {
@@ -35,17 +36,17 @@ namespace TrendsViewer.Pages
         [Parameter]
         public EventCallback<PostGetAllDto> OnNavigateToPostPage { get; set; }
 
-        protected async void LikePost()
+        protected async Task LikePost()
         {
             await OnPostLiked.InvokeAsync(Post);
         }
 
-        protected async void DislikePost()
+        protected async Task DislikePost()
         {
             await OnPostDisliked.InvokeAsync(Post);
         }
 
-        protected async void NavigateToPostPage()
+        protected async Task NavigateToPostPage()
         {
             await OnNavigateToPostPage.InvokeAsync(Post);
         }

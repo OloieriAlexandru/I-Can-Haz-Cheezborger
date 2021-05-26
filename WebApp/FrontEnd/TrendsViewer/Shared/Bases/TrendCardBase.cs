@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Models.Trends;
+using System.Threading.Tasks;
 
 namespace TrendsViewer.Pages
 {
@@ -32,12 +33,12 @@ namespace TrendsViewer.Pages
         [Parameter]
         public EventCallback<TrendGetAllDto> OnNavigateToTrendPage { get; set; }
 
-        protected async void FollowTrend()
+        protected async Task FollowTrend()
         {
             await OnTrendFollowed.InvokeAsync(Trend);
         }
 
-        protected async void NavigateToTrendPage()
+        protected async Task NavigateToTrendPage()
         {
             await OnNavigateToTrendPage.InvokeAsync(Trend);
         }

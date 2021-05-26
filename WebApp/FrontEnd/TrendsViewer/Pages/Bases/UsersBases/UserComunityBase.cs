@@ -18,7 +18,7 @@ namespace TrendsViewer.Pages
         public IEnumerable<UserGetAllDto> Users { get; set; }
         public IEnumerable<UserGetAllDto> UsersList { get; set; }
 
-        public int PAGESIZE = 5;
+        public const int PAGESIZE = 10;
         public int TotalPages { get; set; }
         public int CurrentPage { get; set; }
 

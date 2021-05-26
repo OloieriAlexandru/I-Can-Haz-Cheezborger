@@ -27,9 +27,9 @@ namespace TrendsViewer.Pages
         public ICollection<PostGetAllDto> Posts { get; set; }
         public ICollection<PostGetAllDto> PostsList { get; set; }
 
-        public ArrayList SeeContent = new ArrayList();
+        public ArrayList SeeContent { get; set; } = new ArrayList();
 
-        public const int PAGESIZE = 5;
+        public const int PAGESIZE = 10;
         public int TotalPages { get; set; }
         public int CurrentPage { get; set; }
 
@@ -41,7 +41,7 @@ namespace TrendsViewer.Pages
                 Posts = new List<PostGetAllDto>(await PostService.GetPosts(Guid.Parse(TrendId)));
 
                 PostsList = Posts.Take(PAGESIZE).ToList();
-                TotalPages = (int)Math.Ceiling(Posts.Count() / (decimal)PAGESIZE);
+                TotalPages = (int)Math.Ceiling(Posts.Count / (decimal)PAGESIZE);
 
                 //Aici va veni logica se setare a unui post daca vrei sa se vada sau nu
                 for (var i=0; i<Posts.Count; i++)

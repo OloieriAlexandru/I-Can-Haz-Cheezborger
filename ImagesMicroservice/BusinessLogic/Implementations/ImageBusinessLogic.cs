@@ -15,23 +15,19 @@ namespace BusinessLogic.Implementations
 
         private readonly IFileRepository fileRepository;
 
-        private readonly GoogleCloudConfig googleCloudConfig;
-
-        public ImageBusinessLogic(IImageInfoRepository imageInfoRepository, IFileRepository fileRepository,
-            IOptionsMonitor<GoogleCloudConfig> optionsMonitor)
+        public ImageBusinessLogic(IImageInfoRepository imageInfoRepository, IFileRepository fileRepository)
         {
             this.imageInfoRepository = imageInfoRepository;
             this.fileRepository = fileRepository;
-            this.googleCloudConfig = optionsMonitor.CurrentValue;
         }
 
         ImageGetDto IImageBusinessLogic.Create(ImageCreateDto imageCreateDto)
         {
             string imageType = string.Empty;
-            byte[] imageBytes = new byte[0];
+            byte[] imageBytes = Array.Empty<byte>();
             Base64Extractor.Extract(imageCreateDto.Image, ref imageType, ref imageBytes);
 
-            string imageUrl = imageCreateDto.Prefix + "/" + Guid.NewGuid().ToString();
+            string imageUrl = $"{imageCreateDto.Prefix}/{Guid.NewGuid().ToString()}";
 
             fileRepository.Create(imageUrl, imageBytes);
 

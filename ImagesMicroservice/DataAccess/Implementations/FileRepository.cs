@@ -13,13 +13,11 @@ namespace DataAccess.Implementations
 
         private readonly Bucket imagesBucket;
 
-        private readonly GoogleCloudConfig googleCloudConfig;
-
         public FileRepository(StorageClient storageClient, IOptionsMonitor<GoogleCloudConfig> optionsMonitor)
         {
             this.storageClient = storageClient;
-            this.googleCloudConfig = optionsMonitor.CurrentValue;
-            this.imagesBucket = this.storageClient.GetBucket(this.googleCloudConfig.BucketName);
+        
+            imagesBucket = this.storageClient.GetBucket(optionsMonitor.CurrentValue.BucketName);
         }
 
         void IFileRepository.Create(string fileName, byte[] fileContent)
