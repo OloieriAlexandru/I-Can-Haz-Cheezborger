@@ -39,9 +39,9 @@ jobs:
       working-directory: ${{ env.working-directory-service }}
       run: bash apply-migration.sh
 
-    - name: Test
-      working-directory: ${{ env.working-directory-business-logic-tests }}
-      run: dotnet test --no-restore /p:CollectCoverage=true
+    # - name: Test
+    #   working-directory: ${{ env.working-directory-business-logic-tests }}
+    #   run: dotnet test --no-restore /p:CollectCoverage=true
 
   deploy:
     name: Google Cloud Run Deploy
