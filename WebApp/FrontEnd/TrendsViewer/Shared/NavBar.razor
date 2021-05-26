@@ -24,11 +24,17 @@
     </div>
 
     <div class="right-items">
-        <a @onclick="GoToOurMembers" style="margin-right:20px;cursor:pointer">Our comunity!</a>
         @if (AuthService.IsLoggedIn())
         {
-            <a style="margin-right:20px; color:navy;" @onclick="GoToUserProfile">@AuthService.GetUsername()</a>
-            <a type="button" href="#" class="btn btn-light" @onclick="Logout"> Logout </a>
+            @if (AuthService.IsAdmin())
+            {
+                <a @onclick="NavigateToUsersPanel" class="right-item" style="cursor:pointer">Users panel</a>
+            }
+            <div class="user-profile-button right-item" @onclick="NavigateToUserProfile">
+                <img src="@ImageService.GetFullUrl(AuthService.GetImageUrl())"/>
+            </div>
+
+            <a type="button" href="#" class="btn btn-light right-item" @onclick="Logout"> Logout </a>
         }
         else
         {

@@ -15,9 +15,13 @@ namespace TrendsViewer.Services.Abstractions
 
         bool IsLoggedIn();
 
+        bool IsAdmin();
+
         string GetUsername();
 
         string GetId();
+
+        string GetImageUrl();
 
         string GetClaim(string type);
     }

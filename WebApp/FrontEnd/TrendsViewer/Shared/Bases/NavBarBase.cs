@@ -6,9 +6,10 @@ namespace TrendsViewer.Pages
 {
     public class NavBarBase : ComponentBase
     {
-
         [Inject]
         public IAuthService AuthService { get; set; }
+        [Inject]
+        public IImageService ImageService { get; set; }
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
@@ -27,12 +28,12 @@ namespace TrendsViewer.Pages
             NavigationManager.NavigateTo("/", true);
         }
 
-        protected void GoToUserProfile()
+        protected void NavigateToUserProfile()
         {
             NavigationManager.NavigateTo("/users/" + AuthService.GetId());
         }
 
-        protected void GoToOurMembers()
+        protected void NavigateToUsersPanel()
         {
             NavigationManager.NavigateTo("/members");
         }

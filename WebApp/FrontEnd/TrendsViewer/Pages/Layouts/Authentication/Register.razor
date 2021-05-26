@@ -24,18 +24,24 @@
                         Sign up
                     </h3>
                 </div>
+                
                 <div class="col-12 row" style="margin-bottom:10px">
                     <InputText class="form-control col-12" @bind-Value="RegisterUserModel.Username" placeholder="username" />
                 </div>
+                
                 <div class="col-12 row" style="margin-bottom:10px">
                     <InputText class="form-control col-12" @bind-Value="RegisterUserModel.Email" placeholder="email" />
                 </div>
+                
                 <div class="col-12 row" style="margin-bottom:10px">
                     <InputText class="form-control col-12" @bind-Value="RegisterUserModel.Password" type="password" placeholder="password" />
                 </div>
+                
                 <div class="col-12 row" style="margin-bottom:10px">
                     <InputText class="form-control col-12" @bind-Value="RegisterUserModel.PasswordCheck" type="password" placeholder="repeat password" />
                 </div>
+                <a href="/register" style="font-size:12px"> Already have an account? Login! </a>
+                
                 <div class="create-trend-button-container">
                     <button class="btn btn-primary create-trend-button" type="submit">
                         <i class="fas fa-arrow-circle-right"></i>

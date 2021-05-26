@@ -3,9 +3,11 @@
 
 @if (Posts != null)
 {
-    @foreach (var post in Posts)
-    {
-        <PostCard Authenticated="@AuthService.IsLoggedIn()" ActivateButtons="@true" Post="post"
-               OnPostLiked="LikePost" OnPostDisliked="DislikePost" OnNavigateToPostPage="NavigateToPostPage" ImageUrl="@ImageService.GetFullUrl(post.MediaPath)"/>
-    }
+    <div class="row-margins">    
+       @foreach (var post in Posts)
+        {
+            <PostCard Authenticated="@AuthService.IsLoggedIn()" ActivateButtons="@true" Post="post"
+                   OnPostLiked="LikePost" OnPostDisliked="DislikePost" OnNavigateToPostPage="NavigateToPostPage" ImageUrl="@ImageService.GetFullUrl(post.MediaPath)"/>
+        }
+    </div> 
 }

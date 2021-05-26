@@ -30,6 +30,7 @@ namespace BusinessLogic.Implementations
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim("Id", user.Id.ToString()),
+                    new Claim("IsAdmin", user.IsAdmin.ToString()),
 
                     new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email)

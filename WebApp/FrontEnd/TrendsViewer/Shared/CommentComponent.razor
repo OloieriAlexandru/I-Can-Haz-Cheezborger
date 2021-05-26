@@ -2,29 +2,38 @@
 
 <div class="comment-wrapper">
 
-    @if(Owner)
-    {
-        <div class="comment-options comment-edit" @onclick="(() => EditComment(Comment))">
-            <i class="fas fa-cogs"></i>
-        </div>
-        <div class="comment-options comment-delete" @onclick="(() => DeleteComment(Comment))">
-            <i class="fas fa-trash-alt"></i>
-        </div>
-    }
+    <hr />
 
-    <div class="post-op">
-        <span>
-            <img class="user-image" style="width:24px;height:24px;"
-                src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" />
-        </span>
-        <span class="user-name">
-            @Comment.CreatorUsername
-        </span>
-        <span class="post-subtitle">
-            <h6 class="post-time" style="display:inline">
-                12m ago
-            </h6>
-        </span>
+    <div class="post-op-comment">
+        
+        <div class="post-op-group">
+            <span class="post-op-left-group-item">
+                <img class="user-image" style="width:24px;height:24px;"
+                    src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" />
+            </span>
+            
+            <span class="user-name post-op-left-group-item">
+                @Comment.CreatorUsername
+            </span>
+
+            <span class="post-subtitle post-op-left-group-item">
+                <h6 class="post-time" style="display:inline">
+                    12m ago
+                </h6>
+            </span>
+        </div>
+
+        <div class="post-op-group">
+            @if(Owner)
+            {
+                <div class="comment-options comment-edit" @onclick="(() => EditComment(Comment))">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <div class="comment-options comment-delete" @onclick="(() => DeleteComment(Comment))">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+            }
+        </div>
     </div>
 
     <div class="post-text">
