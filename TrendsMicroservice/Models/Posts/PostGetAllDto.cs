@@ -24,8 +24,8 @@ namespace Models.Posts
 
         public bool ApprovedText { get; set; }
 
-        public Guid TrendId { get; set; }
-        public string DateTime { get; set; }
+        public DateTime CreateDate { get; set; }
 
+        public Guid TrendId { get; set; }
     }
 }

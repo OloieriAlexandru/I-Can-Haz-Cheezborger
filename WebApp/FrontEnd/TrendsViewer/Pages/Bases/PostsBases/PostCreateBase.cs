@@ -20,36 +20,32 @@ namespace TrendsViewer.Pages
         [Parameter]
         public string TrendId { get; set; }
 
-        public string MediaPath { get; set; }
-
         public CreatePostModel CreatePostModel { get; set; }
 
-        private PostCreateDto Post { get; set; }
+        public string MediaPath { get; set; } = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/1200px-Question_mark_%28black%29.svg.png";
+
+        public PostGetAllDto Post { get; set; }
 
         public PostCreateBase()
         {
             CreatePostModel = new CreatePostModel();
-            Post = new PostCreateDto();
-        }
-
-        protected async override Task OnInitializedAsync()
-        {
-            await Task.CompletedTask;
-            CreatePostModel.TrendId = TrendId;
+            Post = new PostGetAllDto();
         }
 
         protected void ImageSelected(string mediaPath)
         {
             MediaPath = mediaPath;
+            StateHasChanged();
         }
 
         protected async Task HandleValidSubmit()
         {
-            Mapper.Map(CreatePostModel, Post);
-            String date = DateTime.Now.ToString("dd-M-yyyy HH:mm");
-            Post.DateTime = date;
+            PostCreateDto post = new PostCreateDto();
+            Mapper.Map(CreatePostModel, post);
+            post.MediaPath = MediaPath;
+            post.TrendId = Guid.Parse(TrendId);
 
-            await PostService.CreatePost(Guid.Parse(TrendId), Post);
+            await PostService.CreatePost(Guid.Parse(TrendId), post);
             NavigationManager.NavigateTo($"/trends/{TrendId}");
         }
     }

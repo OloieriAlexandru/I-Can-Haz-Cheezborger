@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace DataAccess.Configurations
 {
@@ -23,6 +24,9 @@ namespace DataAccess.Configurations
                 .IsRequired();
 
             builder.Property(p => p.CommentsCount)
+                .IsRequired();
+
+            builder.Property(p => p.CreateDate)
                 .IsRequired();
 
             builder.HasOne(p => p.Trend)

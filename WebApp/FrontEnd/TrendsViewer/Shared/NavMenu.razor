@@ -1,40 +1,42 @@
 ﻿@using TrendsViewer.Pages
 @inherits NavMenuBase
 
-<div>
+<div class="sidebar-trends-list">
+    @if (PopularTrends != null)
+    {
+        <h5> Popular </h5> 
 
-    <div class="sticky-list">
-        @if (PopularTrends != null)
+        <div class="sidebar-trends-group">
+        @foreach (var trend in PopularTrends)
         {
-            <h5 class="trends-list-title"> Popular Trends </h5>
-
-            @foreach (var trend in PopularTrends)
-            {
-                <div class="trend">
-                    <span><img class="trend-image" src=@trend.ImageUrl /></span>
-                    <span class="trend-title" @onclick="(() => NavigateTrend(trend.Id))"> @trend.Name </span>
-                </div>
-            }
+            <div class="trend">
+                <span><img class="trend-image" src=@trend.ImageUrl /></span>
+                <span class="trend-title" @onclick="(() => NavigateTrend(trend.Id))"> @trend.Name </span>
+            </div>
         }
+        </div>
+    }
 
-        @if (Trends != null)
-        {
-            <h5 class="trends-list-title"> Trends </h5>
+    @if (Trends != null)
+    {
+        <h5 class="trend-add-button-anchor">
+            Others
             @if (AuthService.IsLoggedIn())
             {
-                <div class="trend-plus" @onclick="(() => NavigateNewTrend())">
+                <div class="trend-add-button" @onclick="(() => NavigateNewTrend())">
                     <i class="fas fa-plus-circle"></i>
                 </div>
             }
-            @foreach (var trend in Trends)
-            {
-                <div class="trend">
-                    <span><img class="trend-image" src=@trend.ImageUrl /></span>
-                    <span class="trend-title" @onclick="(() => NavigateTrend(trend.Id))"> @trend.Name </span>
-                </div>
-            }
+        </h5>
+
+        <div class="sidebar-trends-group">
+        @foreach (var trend in Trends)
+        {
+            <div class="trend">
+                <span><img class="trend-image" src=@trend.ImageUrl /></span>
+                <span class="trend-title" @onclick="(() => NavigateTrend(trend.Id))"> @trend.Name </span>
+            </div>
         }
-
-
-    </div>
+        </div>
+    }
 </div>

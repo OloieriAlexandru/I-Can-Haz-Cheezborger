@@ -2,7 +2,7 @@
 @inherits PostCreateBase
 
 <div class="row">
-    <div class="layout-col col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+    <div class="layout-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <div class="row">
             <div class="layout-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 posts-layout">
 
@@ -22,10 +22,6 @@
                             </div>
                         </div>
 
-                        <div class="create-trend-image">
-                            <FileUploader OnImageSelected="ImageSelected"/>
-                        </div>
-
                         <div class="create-trend-description">
                             <label for="Description">
                                 Description
@@ -36,6 +32,11 @@
                                 <ValidationMessage For="@(()=> CreatePostModel.Description)" />
                             </div>
                         </div>
+
+                        <div class="create-trend-image">
+                            <FileUploader OnImageSelected="ImageSelected"/>
+                        </div>
+
                     </div>
                     <div class="create-trend-button-container">
                         <button class="btn btn-primary create-trend-button" type="submit">
@@ -47,4 +48,13 @@
             </div>
         </div>
     </div>
+
+    <div class="layout-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 d-flex justify-content-center demo-card align-items-center">
+        @if(CreatePostModel != null)
+        {
+            <PostCard Post="@Post" PostName="@CreatePostModel.Title" PostDescription="@CreatePostModel.Description" Authenticated="@false"
+                ActivateButtons="@true" ImageUrl="@MediaPath" InList="@false"/>
+        }
+    </div>
+
 </div>

@@ -16,7 +16,7 @@ namespace BusinessLogic.Utils
             {
                 return false;
             }
-            imageType = leftSplit[0];
+            imageType = leftSplit[1];
             string[] rightSplit = mainSplit[1].Split(',', 2);
             if (rightSplit.Length != 2)
             {

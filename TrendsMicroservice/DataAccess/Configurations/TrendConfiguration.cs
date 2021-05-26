@@ -3,6 +3,7 @@ using DataAccess.Seed;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace DataAccess.Configurations
 {
@@ -20,6 +21,9 @@ namespace DataAccess.Configurations
                 .IsRequired();
 
             builder.Property(t => t.PostsCount)
+                .IsRequired();
+
+            builder.Property(t => t.CreateDate)
                 .IsRequired();
 
             builder.HasData(TrendsSeed.Seed());

@@ -18,8 +18,8 @@ namespace Models.Trends
 
         public bool ApprovedText { get; set; }
 
-        public ICollection<PostGetAllDto> Posts { get; set; }
+        public DateTime CreateDate { get; set; }
 
-        public string DateTime { get; set; }
+        public ICollection<PostGetAllDto> Posts { get; set; }
     }
 }

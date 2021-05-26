@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace DataAccess.Configurations
 {
@@ -20,6 +21,9 @@ namespace DataAccess.Configurations
                 .IsRequired();
 
             builder.Property(c => c.PostId)
+                .IsRequired();
+
+            builder.Property(c => c.CreateDate)
                 .IsRequired();
 
             builder.HasOne(c => c.Post)

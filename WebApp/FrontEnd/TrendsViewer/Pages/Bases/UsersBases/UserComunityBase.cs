@@ -14,12 +14,14 @@ namespace TrendsViewer.Pages
         public NavigationManager NavigationManager { get; set; }
         [Inject]
         public IUserService UserService { get; set; }
+
         public IEnumerable<UserGetAllDto> Users { get; set; }
         public IEnumerable<UserGetAllDto> UsersList { get; set; }
 
         public int PAGESIZE = 5;
         public int TotalPages { get; set; }
         public int CurrentPage { get; set; }
+
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
@@ -56,7 +58,5 @@ namespace TrendsViewer.Pages
         {
             NavigationManager.NavigateTo("/users/" + userId);
         }
-
-     
     }
 }

@@ -19,6 +19,8 @@ namespace Entities
 
         public Guid TrendId { get; set; }
         
+        public DateTime CreateDate { get; set; }
+
         public Trend Trend { get; set; }
 
         public int CommentsCount { get; set; }
@@ -26,5 +28,10 @@ namespace Entities
         public ICollection<Comment> Comments { get; set; }
 
         public ICollection<PostReact> Reacts { get; set; }
+
+        public Post()
+        {
+            CreateDate = DateTime.Now;
+        }
     }
 }

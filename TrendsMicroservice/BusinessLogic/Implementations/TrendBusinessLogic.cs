@@ -80,13 +80,13 @@ namespace BusinessLogic.Implementations
 
             CreateContentScanTaskDto createContentScanTaskDto = new CreateContentScanTaskDto()
             {
-                ImageUrl = imageService.GetFullImageUrl(image.Url),
+                ImageUrl = image != null ? imageService.GetFullImageUrl(image.Url) : null,
                 Text = trend.Description,
                 CallbackUrl = $"/api/v1/trends/{createdTrend.Id}/content-scan-result"
             };
             contentScanTaskService.CreateTask(createContentScanTaskDto);
 
-            createdTrend.ImageUrl = image.Url;
+            createdTrend.ImageUrl = image != null ? image.Url : imageService.GetDefaultImageUrl();
             trendRepository.Insert(createdTrend);
             trendRepository.SaveChanges();
 

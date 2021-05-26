@@ -1,5 +1,4 @@
-﻿using Models.Trends;
-using Models.Users;
+﻿using Models.Users;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

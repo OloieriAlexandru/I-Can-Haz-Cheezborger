@@ -1,0 +1,65 @@
+﻿@inherits CommentCardBase
+
+<div class="comment-wrapper">
+
+    @if(Owner)
+    {
+        <div class="comment-options comment-edit" @onclick="(() => EditComment(Comment))">
+            <i class="fas fa-cogs"></i>
+        </div>
+        <div class="comment-options comment-delete" @onclick="(() => DeleteComment(Comment))">
+            <i class="fas fa-trash-alt"></i>
+        </div>
+    }
+
+    @if(Authenticated)
+    {
+        <div class="upvote-button">
+            <button class="icon-button" @onclick="(() => LikeComment(Comment))">
+                @if(Comment.Liked == true)
+                {
+                    <i class="fas fa-thumbs-up"></i>
+                }
+                else
+                {
+                    <i class="far fa-thumbs-up"></i>
+                }
+            </button>
+        </div>
+        <div class="downvote-button">
+            <button class="icon-button" @onclick="(() => DislikeComment(Comment))">
+                @if (Comment.Disliked == true)
+                {
+                    <i class="fas fa-thumbs-down"></i>
+                }
+                else
+                {
+                    <i class="far fa-thumbs-down"></i>
+                }
+            </button>
+        </div>
+        <p>@Comment.Upvotes</p>
+        <p>@Comment.Downvotes</p>
+    }
+
+    <div class="post-op">
+        <span>
+            <img class="user-image" style="width:24px;height:24px;"
+                src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" />
+        </span>
+        <span class="user-name">
+            @Comment.CreatorUsername
+        </span>
+        <span class="post-subtitle">
+            <h6 class="post-time" style="display:inline">
+                12m ago
+            </h6>
+        </span>
+    </div>
+
+    <div class="post-text">
+        <p style="width:calc(100% - 30px);margin-top:-2px;margin-left:30px">
+            @Comment.Text
+        </p>
+    </div>
+</div>

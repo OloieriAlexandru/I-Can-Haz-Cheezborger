@@ -28,8 +28,8 @@ namespace Models.Posts
 
         public bool ApprovedText { get; set; }
 
-        public ICollection<CommentGetDto> Comments { get; set; }
-        public string DateTime { get; set; }
+        public DateTime CreateDate { get; set; }
 
+        public ICollection<CommentGetDto> Comments { get; set; }
     }
 }

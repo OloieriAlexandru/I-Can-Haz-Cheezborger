@@ -1,13 +1,4 @@
-﻿.trend-plus {
-    position: absolute;
-    left: 68px;
-    top: -4px;
-    color: #1b6ec2;
-    font-size: 10px;
-    cursor: pointer;
-}
-
-#name {
+﻿#name {
     font-size: 24px;
 }
 
@@ -63,12 +54,39 @@
     margin-top:30px;
 }
 
-.sticky-list {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 200px;
-    overflow-y:scroll;
+.sidebar-trends-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+
+    overflow-y: scroll;
+
+    padding-bottom: 8px;
+}
+
+.sidebar-trends-group {
+    width: 92%;
+}
+
+.trend-add-button-anchor {
+    position: relative;
+}
+
+.trend-add-button {
+    position: absolute;
+    left: 68px;
+    top: 2px;
+    color: #1b6ec2;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.sidebar-trends-list h5 {
+    margin-top: 12px;
 }
 
 .list-trend-element {

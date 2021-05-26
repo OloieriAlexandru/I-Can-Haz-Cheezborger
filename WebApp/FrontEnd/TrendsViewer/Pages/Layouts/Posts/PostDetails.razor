@@ -18,190 +18,78 @@
                         <i class="fas fa-arrow-circle-left"></i>
                     </a>
                 </div>
-                @if (Post != null)
+
+                @if(Post != null)
                 {
-                    <div class="post">
-                        <div class="post-title">
-                            <h4>@Post.Title</h4>
-                        </div>
-                        <div class="post-subtitle">
-                            <h6 class="post-time">@Post.DateTime</h6>
-                        </div>
+                    <PostCard Authenticated="@AuthService.IsLoggedIn()" OnPostLiked="LikePost" OnPostDisliked="DislikePost"
+                        ImageUrl="@ImageService.GetFullUrl(UsedPost.MediaPath)" Post="@UsedPost" />
+                }
 
-                        <div class="post-body">
-                            <div class="post-resource">
-                                <img class="post-image" src=@Post.MediaPath />
-                            </div>
+                @if(Comments != null)
+                {
+                    <h6 style="margin-top:4px;margin-bottom:4px;font-weight:600">
+                        Comments
+                    </h6>
 
-                        </div>
-                        <div class="post-description">
-                            <div class="post-op">
-                                <span><img class="user-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
-                                <span class="user-name"> @Post.CreatorUsername </span>
-                            </div>
-                            <div class="post-text">
-                                <p>Description</p>
-                            </div>
-                        </div>
-                        <div class="post-footer">
-                            <div class="post-information">
-                                <span>@Post.Upvotes upvotes</span>
-                                <span>@Post.Downvotes downvotes</span>
-                                <span>@Post.CommentsCount comments</span>
-                            </div>
-                            <div class="post-buttons">
-                                @if (AuthService.IsLoggedIn())
-                                {
-                                    <div class="upvote-button" @onclick="(() => LikePost(Post))">
-                                        <button class="icon-button">
-                                            @if (Post.Liked == true)
-                                            {
-                                                <i class="fas fa-thumbs-up"></i>
-                                            }
-                                            else
-                                            {
-                                                <i class="far fa-thumbs-up"></i>
-                                            }
-                                        </button>
-                                    </div>
-                                    <div class="downvote-button" @onclick="(() => DislikePost(Post))">
-                                        <button class="icon-button">
-                                            @if (Post.Disliked == true)
-                                            {
-                                                <i class="fas fa-thumbs-down"></i>
-                                            }
-                                            else
-                                            {
-                                                <i class="far fa-thumbs-down"></i>
-                                            }
-                                        </button>
-                                    </div>
-                                }
-
-                                <div class="others-button">
-                                    <button class="icon-button">
-                                        <i class="fas fa-ellipsis-h"></i>
-                                    </button>
-                                </div>
-
-                            </div>
-                            <div class="post-comments">
-                                <h6 style="margin-top:4px;margin-bottom:4px;font-weight:600">
-                                    Comments
-                                </h6>
-                                @if (AuthService.IsLoggedIn())
-                                {
-                                    <EditForm Model="@CommentModel" OnValidSubmit="HandleValidSubmit" class="comment-form" style="margin-bottom:10px">
-                                        <div class="create-post-comment">
-                                            <div class="post-op">
-                                                <span><img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
-                                                <span class="user-name"> @AuthService.GetUsername() </span>
-                                                @* <span class="user-name"> Ramona </span>*@
-                                            </div>
-                                            <div class="post-text">
-                                                <InputTextArea rows="2" @bind-Value="CommentModel.CommentText" style="width:calc(100% - 70px);margin-top:2px;margin-left:30px"></InputTextArea>
-                                            </div>
-                                        </div>
-                                        <div class="create-trend-button-container" style="margin-top:-50px;">
-                                            <button class="btn btn-primary create-trend-button" type="submit">
-                                                <i class="fas fa-arrow-circle-right"></i>
-                                            </button>
-                                        </div>
-                                    </EditForm>
-                                }
-                                @if (Comments != null)
-                                {
-                                    @foreach (var comment in Comments)
-                                    {
-
-                                        @if (CommentToEdit != Guid.Empty && comment.Id == CommentToEdit)
-                                        {
-                                            <EditForm Model="@EditCommentModel" OnValidSubmit="HandleValidSubmitEdit" class="comment-form" style="margin-bottom:10px">
-                                                <div class="create-post-comment">
-                                                    <div class="post-op">
-                                                        <span><img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
-                                                        @* <span class="user-name"> @AuthService.GetUsername() </span>*@
-                                                        <span class="user-name"> @comment.CreatorUsername </span>
-                                                    </div>
-                                                    <div class="post-text">
-                                                        <InputTextArea rows="2" @bind-Value="EditCommentModel.Text" style="width:calc(100% - 70px);margin-top:2px;margin-left:30px"></InputTextArea>
-                                                    </div>
-                                                </div>
-                                                <div class="create-trend-button-container" style="margin-top:-50px;">
-                                                    <button class="btn btn-primary create-trend-button" type="submit">
-                                                        <i class="fas fa-arrow-circle-right"></i>
-                                                    </button>
-                                                </div>
-                                            </EditForm>
-                                        }
-                                        else
-                                        { 
-                                    <div class="create-post-comment">
-
-                                        @if (AuthService.IsLoggedIn() && comment.CreatorUsername == AuthService.GetUsername())
-                                        {
-                                            <div class="comment-options comment-edit" @onclick="(() => EditComment(comment))">
-                                                <i class="fas fa-cogs"></i>
-                                            </div>
-                                            <div class="comment-options comment-delete" @onclick="(() => DeleteComment(comment))">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </div>
-
-                                        }
-                                        @if (AuthService.IsLoggedIn())
-                                        {
-
-                                            <div class="upvote-button">
-                                                <button class="icon-button" @onclick="(() => LikedComment(comment))">
-                                                    @if (comment.Liked == true)
-                                                    {
-                                                        <i class="fas fa-thumbs-up"></i>
-                                                    }
-                                                    else
-                                                    {
-                                                        <i class="far fa-thumbs-up"></i>
-                                                    }
-                                                </button>
-                                            </div>
-                                            <div class="downvote-button">
-                                                <button class="icon-button" @onclick="(() => DislikedComment(comment))">
-                                                    @if (comment.Disliked == true)
-                                                    {
-                                                        <i class="fas fa-thumbs-down"></i>
-                                                    }
-                                                    else
-                                                    {
-                                                        <i class="far fa-thumbs-down"></i>
-                                                    }
-                                                </button>
-                                            </div>
-                                            <p>@comment.Upvotes</p>
-                                            <p>@comment.Downvotes</p>
-
-                                        }
+                    @if(AuthService.IsLoggedIn())
+                    {
+                        <EditForm Model="@CommentModel" OnValidSubmit="HandleValidSubmit" class="comment-form" style="margin-bottom:10px">
+                            <div class="create-post-comment">
                                 <div class="post-op">
-                                    <span><img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
-                                    <span class="user-name"> @comment.CreatorUsername </span>
-                                    <span class="post-subtitle">
-                                        <h6 class="post-time" style="display:inline">
-                                            12m ago
-                                        </h6>
+                                    <span>
+                                        <img class="user-image" style="width:24px;height:24px;" src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" />
+                                    </span>
+                                    <span class="user-name">
+                                        @AuthService.GetUsername()
                                     </span>
                                 </div>
-
-
                                 <div class="post-text">
-                                    <p style="width:calc(100% - 30px);margin-top:-2px;margin-left:30px"> @comment.Text</p>
+                                    <InputTextArea rows="2" @bind-Value="CommentModel.CommentText" style="width:calc(100% - 70px);margin-top:2px;margin-left:30px">
+                                    </InputTextArea>
                                 </div>
-
                             </div>
-                                        }
-                                     }
-                                }
+                            <div class="create-trend-button-container" style="margin-top:-50px;">
+                                <button class="btn btn-primary create-trend-button" type="submit">
+                                    <i class="fas fa-arrow-circle-right"></i>
+                                </button>
                             </div>
-                        </div>
+                        </EditForm>
+                    }
 
-                    </div>
+                    @foreach (var comment in Comments)
+                    {
+                        @if (CommentToEdit != Guid.Empty && comment.Id == CommentToEdit)
+                        {
+                            <EditForm Model="@EditCommentModel" OnValidSubmit="HandleValidSubmitEdit" class="comment-form"
+                                style="margin-bottom:10px">
+                                <div class="create-post-comment">
+                                    <div class="post-op">
+                                        <span><img class="user-image" style="width:24px;height:24px;"
+                                                src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
+                                        <span class="user-name"> @comment.CreatorUsername </span>
+                                    </div>
+                                    <div class="post-text">
+                                        <InputTextArea rows="2" @bind-Value="EditCommentModel.Text"
+                                            style="width:calc(100% - 70px);margin-top:2px;margin-left:30px"></InputTextArea>
+                                    </div>
+                                </div>
+                                <div class="create-trend-button-container" style="margin-top:-50px;">
+                                    <button class="btn btn-primary create-trend-button" type="submit">
+                                        <i class="fas fa-arrow-circle-right"></i>
+                                    </button>
+                                </div>
+                            </EditForm>
+                        }
+                        else
+                        {
+                            <div>
+                                <CommentComponent TrendId="@Guid.Parse(TrendId)" PostId="@Guid.Parse(PostId)"
+                                    OnCommentDeleted="DeleteComment" OnStateChanged="ChangeState" CommentService="CommentService"
+                                    Authenticated="@AuthService.IsLoggedIn()" Owner="@IsOwner(comment)" Comment="comment"
+                                    OnEditComment="EditComment" />
+                            </div>
+                        }
+                    }
                 }
             </div>
         </div>

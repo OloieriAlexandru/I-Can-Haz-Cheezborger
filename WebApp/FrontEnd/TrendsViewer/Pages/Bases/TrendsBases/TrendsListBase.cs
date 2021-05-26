@@ -12,13 +12,10 @@ namespace TrendsViewer.Pages
     {
         [Inject]
         public ITrendService TrendService { get; set; }
-
         [Inject]
         public IAuthService AuthService { get; set; }
-
         [Inject]
         public IImageService ImageService { get; set; }
-
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
@@ -67,6 +64,7 @@ namespace TrendsViewer.Pages
 
             await TrendService.PatchTrendFollow(trend.Id, trendPatchFollowDto);
         }
+
         public void UpdateList(int pageNumber)
         {
             CurrentPage = pageNumber;
@@ -86,6 +84,5 @@ namespace TrendsViewer.Pages
 
             UpdateList(CurrentPage);
         }
-
     }
 }

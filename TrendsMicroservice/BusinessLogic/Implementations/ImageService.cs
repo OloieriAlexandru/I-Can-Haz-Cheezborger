@@ -16,10 +16,14 @@ namespace BusinessLogic.Implementations
 
         private readonly ImageServiceConfiguration imageServiceConfiguration;
 
-        public ImageService(IHttpClientFactory httpClientFactory, IOptionsMonitor<ImageServiceConfiguration> optionsMonitor)
+        private readonly ServerConfiguration serverConfiguration;
+
+        public ImageService(IHttpClientFactory httpClientFactory, IOptionsMonitor<ImageServiceConfiguration> optionsMonitor,
+            IOptionsMonitor<ServerConfiguration> serverConfigurationServiceMonitor)
         {
             httpClient = httpClientFactory.CreateClient(Constants.IMAGES_MICROSERVICE_HTTP_CLIENT_NAME);
             imageServiceConfiguration = optionsMonitor.CurrentValue;
+            serverConfiguration = serverConfigurationServiceMonitor.CurrentValue;
         }
 
         ImageGetDto IImageService.Create(ImageCreateDto imageCreateDto)
@@ -37,6 +41,11 @@ namespace BusinessLogic.Implementations
             using var reader = new StreamReader(responseMessage.Content.ReadAsStream());
             ImageGetDto imageGetDto = JsonConvert.DeserializeObject<ImageGetDto>(reader.ReadToEnd());
             return imageGetDto;
+        }
+
+        string IImageService.GetDefaultImageUrl()
+        {
+            return serverConfiguration.DefaultImageUrl;
         }
 
         string IImageService.GetFullImageUrl(string imagePath)

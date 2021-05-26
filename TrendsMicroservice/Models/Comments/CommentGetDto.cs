@@ -20,6 +20,8 @@ namespace Models.Comments
 
         public bool ApprovedText { get; set; }
 
+        public DateTime CreateDate { get; set; }
+
         public Guid PostId { get; set; }
     }
 }

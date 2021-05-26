@@ -9,7 +9,7 @@ namespace Models.Posts
         public string Title { get; set; }
 
         public string MediaPath { get; set; }
-        public string DateTime { get; set; }
 
+        public DateTime CreateDate { get; set; }
     }
 }

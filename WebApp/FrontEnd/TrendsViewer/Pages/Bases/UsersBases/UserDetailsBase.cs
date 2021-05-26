@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Models.Trends;
 using Models.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TrendsViewer.Services.Abstractions;
 
@@ -13,10 +9,8 @@ namespace TrendsViewer.Pages
     {
         [Inject]
         public IUserService UserService { get; set; }
-
         [Inject]
         public IAuthService AuthService { get; set; }
-
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 

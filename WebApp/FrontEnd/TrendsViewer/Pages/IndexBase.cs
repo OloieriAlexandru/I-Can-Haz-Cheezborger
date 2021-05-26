@@ -1,19 +1,13 @@
-﻿using Microsoft.AspNetCore.Components;
-using Models.Posts;
+﻿using Models.Posts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TrendsViewer.Services.Abstractions;
+using TrendsViewer.Pages.Bases.CommonBases;
 
 namespace TrendsViewer.Pages
 {
-    public class IndexBase : ComponentBase
+    public class IndexBase : PostListBase
     {
-        [Inject]
-        public IAuthService AuthService { get; set; }
-        [Inject]
-        public IPostService PostService { get; set; }
-
         public ICollection<PostGetAllDto> Posts { get; set; }
 
         public Guid TrendId { get; set; }
@@ -28,5 +22,7 @@ namespace TrendsViewer.Pages
                 await AuthService.Initialize();
             }
         }
+
+
     }
 }

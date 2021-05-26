@@ -18,6 +18,8 @@ namespace TrendsViewer.Profiles
 
             CreateMap<PostGetByIdDto, PostPatchDto>();
             CreateMap<EditPostModel, PostPatchDto>();
+
+            CreateMap<PostGetByIdDto, PostGetAllDto>();
         }
     }
 }

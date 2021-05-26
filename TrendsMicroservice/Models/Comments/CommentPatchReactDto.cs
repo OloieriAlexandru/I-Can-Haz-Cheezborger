@@ -8,14 +8,8 @@ namespace Models.Comments
 
         public string Type { get; set; }
 
-        public Guid CreatorId { get; set; }
-
-        public string CreatorUsername { get; set; }
-
         public int Upvotes { get; set; }
 
         public int Downvotes { get; set; }
-
-        
     }
 }

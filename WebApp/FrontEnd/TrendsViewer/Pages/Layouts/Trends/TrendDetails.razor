@@ -7,7 +7,9 @@
             <div class="layout-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 posts-layout">
                 @if (Trend != null)
                 {
-                    <h5 style="font-weight:700;font-size:28px">@Trend.Name</h5>
+                    <h5 style="font-weight:700;font-size:28px">
+                        @Trend.Name
+                    </h5>
                 }
 
                 @if (AuthService.IsLoggedIn())
@@ -31,82 +33,8 @@
                     {
                         @if (SeeContent[postIndex++].Equals(true))
                         {
-                            <div class="post">
-                                <div class="post-title">
-                                    <a style="text-decoration:none;color:black;" href="@($"trends/{TrendId}/posts/{post.Id}")">
-                                        <h4>@post.Title</h4>
-                                    </a>
-                                </div>
-
-                                <div class="post-subtitle">
-                                    <h6 class="post-time">12m ago</h6>
-                                </div>
-
-                                <div class="post-body">
-                                    <div class="post-resource">
-                                        <img class="post-image" src=@post.MediaPath />
-                                    </div>
-
-                                </div>
-                                <div class="post-description">
-                                    <div class="post-op">
-                                        <span><img class="user-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
-                                        <span class="user-name"> @post.CreatorUsername </span>
-                                    </div>
-                                    <div class="post-text">
-                                        <p>Description</p>
-                                    </div>
-                                </div>
-                                <div class="post-footer">
-                                    <div class="post-information">
-                                        <span>@post.Upvotes upvotes</span>
-                                        <span>@post.Downvotes downvotes</span>
-                                        <span>@post.CommentsCount comments</span>
-                                    </div>
-                                    <div class="post-buttons">
-                                        @if (AuthService.IsLoggedIn())
-                                        {
-                                            <div class="upvote-button" @onclick="(() => LikePost(post))">
-                                                <button class="icon-button">
-                                                    @if (post.Liked == true)
-                                                    {
-                                                        <i class="fas fa-thumbs-up"></i>
-                                                    }
-                                                    else
-                                                    {
-                                                        <i class="far fa-thumbs-up"></i>
-                                                    }
-
-                                                </button>
-                                            </div>
-                                            <div class="downvote-button" @onclick="(() => DislikePost(post))">
-                                                <button class="icon-button">
-                                                    @if (post.Disliked == true)
-                                                    {
-                                                        <i class="fas fa-thumbs-down"></i>
-                                                    }
-                                                    else
-                                                    {
-                                                        <i class="far fa-thumbs-down"></i>
-                                                    }
-                                                </button>
-                                            </div>
-                                        }
-                                        <div class="comments-button" @onclick="(() => NavigateToPostId(TrendId, post.Id.ToString()))">
-                                            <button class="icon-button">
-                                                <i class="far fa-comments"></i>
-                                            </button>
-
-                                        </div>
-                                        <div class="others-button">
-                                            <button class="icon-button">
-                                                <i class="fas fa-ellipsis-h"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
+                            <PostCard Authenticated="@AuthService.IsLoggedIn()" ActivateButtons="@true" Post="post"
+                                      OnPostLiked="LikePost" OnPostDisliked="DislikePost" OnNavigateToPostPage="NavigateToPostPage" ImageUrl="@ImageService.GetFullUrl(post.MediaPath)"/>
                         }
                         else
                         {
@@ -158,11 +86,9 @@
                                         @(">>")
                                     </a>
                                 </li>
-
                             </ul>
                         </nav>
                     </div>
-
                 }
             </div>
         </div>

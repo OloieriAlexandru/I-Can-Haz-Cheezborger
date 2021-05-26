@@ -78,6 +78,7 @@ namespace BusinessLogic.Tests
             TrendGetAllDto trendGetAllDto = systemUnderTest.Create(trendCreateDto);
 
             //Assert
+            Assert.NotNull(trendGetAllDto);
             Assert.True(trendGetAllDto.CreatorId.Equals(trendCreateDto.CreatorId));
         }
 

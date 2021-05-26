@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Entities
 {
@@ -16,10 +17,17 @@ namespace Entities
 
         public int FollowersCount { get; set; }
 
+        public DateTime CreateDate { get; set; }
+
         public int PostsCount { get; set; }
 
         public ICollection<Post> Posts { get; set; }
 
         public ICollection<TrendFollow> Follows { get; set; }
+
+        public Trend()
+        {
+            CreateDate = DateTime.Now;
+        }
     }
 }

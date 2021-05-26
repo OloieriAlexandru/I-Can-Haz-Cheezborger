@@ -7,5 +7,7 @@ namespace BusinessLogic.Abstractions
         ImageGetDto Create(ImageCreateDto imageCreateDto);
 
         string GetFullImageUrl(string imagePath);
+
+        string GetDefaultImageUrl();
     }
 }

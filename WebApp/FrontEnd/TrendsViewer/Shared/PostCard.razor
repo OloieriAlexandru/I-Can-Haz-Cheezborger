@@ -1,0 +1,95 @@
+﻿@inherits PostCardBase
+
+<div class="post">
+    <div class="post-title">
+        <a style="text-decoration:none;color:black;" @onclick="(() => NavigateToPostPage())">
+            @if(InList)
+            {
+                <h4>@Post.Title</h4>
+            }
+            else
+            {
+                @PostName
+            }
+        </a>
+    </div>
+
+    <div class="post-subtitle">
+        <h6 class="post-time">@Post.CreateDate.ToString()</h6>
+    </div>
+
+    <div class="post-body">
+        <div class="post-resource">
+            <img class="post-image" src=@ImageUrl />
+        </div>
+    </div>
+
+    <div class="post-description">
+        <div class="post-op">
+            <span><img class="user-image" src="https://accounts-cdn.9gag.com/media/avatar/15124501_100_6.jpg" /></span>
+            <span class="user-name"> @Post.CreatorUsername </span>
+        </div>
+        <div class="post-text">
+            @if(InList)
+            {
+                <h4>Post.Description</h4>
+            }
+            else
+            {
+                @PostDescription
+            }
+        </div>
+    </div>
+    <div class="post-footer">
+        
+        <div class="post-information">
+            <span>@Post.Upvotes upvotes</span>
+            <span>@Post.Downvotes downvotes</span>
+            <span>@Post.CommentsCount comments</span>
+        </div>
+
+        @if(Authenticated || ActivateButtons)
+        {
+            <div class="post-buttons">
+
+                <div class="upvote-button" @onclick="(() => LikePost())">
+                    <button class="icon-button">
+                        @if(Post.Liked == true)
+                        {
+                            <i class="fas fa-thumbs-up"></i>
+                        }
+                        else
+                        {
+                            <i class="far fa-thumbs-up"></i>
+                        }
+                    </button>
+                </div>
+                <div class="downvote-button" @onclick="(() => DislikePost())">
+                    <button class="icon-button">
+                        @if(Post.Disliked == true)
+                        {
+                            <i class="fas fa-thumbs-down"></i>
+                        }
+                        else
+                        {
+                            <i class="far fa-thumbs-down"></i>
+                        }
+                    </button>
+                </div>
+            
+                <div class="comments-button" @onclick="(() => NavigateToPostPage())">
+                    <button class="icon-button">
+                        <i class="far fa-comments"></i>
+                    </button>
+                </div>
+
+                <div class="others-button">
+                    <button class="icon-button">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

@@ -5,6 +5,7 @@ using DataAccess.Abstractions;
 using Entities;
 using Models;
 using Models.Common;
+using Models.Images;
 using Models.Models;
 using Models.Posts;
 using System;
@@ -22,6 +23,8 @@ namespace BusinessLogic.Implementations
         private readonly IMapper mapper;
         
         private readonly IContentScanTaskService contentScanTaskService;
+
+        private readonly IImageService imageService;
 
         public PostBusinessLogic(IRepository<Post> postRepository, IRepository<PostReact> postReactRepository,
             IMapper mapper, IContentScanTaskService contentScanTaskService)
@@ -90,18 +93,24 @@ namespace BusinessLogic.Implementations
         PostGetAllDto IPostBusinessLogic.Create(PostCreateDto post)
         {
             Post createdPost = mapper.Map<Post>(post);
-            createdPost.ApprovedImage = false;
-            createdPost.ApprovedText = false;
-            postRepository.Insert(createdPost);
-            postRepository.SaveChanges();
+
+            ImageGetDto image = imageService.Create(new ImageCreateDto()
+            {
+                Image = post.MediaPath,
+                Prefix = "posts"
+            });
 
             CreateContentScanTaskDto createContentScanTaskDto = new CreateContentScanTaskDto()
             {
-                ImageUrl = post.MediaPath,
-                Text = post.Title,
+                ImageUrl = image != null ? imageService.GetFullImageUrl(image.Url) : null,
+                Text = post.Description,
                 CallbackUrl = $"/api/v1/trends/{post.TrendId}/posts/{createdPost.Id}/content-scan-result"
             };
             contentScanTaskService.CreateTask(createContentScanTaskDto);
+
+            createdPost.MediaPath = image != null ? image.Url : imageService.GetDefaultImageUrl();
+            postRepository.Insert(createdPost);
+            postRepository.SaveChanges();
 
             return mapper.Map<PostGetAllDto>(createdPost);
         }
