@@ -19,8 +19,6 @@ namespace BusinessLogic.Tests
         private readonly Mock<UserManager<ApplicationUser>> userManagerMock;
         
         private readonly Mock<RoleManager<ModeratorRole>> moderatorRoleMock;
-
-        private readonly Mock<IImageService> imageServiceMock;
         
         private readonly IUserService systemUnderTest;
 
@@ -48,12 +46,12 @@ namespace BusinessLogic.Tests
                     new Mock<ILogger<RoleManager<TIdentityRole>>>().Object);
         }
 
+        
         public UserServiceTests() : base()
         {
             userManagerMock = GetUserManagerMock<ApplicationUser>();
             moderatorRoleMock = GetRoleManagerMock<ModeratorRole>();
-            imageServiceMock = new Mock<IImageService>();
-            systemUnderTest = new UserService(userManagerMock.Object, moderatorRoleMock.Object, mapper, imageServiceMock.Object);
+            systemUnderTest = new UserService(userManagerMock.Object, moderatorRoleMock.Object, mapper);
         }
 
         [Fact]
@@ -151,6 +149,24 @@ namespace BusinessLogic.Tests
             Assert.Empty(userGetByIdDto.ModeratedTrendsIds);
         }
 
- 
+
+        /*
+        [Fact]
+        public void PatchRole()
+        {
+            UserPatchModeratorRoleDto userPatchModeratorRoleDto = new UserPatchModeratorRoleDto
+            {
+                TrendId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            };
+            ApplicationUser applicationUser = new ApplicationUser();
+            moderatorRoleMock.Setup(x => x.FindByNameAsync(userPatchModeratorRoleDto.TrendId.ToString())).Returns(Task.FromResult(new ModeratorRole()));
+            userManagerMock.Setup(x => x.FindByIdAsync(userPatchModeratorRoleDto.TrendId.ToString())).Returns(Task.FromResult(applicationUser));
+
+            systemUnderTest.PatchRole(userPatchModeratorRoleDto);
+
+
+            userManagerMock.Verify(x => x.AddToRoleAsync(applicationUser, "3fa85f64-5717-4562-b3fc-2c963f66afa6"));
+        }
+        */
     }
 }
