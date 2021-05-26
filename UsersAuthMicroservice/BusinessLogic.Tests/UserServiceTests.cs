@@ -19,6 +19,8 @@ namespace BusinessLogic.Tests
         private readonly Mock<UserManager<ApplicationUser>> userManagerMock;
         
         private readonly Mock<RoleManager<ModeratorRole>> moderatorRoleMock;
+
+        private readonly Mock<IImageService> imageServiceMock;
         
         private readonly IUserService systemUnderTest;
 
@@ -46,12 +48,12 @@ namespace BusinessLogic.Tests
                     new Mock<ILogger<RoleManager<TIdentityRole>>>().Object);
         }
 
-        
         public UserServiceTests() : base()
         {
             userManagerMock = GetUserManagerMock<ApplicationUser>();
             moderatorRoleMock = GetRoleManagerMock<ModeratorRole>();
-            systemUnderTest = new UserService(userManagerMock.Object, moderatorRoleMock.Object, mapper);
+            imageServiceMock = new Mock<IImageService>();
+            systemUnderTest = new UserService(userManagerMock.Object, moderatorRoleMock.Object, mapper, imageServiceMock.Object);
         }
 
         [Fact]

@@ -37,5 +37,12 @@ namespace Service.ExtensionMethods
                 };
             });
         }
+
+        public static void AddMicroservicesConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<ImageServiceConfiguration>(configuration.GetSection("ImageServiceConfiguration"));
+
+            services.AddBusinessLogicMicroservicesConfiguration(configuration.GetSection("ImageServiceConfiguration").Get<ImageServiceConfiguration>());
+        }
     }
 }

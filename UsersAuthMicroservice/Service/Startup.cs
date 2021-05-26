@@ -29,6 +29,7 @@ namespace Service
             services.AddBusinessLogicServices(Configuration.GetConnectionString("UsersDatabase"));
 
             services.AddJwtAuthentication(Configuration);
+            services.AddMicroservicesConfiguration(Configuration);
 
             services.AddSwaggerGen(c =>
             {

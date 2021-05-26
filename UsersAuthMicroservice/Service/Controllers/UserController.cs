@@ -4,7 +4,6 @@ using Models.Users;
 using System;
 using System.Threading.Tasks;
 
-
 namespace Service.Controllers
 {
     [Route("api/v1/users")]
@@ -48,6 +47,31 @@ namespace Service.Controllers
             }
 
             return Ok(user);
+        }
+
+        [HttpGet("{id:guid}/image")]
+        public async Task<IActionResult> GetImageUrl([FromRoute] Guid id)
+        {
+            UserGetImageUrlDto imageUrlDto = await userService.GetImageUrl(id);
+
+            if (imageUrlDto == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(imageUrlDto);
+        }
+
+        [HttpPatch("{id:guid}")]
+        public async Task<IActionResult> Patch([FromRoute] Guid id, UserPatchDto patchDto)
+        {
+            if (id != patchDto.Id)
+            {
+                return BadRequest();
+            }
+
+            await userService.PatchUser(patchDto);
+            return NoContent();
         }
 
         [HttpPatch("{id:guid}/roles")]

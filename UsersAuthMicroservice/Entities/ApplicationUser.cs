@@ -8,6 +8,8 @@ namespace Entities
     {
         public bool IsAdmin { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public virtual ICollection<ModeratorUserRole> ModeratorRoles { get; set; }
     }
 }

@@ -15,6 +15,10 @@ namespace BusinessLogic.Abstractions
 
         Task PatchRole(UserPatchModeratorRoleDto patchRoleModel);
 
+        Task PatchUser(UserPatchDto patchDto);
+
+        Task<UserGetImageUrlDto> GetImageUrl(Guid id);
+
         Task DeleteRole(UserDeleteModeratorRoleDto deleteRoleModel);
     }
 }

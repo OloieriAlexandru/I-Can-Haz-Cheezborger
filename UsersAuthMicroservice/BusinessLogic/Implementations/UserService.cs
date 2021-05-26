@@ -3,6 +3,7 @@ using BusinessLogic.Abstractions;
 using Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Models.ImagesS;
 using Models.Users;
 using System;
 using System.Collections.Generic;
@@ -16,13 +17,17 @@ namespace BusinessLogic.Implementations
 
         private readonly RoleManager<ModeratorRole> roleManager;
 
+        private readonly IImageService imageService;
+
         private readonly IMapper mapper;
 
-        public UserService(UserManager<ApplicationUser> userManager, RoleManager<ModeratorRole> roleManager, IMapper mapper)
+        public UserService(UserManager<ApplicationUser> userManager, RoleManager<ModeratorRole> roleManager, IMapper mapper,
+            IImageService imageService)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.mapper = mapper;
+            this.imageService = imageService;
         }
 
         async Task<UserGetAllDto> IUserService.Create(UserCreateDto newUser)
@@ -109,6 +114,38 @@ namespace BusinessLogic.Implementations
                 return;
             }
             await userManager.RemoveFromRoleAsync(user, deleteRoleModel.TrendId.ToString());
+        }
+
+        async Task IUserService.PatchUser(UserPatchDto patchDto)
+        {
+            ApplicationUser user = await userManager.FindByIdAsync(patchDto.Id.ToString());
+
+            ImageGetDto image = imageService.Create(new ImageCreateDto()
+            {
+                Image = patchDto.Image,
+                Prefix = "trends"
+            });
+
+            if (image != null)
+            {
+                user.ImageUrl = image.Url;
+                await userManager.UpdateAsync(user);
+            }
+        }
+
+        async Task<UserGetImageUrlDto> IUserService.GetImageUrl(Guid id)
+        {
+            ApplicationUser user = await userManager.FindByIdAsync(id.ToString());
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            return new UserGetImageUrlDto
+            {
+                ImageUrl = user.ImageUrl
+            };
         }
     }
 }

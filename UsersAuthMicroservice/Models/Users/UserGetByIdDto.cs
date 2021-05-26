@@ -9,6 +9,8 @@ namespace Models.Users
 
         public string Email { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public ICollection<Guid> ModeratedTrendsIds { get; set; }
     }
 }
