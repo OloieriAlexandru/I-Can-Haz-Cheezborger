@@ -18,6 +18,8 @@ namespace BusinessLogic.Tests
 
         private readonly Mock<IContentScanTaskService> contentScanTaskServiceMock;
 
+        private readonly Mock<IImageService> imageServiceMock;
+
         private readonly IPostBusinessLogic systemUnderTest;
 
         public PostBusinessLogicTest() : base()
@@ -25,8 +27,9 @@ namespace BusinessLogic.Tests
             postRepositoryMock = new Mock<IRepository<Post>>();
             postReactRepositoryMock = new Mock<IRepository<PostReact>>();
             contentScanTaskServiceMock = new Mock<IContentScanTaskService>();
+            imageServiceMock = new Mock<IImageService>();
             systemUnderTest = new PostBusinessLogic(postRepositoryMock.Object, postReactRepositoryMock.Object,
-                mapper, contentScanTaskServiceMock.Object);
+                mapper, contentScanTaskServiceMock.Object, imageServiceMock.Object);
         }
 
         [Fact]
