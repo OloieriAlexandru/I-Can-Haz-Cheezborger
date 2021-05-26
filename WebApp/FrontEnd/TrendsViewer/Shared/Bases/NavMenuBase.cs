@@ -25,8 +25,18 @@ namespace TrendsViewer.Pages
         {
             if (firstRender)
             {
-                PopularTrends = new List<TrendGetAllDto>(await TrendService.GetPopular());
-                Trends = new List<TrendGetAllDto>(await TrendService.GetAll());
+                ICollection<TrendGetAllDto> col = await TrendService.GetPopular();
+                if (col == null)
+                {
+                    return;
+                }
+                PopularTrends = new List<TrendGetAllDto>(col);
+                ICollection<TrendGetAllDto> secondCol = await TrendService.GetAll();
+                if (secondCol == null)
+                {
+                    return;
+                }
+                Trends = new List<TrendGetAllDto>(secondCol);
 
                 foreach (TrendGetAllDto popularTrends in PopularTrends)
                 {

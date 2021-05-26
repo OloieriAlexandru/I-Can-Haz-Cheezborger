@@ -46,7 +46,14 @@ namespace TrendsViewer.Pages
                 //Aici va veni logica se setare a unui post daca vrei sa se vada sau nu
                 for (var i=0; i<Posts.Count; i++)
                 {
-                    SeeContent.Add(false);
+                    if (i == 0)
+                    {
+                        SeeContent.Add(false);
+                    }
+                    else
+                    {
+                        SeeContent.Add(true);
+                    }
                 }
 
                 StateHasChanged();

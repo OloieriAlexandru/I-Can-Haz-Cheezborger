@@ -44,7 +44,7 @@ namespace TrendsViewer.Pages
             trend.Image = Image;
 
             await TrendService.CreateTrend(trend);
-            NavigationManager.NavigateTo("/trends");
+            NavigationManager.NavigateTo("/trends", forceLoad: false);
         }
     }
 }

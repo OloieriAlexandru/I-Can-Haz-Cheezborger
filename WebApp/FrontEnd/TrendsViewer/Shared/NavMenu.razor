@@ -23,7 +23,7 @@
     {
         <h5 class="trend-add-button-anchor">
             Others
-            @if (AuthService.IsLoggedIn())
+            @if (AuthService.IsLoggedIn() && AuthService.IsAdmin())
             {
                 <div class="trend-add-button" @onclick="(() => NavigateNewTrend())">
                     <i class="fas fa-plus-circle"></i>
