@@ -20,6 +20,8 @@ namespace BusinessLogic.Tests
         
         private readonly Mock<RoleManager<ModeratorRole>> moderatorRoleMock;
         
+        private readonly Mock<IImageService> imageServiceMock;
+
         private readonly IUserService systemUnderTest;
 
         private static readonly IPasswordHasher<ApplicationUser> passwordHasher = new PasswordHasher<ApplicationUser>();
@@ -51,7 +53,8 @@ namespace BusinessLogic.Tests
         {
             userManagerMock = GetUserManagerMock<ApplicationUser>();
             moderatorRoleMock = GetRoleManagerMock<ModeratorRole>();
-            systemUnderTest = new UserService(userManagerMock.Object, moderatorRoleMock.Object, mapper);
+            imageServiceMock = new Mock<IImageService>();
+            systemUnderTest = new UserService(userManagerMock.Object, moderatorRoleMock.Object, mapper, imageServiceMock.Object);
         }
 
         [Fact]
