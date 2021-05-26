@@ -82,7 +82,7 @@ namespace BusinessLogic.Tests
             Assert.True(trendGetAllDto.CreatorId.Equals(trendCreateDto.CreatorId));
         }
 
-        // [Fact]
+        /*[Fact]
         public void Create_SavesChangesAfterCreate()
         {
             //Arrange
@@ -94,7 +94,7 @@ namespace BusinessLogic.Tests
 
             //Assert
             trendRepositoryMock.Verify(m => m.SaveChanges(), Times.Once);
-        }
+        }*/
 
         [Fact]
         public void Update_UpdateCommentRepoWithThatComment()
