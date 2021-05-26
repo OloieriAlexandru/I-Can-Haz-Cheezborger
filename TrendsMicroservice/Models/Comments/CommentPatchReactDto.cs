@@ -7,9 +7,5 @@ namespace Models.Comments
         public Guid Id { get; set; }
 
         public string Type { get; set; }
-
-        public int Upvotes { get; set; }
-
-        public int Downvotes { get; set; }
     }
 }

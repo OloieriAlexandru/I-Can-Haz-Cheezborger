@@ -2,7 +2,7 @@
 
 <div class="comment-wrapper">
 
-    <hr />
+    <hr class="card-hr" />
 
     <div class="post-op-comment">
         
@@ -26,7 +26,7 @@
         <div class="post-op-group">
             @if(Owner)
             {
-                <div class="comment-options comment-edit" @onclick="(() => EditComment(Comment))">
+                <div class="comment-options comment-edit" @onclick="(() => EnterEditCommentMode(Comment))">
                     <i class="fas fa-cogs"></i>
                 </div>
                 <div class="comment-options comment-delete" @onclick="(() => DeleteComment(Comment))">
@@ -36,11 +36,27 @@
         </div>
     </div>
 
-    <div class="post-text">
-        <p style="width:calc(100% - 30px);margin-top:-2px;margin-left:30px">
-            @Comment.Text
-        </p>
-    </div>
+    @if(InEditMode)
+    {
+        <EditForm Model="@CommentModel" OnValidSubmit="EditComment" class="comment-edit-form">
+            <div class="comment-edit-textarea-wrapper">
+                <InputTextArea rows="2" @bind-Value="@CommentModel.CommentText"></InputTextArea>
+            </div>
+            <div class="create-trend-button-container edit-comment-submit-button-wrapper">
+                <button class="btn btn-primary create-trend-button" type="submit">
+                    <i class="fas fa-arrow-circle-right"></i>
+                </button>
+            </div>
+        </EditForm>
+    }
+    else
+    {
+        <div class="post-text">
+            <p style="width:calc(100% - 30px);margin-top:-2px;margin-left:30px">
+                @Comment.Text
+            </p>
+        </div>
+    }
 
     <div class="post-information">
         <span>@Comment.Upvotes upvotes</span>

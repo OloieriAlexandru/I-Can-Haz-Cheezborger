@@ -27,12 +27,13 @@ namespace BusinessLogic.Implementations
         private readonly IImageService imageService;
 
         public PostBusinessLogic(IRepository<Post> postRepository, IRepository<PostReact> postReactRepository,
-            IMapper mapper, IContentScanTaskService contentScanTaskService)
+            IMapper mapper, IContentScanTaskService contentScanTaskService, IImageService imageService)
         {
             this.postRepository = postRepository;
             this.postReactRepository = postReactRepository;
             this.mapper = mapper;
             this.contentScanTaskService = contentScanTaskService;
+            this.imageService = imageService;
         }
 
         ICollection<PostGetAllDto> IPostBusinessLogic.GetAll(Guid trendId, UserInfoModel userInfo)
@@ -151,16 +152,16 @@ namespace BusinessLogic.Implementations
             {
                 if (type == ReactType.None)
                 {
+                    ReactsUtils.UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, postReact.Type);
                     postReactRepository.Delete(postReact.Id);
                     postReactRepository.SaveChanges();
-                    ReactsUtils.UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, postReact.Type);
                 }
                 else if (type != postReact.Type)
                 {
+                    ReactsUtils.UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, postReact.Type);
                     postReact.Type = type;
                     postReactRepository.Update(postReact);
                     postReactRepository.SaveChanges();
-                    ReactsUtils.UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, postReact.Type);
                 }
             }
             if (deltaUpvotes != 0 || deltaDownvotes != 0)

@@ -214,3 +214,51 @@
 .row-margins {
     margin: 20px 0;
 }
+
+.content-row-main {
+    height: calc(100% - 20px);
+}
+
+.content-row-second,
+.content-row-third {
+    height: 100%;
+}
+
+.content-row-third {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.pagination-wrapper {
+    margin-top: 24px;
+}
+
+.items-container {
+    min-height: calc(100% - 120px);
+}
+
+.card-hr {
+    width: 100%;
+    height: 1px;
+}
+
+.not-scanned-warning {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    background-color: lightcoral;
+    border: 1px solid blue;
+    border-radius: 15px;
+    margin-top: 32px;
+    margin-bottom: 18px;
+
+    padding: 12px;
+}
+
+.not-scanned-warning title {
+    font-size: 24px;
+    text-align: center;
+}

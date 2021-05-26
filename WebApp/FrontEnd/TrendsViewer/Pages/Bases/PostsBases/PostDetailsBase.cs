@@ -24,19 +24,16 @@ namespace TrendsViewer.Pages
         public string PostId { get; set; }
 
         public ICollection<CommentGetDto> Comments { get; set; }
+        
         public CommentModel CommentModel { get; set; }
-        public EditCommentModel EditCommentModel { get; set; }
 
         public PostGetByIdDto Post { get; set; }
-        public PostGetAllDto UsedPost { get; set; }
 
-        public Guid CommentToEdit { get; set; }
+        public PostGetAllDto UsedPost { get; set; }
 
         public PostDetailsBase()
         {
             CommentModel = new CommentModel();
-            CommentToEdit = Guid.Empty;
-            EditCommentModel = new EditCommentModel();
         }
 
         protected async override Task OnAfterRenderAsync(bool firstRender)
@@ -58,15 +55,8 @@ namespace TrendsViewer.Pages
                 Text = CommentModel.CommentText,
                 PostId = Guid.Parse(PostId)
             };
-            await CommentService.CreateComment(Guid.Parse(TrendId), Guid.Parse(PostId), newComment);
-            NavigationManager.NavigateTo($"/trends/{TrendId}/posts/{PostId}", forceLoad: true);
-        }
-
-        protected void EditComment(CommentGetDto comment)
-        {
-            EditCommentModel.Text = comment.Text;
-            CommentToEdit = comment.Id;
-
+            CommentGetDto comment = await CommentService.CreateComment(Guid.Parse(TrendId), Guid.Parse(PostId), newComment);
+            Comments.Add(comment);
             StateHasChanged();
         }
 
@@ -91,16 +81,6 @@ namespace TrendsViewer.Pages
         protected bool IsOwner(CommentGetDto comment)
         {
             return AuthService.IsLoggedIn() && AuthService.GetUsername() == comment.CreatorUsername;
-        }
-
-        protected async Task HandleValidSubmitEdit()
-        {
-            CommentPatchDto commentPatchDto = new CommentPatchDto();
-            Mapper.Map(EditCommentModel, commentPatchDto);
-            commentPatchDto.Id = CommentToEdit;
-
-            await CommentService.UpdateComment(Guid.Parse(TrendId), Guid.Parse(PostId), commentPatchDto.Id, commentPatchDto);
-            NavigationManager.NavigateTo($"/trends/{TrendId}/posts/{PostId}", forceLoad: true);
         }
     }
 }

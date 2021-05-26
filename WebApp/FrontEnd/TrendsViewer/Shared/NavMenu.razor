@@ -10,7 +10,9 @@
         @foreach (var trend in PopularTrends)
         {
             <div class="trend">
-                <span><img class="trend-image" src=@trend.ImageUrl /></span>
+                <span>
+                    <img class="trend-image" src="@ImageService.GetFullUrl(trend.ImageUrl)" />
+                </span>
                 <span class="trend-title" @onclick="(() => NavigateTrend(trend.Id))"> @trend.Name </span>
             </div>
         }
@@ -33,7 +35,9 @@
         @foreach (var trend in Trends)
         {
             <div class="trend">
-                <span><img class="trend-image" src=@trend.ImageUrl /></span>
+                <span>
+                    <img class="trend-image" src="@ImageService.GetFullUrl(trend.ImageUrl)" />
+                </span>
                 <span class="trend-title" @onclick="(() => NavigateTrend(trend.Id))"> @trend.Name </span>
             </div>
         }

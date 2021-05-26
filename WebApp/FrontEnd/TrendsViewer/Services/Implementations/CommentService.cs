@@ -11,9 +11,13 @@ namespace TrendsViewer.Services.Implementations
     {
         private readonly IHttpService httpService;
 
-        public CommentService(HttpServiceResolver httpServiceResolver)
+        private readonly IAuthService authService;
+
+        public CommentService(HttpServiceResolver httpServiceResolver, IAuthService authService)
         {
             httpService = httpServiceResolver("trends");
+
+            this.authService = authService;
         }
 
         async Task<CommentGetDto> ICommentService.CreateComment(Guid trendId, Guid postId, CommentCreateDto newComment)
@@ -33,7 +37,13 @@ namespace TrendsViewer.Services.Implementations
 
         async Task<IEnumerable<CommentGetDto>> ICommentService.GetComments(Guid trendId, Guid postId)
         {
-            return await httpService.Get<CommentGetDto[]>($"api/v1/trends/{trendId}/posts/{postId}/comments");
+            string url = $"api/v1/trends/{trendId}/posts/{postId}/comments";
+            await authService.Initialize();
+            if (authService.IsLoggedIn())
+            {
+                url += "/auth";
+            }
+            return await httpService.Get<CommentGetDto[]>(url);
         }
 
         async Task ICommentService.UpdateComment(Guid trendId, Guid postId, Guid commentId, CommentPatchDto commentPatchDto)

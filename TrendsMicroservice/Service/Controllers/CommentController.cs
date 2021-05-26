@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Models.Comments;
 using Models.Common;
 using Service.Utils;
@@ -20,10 +21,19 @@ namespace Service.Controllers
             commentBusinessLogic = _commentBusinessLogic;
         }
 
+        [HttpGet("auth")]
+        public ICollection<CommentGetDto> GetAllAuth([FromRoute] Guid postId)
+        {
+            UserInfoModel userInfoModel = new UserInfoModel();
+            UserInfoExtractor.Extract(HttpContext.User, userInfoModel);
+
+            return commentBusinessLogic.GetAll(postId, userInfoModel);
+        }
+
         [HttpGet]
         public ICollection<CommentGetDto> GetAll([FromRoute] Guid postId)
         {
-            return commentBusinessLogic.GetAll(postId);
+            return commentBusinessLogic.GetAll(postId, null);
         }
 
         [HttpGet("{id:guid}")]
@@ -43,12 +53,12 @@ namespace Service.Controllers
         [Authorize]
         public IActionResult Create([FromRoute] Guid trendId, [FromRoute] Guid postId, [FromBody] CommentCreateDto commentDto)
         {
-            UserInfoExtractor.Extract(HttpContext.User, commentDto);
-
             if (postId != commentDto.PostId)
             {
                 return BadRequest();
             }
+            UserInfoExtractor.Extract(HttpContext.User, commentDto);
+
             CommentGetDto createdComment = commentBusinessLogic.Create(commentDto);
             return CreatedAtAction(nameof(GetById), new { trendId, postId, id = createdComment.Id }, createdComment);
         }

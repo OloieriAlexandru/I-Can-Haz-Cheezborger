@@ -4,7 +4,7 @@
 <div class="row row-margins">
     <div class="layout-col col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
         <div class="row">
-            <div class="layout-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 posts-layout">
+            <div class="layout-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 @if (AuthService.IsLoggedIn())
                 {
                     <a style="text-decoration:none;color:black;" href="@($"trends/{TrendId}/posts/{PostId}/edit/")">
@@ -27,7 +27,7 @@
 
                 @if(Comments != null)
                 {
-                    <h6 style="margin-top:4px;margin-bottom:4px;font-weight:600">
+                    <h6 style="margin-top:36px;margin-bottom:12px;font-weight:600">
                         Comments
                     </h6>
 
@@ -58,37 +58,12 @@
 
                     @foreach (var comment in Comments)
                     {
-                        @if (CommentToEdit != Guid.Empty && comment.Id == CommentToEdit)
-                        {
-                            <EditForm Model="@EditCommentModel" OnValidSubmit="HandleValidSubmitEdit" class="comment-form"
-                                style="margin-bottom:10px">
-                                <div class="create-post-comment">
-                                    <div class="post-op">
-                                        <span><img class="user-image" style="width:24px;height:24px;"
-                                                src="https://accounts-cdn.9gag.com/media/avatar/15965968_100_1.jpg" /></span>
-                                        <span class="user-name"> @comment.CreatorUsername </span>
-                                    </div>
-                                    <div class="post-text">
-                                        <InputTextArea rows="2" @bind-Value="EditCommentModel.Text"
-                                            style="width:calc(100% - 70px);margin-top:2px;margin-left:30px"></InputTextArea>
-                                    </div>
-                                </div>
-                                <div class="create-trend-button-container" style="margin-top:-50px;">
-                                    <button class="btn btn-primary create-trend-button" type="submit">
-                                        <i class="fas fa-arrow-circle-right"></i>
-                                    </button>
-                                </div>
-                            </EditForm>
-                        }
-                        else
-                        {
-                            <div>
-                                <CommentComponent TrendId="@Guid.Parse(TrendId)" PostId="@Guid.Parse(PostId)"
-                                    OnCommentDeleted="DeleteComment" OnStateChanged="ChangeState" CommentService="CommentService"
-                                    Authenticated="@AuthService.IsLoggedIn()" Owner="@IsOwner(comment)" Comment="comment"
-                                    OnEditComment="EditComment" />
-                            </div>
-                        }
+                        <div>
+                            <CommentComponent TrendId="@Guid.Parse(TrendId)" PostId="@Guid.Parse(PostId)"
+                                OnCommentDeleted="DeleteComment" OnStateChanged="ChangeState" CommentService="CommentService"
+                                Authenticated="@AuthService.IsLoggedIn()" Owner="@IsOwner(comment)" Comment="comment"
+                                />
+                        </div>
                     }
                 }
             </div>

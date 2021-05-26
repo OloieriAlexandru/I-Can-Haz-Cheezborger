@@ -38,3 +38,7 @@
     width: calc(100% - 224px);
     overflow-y: scroll;
 }
+
+.container {
+    height: 100%;
+}

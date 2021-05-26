@@ -2,6 +2,7 @@
 using Models.Comments;
 using System;
 using System.Threading.Tasks;
+using TrendsViewer.FormModels;
 using TrendsViewer.Services.Abstractions;
 
 namespace TrendsViewer.Pages
@@ -34,6 +35,15 @@ namespace TrendsViewer.Pages
 
         [Parameter]
         public EventCallback<CommentGetDto> OnEditComment { get; set; }
+
+        protected CommentModel CommentModel { get; set; }
+
+        protected bool InEditMode { get; set; }
+
+        public CommentCardBase()
+        {
+            CommentModel = new CommentModel();
+        }
 
         protected async Task LikeComment(CommentGetDto comment)
         {
@@ -76,10 +86,31 @@ namespace TrendsViewer.Pages
         protected async Task DeleteComment(CommentGetDto deletedComment)
         {
             await CommentService.DeleteComment(TrendId, PostId, deletedComment.Id);
+            await OnCommentDeleted.InvokeAsync(deletedComment);
         }
 
-        protected async Task EditComment(CommentGetDto comment)
+        protected async Task EditComment()
         {
+            CommentPatchDto commentPatch = new CommentPatchDto()
+            {
+                Id = Comment.Id,
+                Text = CommentModel.CommentText
+            };
+
+            await CommentService.UpdateComment(TrendId, PostId, commentPatch.Id, commentPatch);
+            InEditMode = false;
+            Comment.Text = CommentModel.CommentText;
+            CommentModel.CommentText = string.Empty;
+            await OnStateChanged.InvokeAsync(Comment);
+        }
+
+        protected async Task EnterEditCommentMode(CommentGetDto comment)
+        {
+            if (InEditMode)
+            {
+                CommentModel.CommentText = string.Empty;
+            }
+            InEditMode = !InEditMode;
             await OnEditComment.InvokeAsync(comment);
         }
 

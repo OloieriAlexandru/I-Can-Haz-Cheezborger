@@ -1,4 +1,5 @@
-﻿using Models.Comments;
+﻿using Models;
+using Models.Comments;
 using Models.Common;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ namespace BusinessLogic.Abstractions
 {
     public interface ICommentBusinessLogic
     {
-        ICollection<CommentGetDto> GetAll(Guid postId);
+        ICollection<CommentGetDto> GetAll(Guid postId, UserInfoModel userInfo);
 
         CommentGetDto GetById(Guid id);
         

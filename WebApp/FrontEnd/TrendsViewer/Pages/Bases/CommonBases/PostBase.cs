@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Models.Posts;
+using System.Threading.Tasks;
 using TrendsViewer.Services.Abstractions;
 
 namespace TrendsViewer.Pages.Bases.CommonBases
@@ -15,7 +16,7 @@ namespace TrendsViewer.Pages.Bases.CommonBases
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-        protected void LikePost(PostGetAllDto post)
+        protected async Task LikePost(PostGetAllDto post)
         {
             if (post.Liked)
             {
@@ -31,10 +32,10 @@ namespace TrendsViewer.Pages.Bases.CommonBases
                 }
             }
             post.Liked = !post.Liked;
-            UpdatePostReact(post);
+            await UpdatePostReact(post);
         }
 
-        protected void DislikePost(PostGetAllDto post)
+        protected async Task DislikePost(PostGetAllDto post)
         {
             if (post.Disliked)
             {
@@ -50,10 +51,10 @@ namespace TrendsViewer.Pages.Bases.CommonBases
                 }
             }
             post.Disliked = !post.Disliked;
-            UpdatePostReact(post);
+            await UpdatePostReact(post);
         }
 
-        private void UpdatePostReact(PostGetAllDto post)
+        private async Task UpdatePostReact(PostGetAllDto post)
         {
             PostPatchReactDto postPatchReactDto = new PostPatchReactDto
             {
@@ -71,7 +72,7 @@ namespace TrendsViewer.Pages.Bases.CommonBases
             {
                 postPatchReactDto.Type = "None";
             }
-            PostService.PatchPostReact(post.TrendId, postPatchReactDto);
+            await PostService.PatchPostReact(post.TrendId, postPatchReactDto);
             StateHasChanged();
         }
     }

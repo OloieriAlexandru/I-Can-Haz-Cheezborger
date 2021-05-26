@@ -3,11 +3,13 @@ using BusinessLogic.Abstractions;
 using BusinessLogic.Utils;
 using DataAccess.Abstractions;
 using Entities;
+using Models;
 using Models.Comments;
 using Models.Common;
 using Models.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BusinessLogic.Implementations
 {
@@ -33,10 +35,33 @@ namespace BusinessLogic.Implementations
             this.contentScanTaskService = contentScanTaskService;
         }
 
-        ICollection<CommentGetDto> ICommentBusinessLogic.GetAll(Guid postId)
+        ICollection<CommentGetDto> ICommentBusinessLogic.GetAll(Guid postId, UserInfoModel userInfo)
         {
-            ICollection<Comment> comments = commentRepository.GetAllByFilter(c => c.PostId == postId);
-            return mapper.Map<ICollection<CommentGetDto>>(comments);
+            ICollection<Comment> comments = commentRepository.GetAllByFilter(c => c.PostId == postId, "Reacts");
+            ICollection<CommentGetDto> returnedComemnts = new List<CommentGetDto>();
+
+            foreach (Comment comment in comments)
+            {
+                CommentGetDto commentGetDto = mapper.Map<CommentGetDto>(comment);
+                if (userInfo != null && comment.Reacts != null)
+                {
+                    CommentReact react = comment.Reacts.FirstOrDefault(cr => cr.UserId == userInfo.CreatorId);
+                    if (react != null)
+                    {
+                        if (react.Type == ReactType.Like)
+                        {
+                            commentGetDto.Liked = true;
+                        }
+                        else if (react.Type == ReactType.Dislike)
+                        {
+                            commentGetDto.Disliked = true;
+                        }
+                    }
+                }
+                returnedComemnts.Add(commentGetDto);
+            }
+
+            return returnedComemnts;
         }
 
         CommentGetDto ICommentBusinessLogic.GetById(Guid id)
@@ -120,16 +145,16 @@ namespace BusinessLogic.Implementations
             {
                 if (type == ReactType.None)
                 {
+                    ReactsUtils.UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, commentReact.Type);
                     commentReactRepository.Delete(commentReact.Id);
                     commentReactRepository.SaveChanges();
-                    ReactsUtils.UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, commentReact.Type);
                 }
                 else if (type != commentReact.Type)
                 {
+                    ReactsUtils.UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, commentReact.Type);
                     commentReact.Type = type;
                     commentReactRepository.Update(commentReact);
                     commentReactRepository.SaveChanges();
-                    ReactsUtils.UpdateDeltas(ref deltaUpvotes, ref deltaDownvotes, type, commentReact.Type);
                 }
             }
             if (deltaUpvotes != 0 || deltaDownvotes != 0)

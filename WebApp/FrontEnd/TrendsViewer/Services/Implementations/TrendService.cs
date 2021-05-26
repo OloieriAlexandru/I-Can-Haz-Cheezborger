@@ -36,7 +36,7 @@ namespace TrendsViewer.Services.Implementations
             return await httpService.Get<TrendGetByIdDto>($"api/v1/trends/{id}");
         }
 
-        async Task<IEnumerable<TrendGetAllDto>> ITrendService.GetAll()
+        async Task<ICollection<TrendGetAllDto>> ITrendService.GetAll()
         {
             string url = "api/v1/trends";
             await authService.Initialize();
@@ -52,12 +52,12 @@ namespace TrendsViewer.Services.Implementations
             await httpService.Put<ValueTask>($"api/v1/trends/{id}", updatedTrend);
         }
 
-        async Task<IEnumerable<TrendGetAllDto>> ITrendService.GetPopular()
+        async Task<ICollection<TrendGetAllDto>> ITrendService.GetPopular()
         {
             return await httpService.Get<TrendGetAllDto[]>("/api/v1/trends/popular");
         }
 
-        async Task<IEnumerable<PostGetAllDto>> ITrendService.GetRecomended(string UserId)
+        async Task<ICollection<PostGetAllDto>> ITrendService.GetRecomended(string UserId)
         {
             return await httpService.Get<PostGetAllDto[]>("/api/v1/trends/" + UserId + "/recomended");
         }

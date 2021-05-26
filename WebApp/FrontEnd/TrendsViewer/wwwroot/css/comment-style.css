@@ -57,7 +57,33 @@
     height: 100%;
 }
 
-.comment-wrapper hr {
+.comment-edit-form {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+
     width: 100%;
-    height: 1px;
+    min-height: 32px;
+    margin-top: 12px;
+}
+
+.comment-edit-textarea-wrapper {
+    width: calc(100% - 32px);
+    height: 100%;
+}
+
+.comment-edit-textarea-wrapper textarea {
+    width: 100%;
+    height: 100%;
+}
+
+.edit-comment-submit-button-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 100%;
 }

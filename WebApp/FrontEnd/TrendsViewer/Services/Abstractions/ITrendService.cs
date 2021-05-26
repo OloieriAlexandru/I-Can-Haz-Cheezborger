@@ -8,11 +8,11 @@ namespace TrendsViewer.Services.Abstractions
 {
     public interface ITrendService
     {
-        Task<IEnumerable<TrendGetAllDto>> GetAll();
+        Task<ICollection<TrendGetAllDto>> GetAll();
 
-        Task<IEnumerable<TrendGetAllDto>> GetPopular();
+        Task<ICollection<TrendGetAllDto>> GetPopular();
 
-        Task<IEnumerable<PostGetAllDto>> GetRecomended(string UserId);
+        Task<ICollection<PostGetAllDto>> GetRecomended(string UserId);
 
         Task<TrendGetByIdDto> GetById(Guid id);
         

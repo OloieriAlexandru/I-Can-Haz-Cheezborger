@@ -15,16 +15,36 @@ namespace TrendsViewer.Pages
         public NavigationManager NavigationManager { get; set; }
         [Inject]
         public ITrendService TrendService { get; set; }
+        [Inject]
+        public IImageService ImageService { get; set; }
 
-        public IEnumerable<TrendGetAllDto> Trends { get; set; }
-        public IEnumerable<TrendGetAllDto> PopularTrends { get; set; }
+        public ICollection<TrendGetAllDto> Trends { get; set; }
+        public ICollection<TrendGetAllDto> PopularTrends { get; set; }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                Trends = await TrendService.GetAll();
-                PopularTrends = await TrendService.GetPopular();
+                PopularTrends = new List<TrendGetAllDto>(await TrendService.GetPopular());
+                Trends = new List<TrendGetAllDto>(await TrendService.GetAll());
+
+                foreach (TrendGetAllDto popularTrends in PopularTrends)
+                {
+                    TrendGetAllDto removedTrend = null;
+                    foreach (TrendGetAllDto trend in Trends)
+                    {
+                        if (trend.Id == popularTrends.Id)
+                        {
+                            removedTrend = trend;
+                            break;
+                        }
+                    }
+                    if (removedTrend != null)
+                    {
+                        Trends.Remove(removedTrend);
+                    }
+                }
+
                 StateHasChanged();
             }
         }
